@@ -1,3 +1,0 @@
-#!/bin/sh
-
-curl https://am.i.mullvad.net/connected

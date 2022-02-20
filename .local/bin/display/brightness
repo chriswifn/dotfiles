@@ -1,0 +1,29 @@
+#!/bin/sh
+
+get_brightness() {
+  brightnessctl g
+}
+
+get_max() {
+  brightnessctl m
+}
+
+send_notification() {
+  brightness=$(brightnessctl i | awk '/%/ {print $4}' | sed 's/(//g;s/)//g;s/%//g')
+  dunstify -h int:value:"$brightness" -r 2593 -u normal "Brightness:$brightness%"
+}
+
+if [ "$1" = "up" ] && [ "$(get_brightness)" = "$(get_max)" ]; then
+  exit 0
+else
+  case "$1" in
+    up)
+      brightnessctl set 10%+
+      send_notification
+      ;;
+    down)
+      brightnessctl set 10%-
+      send_notification
+      ;;
+  esac
+fi

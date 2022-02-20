@@ -1,0 +1,39 @@
+#!/bin/sh
+
+cur_dev="$(pactl get-default-sink)"
+
+get_volume() {
+  pactl get-sink-volume "$cur_dev" | awk '{print $5}' 
+}
+
+is_mute() {
+  pactl get-sink-mute "$cur_dev" | awk '{print $2}'
+}
+
+send_notification() {
+  volume=$(get_volume)
+  if [ "$(is_mute)" = "yes" ]; then
+    dunstify -h int:value:"$volume" -r 2593 -u normal "VOLUME:mute"
+  else
+    dunstify -h int:value:"$volume" -r 2593 -u normal "VOLUME:$volume"
+  fi
+}
+
+case "$1" in
+  up)
+    pactl set-sink-mute "$cur_dev" 0
+    pactl set-sink-volume "$cur_dev" +1%
+    send_notification
+    ;;
+  down)
+    pactl set-sink-mute "$cur_dev" 0
+    pactl set-sink-volume "$cur_dev" -1%
+    send_notification
+    ;;
+  mute)
+    pactl set-sink-mute "$cur_dev" 1
+    send_notification
+esac
+
+
+

@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# A script for bookmarks (because nobody wants to have their bookmarks in the browser)
+
+# read the options from txt file (change this to where you store your bookmarks)
+OPTIONS=$(awk '{print $1}' ~/.cache/bookmarks.txt)
+
+# echo to dmenu
+CHOICE=$(printf '%s\n' "$OPTIONS" | sort | dmenu -i -p "Choose wisely:")
+
+if [ "$CHOICE" ]; then
+  [ "$CHOICE" = "tipptest" ] && setxkbmap de && pkill -RTMIN+13 dwmblocks
+  URL=$(grep "$CHOICE" ~/.cache/bookmarks.txt | awk '{print $2}')
+  brave --new-window "$URL" 
+else 
+  exit
+fi
+
+
+
+

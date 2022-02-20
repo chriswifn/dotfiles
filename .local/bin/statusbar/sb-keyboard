@@ -1,0 +1,4 @@
+#!/bin/sh
+
+kbd=$(setxkbmap -query | awk '/layout/ {print $2}')
+echo "[  $kbd]"

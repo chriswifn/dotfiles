@@ -1,0 +1,67 @@
+#!/bin/bash
+
+# script to assign a static IP-address to a VM (KVM/Qemu) for port forwarding
+
+PS3="Enter the number for the operation: "
+options=("add" "delete" "modify" "quit")
+
+select opt in "${options[@]}"
+do
+	case $opt in
+		add)
+			read -p "Enter the Name of the VM: " NAME
+			read -p "Enter the IP-address you want to assign: " IP
+			MAC="$(virsh dumpxml "$NAME" | grep "mac adress" | awk -F\' '{print $2}')" 2>/dev/null
+			virsh net-update default add-last ip-dhcp-host \
+				"<host mac='$MAC' name='$NAME' ip='$IP' />" \
+				--live --config 2>/dev/null
+
+			if [[ $? -ne 0 ]]; then
+				echo "Failed! There is no VM called $NAME or your IP $IP is not in range!"
+			else
+				RESULT="$(virsh net-dumpxml default | grep -i "host mac")"
+				echo -e "Done! Result: \n $RESULT"
+			fi
+			;;
+		delete)
+			read -p "Enter the name of the VM: " NAME
+			IP="$(virsh net-dumpxml default | grep "$NAME" | awk -F \' '{print $6}')" 2>/dev/null
+			MAC="$(virsh net-dumpxml default | grep "$NAME" | awk -F \' '{print $2}')" 2>/dev/null
+			virsh net-update default delete ip-dhcp-host \
+				"<host mac='$MAC' name='$NAME' ip='$IP' />" \
+				--live --config 2>/dev/null
+
+			if [[ $? -ne 0 ]]; then
+				echo "Failed! There is no VM called $NAME"
+			else
+				RESULT="$(virsh net-dumpxml default | grep -i "host mac")"
+				echo -e "Done! Result: \n $RESULT"
+			fi 
+			;;
+		modify)
+			read -p "Enter the name of the VM: " NAME
+			IP="$(virsh net-dumpxml default | grep "$NAME" | awk -F\' '{print $6}')" 2>/dev/null
+			MAC="$(virsh dumpxml "$NAME" | grep "mac address" | awk -F\' '{print $2}')" 2>/dev/null
+			virsh net-update default modify ip-dhcp-host \
+				"<host mac='$MAC' name='$NAME' ip='$IP' />" \
+				--live --config 2>/dev/null
+
+			if [[ $? -ne 0 ]]; then
+				echo "Failed! There is no VM called $NAME"
+			else
+				RESULT="$(virsh net-dumpxml default | grep -i "host mac")"
+				echo -e "Done! Result: \n $RESULT"
+			fi
+			;;
+		quit)
+			break
+			;;
+		*)
+			echo "Not a valid operation! It seems like you can't read!"
+			;;
+	esac
+done
+
+
+
+

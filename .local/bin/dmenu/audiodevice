@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# Dmenu script to switch audio device 
+# (useful if you use headphones and speakers)
+
+# Change these variables
+# get them with command: pactl list sinks | grep "Name:"
+# get the default one: pactl get-default-sink
+pgrep -x dmenu && exit
+HEADPHONE="alsa_output.usb-Lenovo_ThinkPad_USB-C_Dock_Audio_000000000000-00.analog-stereo"
+INTERNAL_LAPTOP="alsa_output.pci-0000_04_00.6.analog-stereo"
+
+CHOICE=$(printf "headphones\nspeaker" | dmenu -i -p "Choose wisely:") 
+case "$CHOICE" in
+ 	"headphones")
+		pactl set-default-sink "$HEADPHONE"
+	    dunstify -r 2593 -u normal "OUTPUT:headphones";;
+	"speaker")
+		pactl set-default-sink "$INTERNAL_LAPTOP"
+		dunstify -r 2593 -u normal "OUTPUT:speakers";;
+	*)
+		exit 0;;
+esac
+
+# update dwmblocks (delete this line if not used)
+pkill -RTMIN+10 dwmblocks
+
+
+

@@ -1,0 +1,34 @@
+#!/bin/sh
+
+# script to display some useful system-stats so you don't have to install htop on a server
+
+hdd() {
+	HDD="$(df -h | awk 'NR==4{print $3}')"
+  TOTAL="$(df -h | awk 'NR==4{print $2}')"
+	echo "DISKPACE: $HDD/$TOTAL"
+}
+
+mem() {
+    MEM=$(free | awk '/Mem/ {printf "%dM/%dM\n", $3 / 1024.0, $2 / 1024.0 }')
+  	echo "MEMORY: $MEM"
+}
+
+cpu() {
+  	read cpu a b c previdle rest < /proc/stat
+  	PREVTOTAL=$((a+b+c+previdle))
+  	sleep 0.5
+  	read cpu a b c idle rest < /proc/stat
+  	TOTAL=$((a+b+c+idle))
+  	CPU=$((100*( (TOTAL-PREVTOTAL) - (idle-previdle) ) / (TOTAL-PREVTOTAL) ))
+  	echo "CPU: $CPU%"
+}
+
+kernel() {
+  KERNEL=$(uname -r)
+  echo "KERNEL: $KERNEL"
+}
+
+echo "$(cpu)  $(mem)  $(hdd)  $(kernel)"
+
+
+

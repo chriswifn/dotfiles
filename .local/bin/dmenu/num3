@@ -1,0 +1,15 @@
+#!/bin/sh
+
+OPTIONS=$(awk '{print $1}' ~/.cache/num3.txt)
+
+CHOICE=$(echo "$OPTIONS" | dmenu -l 10 -i -p "Choose wisely:")
+
+if [ "$CHOICE" ]; then
+  vpn="vpn.uni-tuebingen.de"
+  nmcli connection up "$vpn"
+  URL=$(grep "$CHOICE" ~/.cache/num3.txt | awk '{print $2}')
+  mpv "$URL"
+  nmcli connection down "$vpn"
+else
+  exit 0
+fi

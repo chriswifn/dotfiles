@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# script to change the keyboard layout between us and de
+
+if [ -n "$1" ]; then
+    setxkbmap "$1"
+else
+	layout=$(setxkbmap -query | awk '/layout/ {print $2}') 2>/dev/null
+    case "$layout" in
+        us)
+		        setxkbmap de
+		        ;;
+        *)
+		        setxkbmap us
+		        ;;
+    esac
+fi
+
+pkill -RTMIN+13 dwmblocks

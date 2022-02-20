@@ -1,0 +1,4 @@
+#!/bin/sh
+
+DATE=$(date '+%d.%m.%y %H:%M')
+echo "[$DATE]"

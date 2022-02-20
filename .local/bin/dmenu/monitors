@@ -1,0 +1,64 @@
+#!/bin/sh
+
+# script to adjust multiple monitors 
+
+pgrep -x dmenu && exit
+# function to arrange 2 displayport Monitors
+double_monitors() {
+	xrandr --output "$DP1" --auto --left-of "$EDP"
+        xrandr --output "$DP2" --auto --left-of "$DP1"
+	xrandr --output "$EDP" --off
+}
+
+# function to arrange 3 monitors (2 displayport, 1 internal Laptop display)
+tripple_monitors() {
+	xrandr --output "$EDP" --auto
+	xrandr --output "$DP1" --auto --left-of "$EDP"
+	xrandr --output "$DP2" --auto --left-of "$DP1"
+}
+
+# function to duplicate internal display to beamer display
+beamer() {
+	xrandr --output "$EDP" --auto
+	xrandr --output "$HDMI" --mode 1920x1080 --same-as "$EDP"
+}
+
+# internal display (laptop)
+EDP=$(xrandr | awk '/eDP/ {print $1}')
+
+# hdmi 
+HDMI=$(xrandr | awk '/HDMI/ {print $1}')
+
+# displayport
+DPS=$(xrandr | awk '/DisplayPort/ && / connected/ {print $1}')
+DP1=$(echo "$DPS" | head -n 1)
+DP2=$(echo "$DPS" | tail -n 1)
+echo $DP1 $DP2
+
+# all possible screens
+ALLPOSS=$(xrandr -q | grep "connected")
+
+# all connected screens
+SCREENS=$(echo "$ALLPOSS" | awk '/ connected/ {print $1}')
+
+CHOICE=$(echo "$SCREENS"  | dmenu -i -p "Choose wisely:")
+
+[ -z "$CHOICE" ] && exit 0
+
+case $CHOICE in
+	"$DP1"|"$DP2")
+		double_monitors	
+		exit
+		;;
+	"$EDP")
+		tripple_monitors
+		exit
+		;;
+	"$HDMI")
+		beamer
+		exit
+		;;
+	*)
+		exit
+		;;
+esac

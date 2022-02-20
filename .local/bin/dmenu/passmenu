@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# Dmenu script to get passwords (install and setup pass)
+
+# This command assumes a structure in your password-store
+# fe: Email/*.gpg
+#     other/*.gpg
+# if you are messy and don't structure your passwords remove:
+# - \(.*\)\/
+# - \/\2
+PASSWORD=$(find ~/.password-store/ -type f -name '*.gpg' |
+	sed 's/.*\/\(.*\)\/\(.*\)\.gpg$/\1\/\2/' | sort | dmenu -i -p "Choose wisely:")
+ 
+[ -n "$PASSWORD" ] && pass show -c "$PASSWORD"
+

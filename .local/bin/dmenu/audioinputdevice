@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# Dmenu script to switch audio input device
+# (useful if you use internal microphone of laptop and external microphone)
+
+# Changes these variables
+# get them with command: pactl list sources | grep "Name:"
+# get the default one: pactl get-default-source
+pgrep -x dmenu && exit
+MICROPHONE_EXTERNAL="alsa_input.usb-0c76_USB_PnP_Audio_Device-00.mono-fallback"
+MICROPHONE_INTERNAL="alsa_input.pci-0000_04_00.6.analog-stereo"
+
+CHOICE=$(printf "external\ninternal" | dmenu -i -p "Choose wisely:")
+case "$CHOICE" in
+	"external")
+		pactl set-default-source "$MICROPHONE_EXTERNAL"
+	    dunstify -r 2593 -u normal "INPUT:usb-mic";;
+	"internal")
+		pactl set-default-source "$MICROPHONE_INTERNAL"
+		dunstify -r 2593 -u normal "INPUT:laptop-mic";;
+	*)
+		exit 0;;
+esac
+
+# update dwmblocks (delete this line if not used)
+pkill -RTMIN+10 dwmblocks

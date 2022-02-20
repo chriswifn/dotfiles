@@ -1,0 +1,35 @@
+#!/bin/sh
+
+# Dmenu script to control network connection including vpns
+
+on() {
+	nmcli connection up "$1"
+}
+
+off() {
+	nmcli connection down "$1"
+}
+
+OPTION=$(printf "wifi\nvpn\nethernet" | dmenu -i -p "Select type:")
+
+NAMES=$(nmcli connection | grep "$OPTION" | awk '{print $1}')  
+CHOICE=$(echo "$NAMES" | dmenu -i -p "Select name:") 
+CHOICE2=$(printf "on\noff" | dmenu -i -p "Select (dis)connect:") 
+case "$CHOICE2" in
+	"on") 
+		on "$CHOICE" && pkill -RTMIN+11 dwmblocks
+		exit
+		;;
+	"off")
+		off "$CHOICE" && pkill -RTMIN+11 dwmblocks
+		;;
+	*) 
+		exit
+		;;
+esac
+
+
+
+
+
+

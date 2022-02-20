@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# Speaker
+CURRENT_OUTPUT_DEVICE="$(pactl get-default-sink)"
+VOLUME=$(pactl get-sink-volume "$CURRENT_OUTPUT_DEVICE" | awk -F'/' '{ gsub(/ /,""); print $2 }')
+VOLUME_INDICATOR=$(pactl get-sink-mute "$CURRENT_OUTPUT_DEVICE" | sed 's/Mute: //;s/no/墳/;s/yes/婢/g')
+
+# Microphone
+CURRENT_INPUT_DEVICE="$(pactl get-default-source)"
+INPUT_VOLUME=$(pactl get-source-volume "$CURRENT_INPUT_DEVICE" | awk -F'/' '{ gsub(/ /,""); print $2 }')
+INPUT_INDICATOR=$(pactl get-source-mute "$CURRENT_INPUT_DEVICE" | sed 's/Mute: //;s/no//;s/yes//g')
+
+echo "[$VOLUME_INDICATOR $VOLUME  $INPUT_INDICATOR $INPUT_VOLUME]"

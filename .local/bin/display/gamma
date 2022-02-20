@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# script to change gamme value of monitors
+
+# all of the screens that are active
+SCREENS=$(xrandr --listactivemonitors | awk '{print $4}')
+
+# active brightness of connected screens (preserve that)
+AB=$(xrandr --verbose | awk '/Brightness/ {print $NF; exit}')
+
+# active gamme of connected screens
+AG=$(xrandr --verbose | awk '/Gamma/ {print $NF; exit}')
+
+change_gamma() {
+	# switch gamma
+	GAMMA="1.0:1.0:1.0" && [ "$AG" = "1.0:1.0:1.0" ] && GAMMA="1.0:0.95:0.85"
+	for screen in $SCREENS
+	do
+		xrandr --output "$screen" --brightness "$AB" --gamma "$GAMMA" 
+	done
+}
+
+#function call
+change_gamma

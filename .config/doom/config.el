@@ -16,7 +16,7 @@
       doom-big-font (font-spec :family "JetBrains Mono" :size 20))
 
 ;; dashboard
-(setq fancy-splash-image "/home/chri/.doom.d/emacs.png")
+(setq fancy-splash-image "/home/chri/.config/doom/emacs.png")
 (setq doom-fallback-buffer-name "*dashboard*")
 
 ;; linenumbers

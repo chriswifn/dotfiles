@@ -238,6 +238,9 @@ packer.startup {
       config = function()
         require("configs.telescope").config()
       end,
+      themes = function()
+        require('telescope.themes').get_ivy()
+      end,
     }
 
     -- Fuzzy finder syntax support
@@ -303,15 +306,6 @@ packer.startup {
         require("configs.indent-line").config()
       end,
       disable = not config.enabled.indent_blankline,
-    }
-
-    -- Keymaps popup
-    use {
-      "folke/which-key.nvim",
-      config = function()
-        require("configs.which-key").config()
-      end,
-      disable = not config.enabled.which_key,
     }
 
     -- Smooth scrolling

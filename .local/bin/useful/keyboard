@@ -17,3 +17,6 @@ else
 fi
 
 pkill -RTMIN+13 dwmblocks
+
+
+

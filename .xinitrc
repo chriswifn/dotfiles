@@ -10,7 +10,7 @@ fi
 setxkbmap -option caps:escape &
 sxhkd &
 xsetroot -cursor_name left_ptr &
-feh --bg-scale ~/pic/monterey.png &
+#feh --bg-scale ~/pic/monterey.png &
 /usr/bin/emacs --daemon &
 dunst &
 dwmblocks &

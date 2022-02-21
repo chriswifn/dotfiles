@@ -78,7 +78,11 @@ function M.config()
         },
       },
     },
-    pickers = {},
+    pickers = {
+      find_files = {
+        theme = "ivy"
+      }
+    },
     extensions = {
       fzf = {
         fuzzy = true,

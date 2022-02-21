@@ -27,9 +27,3 @@ case "$CHOICE2" in
 		exit
 		;;
 esac
-
-
-
-
-
-

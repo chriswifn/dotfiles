@@ -6,5 +6,5 @@ elif grep -xq 'down' /sys/class/net/w*/operstate 2>/dev/null ; then
 	grep -xq '0x1003' /sys/class/net/w*/flags && wifiicon="睊" || wifiicon="❌"
 fi
 
-printf "[%s %s %s %s]\n" "$wifiicon" "$(sed -z "s/down//;s/up//" /sys/class/net/enp2s0/operstate 2>/dev/null)" "$(sed "s/.*//" /sys/class/net/tun*/operstate 2>/dev/null)" "$(sed "s/.*//" /sys/class/net/ppp*/operstate 2>/dev/null)"
+printf "[%s %s %s %s]\n" "$wifiicon" "$(sed -z "s/down//;s/up//" /sys/class/net/enp2s0/operstate 2>/dev/null)" "$(sed "s/.*//" /sys/class/net/wg*/operstate 2>/dev/null)" "$(sed "s/.*//" /sys/class/net/ppp*/operstate 2>/dev/null)"
 

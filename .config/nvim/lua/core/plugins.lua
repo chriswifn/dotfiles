@@ -213,14 +213,14 @@ packer.startup {
     }
 
     -- LSP symbols
-    use {
-      "simrat39/symbols-outline.nvim",
-      cmd = "SymbolsOutline",
-      setup = function()
-        require("configs.symbols-outline").setup()
-      end,
-      disable = not config.enabled.symbols_outline,
-    }
+    -- use {
+    --   "simrat39/symbols-outline.nvim",
+    --   cmd = "SymbolsOutline",
+    --   setup = function()
+    --     require("configs.symbols-outline").setup()
+    --   end,
+    --   disable = not config.enabled.symbols_outline,
+    -- }
 
     -- Formatting and linting
     use {

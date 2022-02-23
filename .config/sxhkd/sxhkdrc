@@ -1,0 +1,138 @@
+
+# My Keyboard shortcuts that are independent from the window manager
+# For the scripts go to: chriswifn/scripts/system
+
+super + Escape
+  pkill -USR1 -x sxhkd
+################################################################################
+# Programs: Super + some other key on the keyboard
+################################################################################
+
+# emacs
+super + e
+  emacsclient -c -n -a 'emacs' 
+
+# htop
+super + shift + r 
+  alacritty -e htop
+
+# lf 
+super + r
+	alacritty -e lf 
+
+# zathura
+super + z
+	zathura
+
+# cmus
+super + a
+	alacritty -e cmus
+
+# matlab
+super + shift + m
+	matlab -desktop -nosplash
+
+# slock
+super + s
+	slock
+
+# pcmanfm
+super + shift + f 
+	pcmanfm
+
+# dmenu
+super + shift + d
+	dmenu_run
+
+# brave
+super + g
+	brave -no-default-browser-check
+
+# vimb
+super + v
+  vimb
+
+
+################################################################################
+# Scripts: Control + Alt + some other key on the keyboard
+################################################################################
+
+# script to adjust monitors
+control + alt + m
+	~/.local/bin/dmenu/monitors
+
+# script for bookmars
+control + alt + b
+	~/.local/bin/dmenu/bookmarks
+
+# script to change keyboard layout
+control + alt + k 
+	~/.local/bin/useful/keyboard
+
+# script to take a screenshot
+control + alt + s
+	~/.local/bin/dmenu/maimmenu
+
+# script to control network connection
+control + alt + i
+	~/.local/bin/dmenu/network
+
+control + alt + l
+	~/.local/bin/dmenu/logout
+
+control + alt + p
+	~/.local/bin/dmenu/passmenu
+
+control + alt + v
+	~/.local/bin/dmenu/audiodevice
+
+control + alt + x  
+	~/.local/bin/dmenu/audioinputdevice
+
+control + alt + w 
+	~/.local/bin/dmenu/connectwifi
+
+control + alt + n
+  ~/.local/bin/dmenu/num3
+
+################################################################################
+# Scripts for audio and brightness contol: Super + Function key
+################################################################################
+
+# script to mute volume
+super + F1
+	~/.local/bin/audio/volume mute
+
+# script to decrease volume by 1%
+super + F2
+	~/.local/bin/audio/volume down 
+
+# script to increase volume by 1%
+super + F3
+	~/.local/bin/audio/volume up 
+
+# script to mute microphone
+super + F4
+	~/.local/bin/audio/microphone mute
+
+# script to decrease mic-volume by 1%
+super + F5
+	~/.local/bin/audio/microphone down
+
+# script to increase mic-volume by 5%
+super + F6
+	~/.local/bin/audio/microphone up
+
+# script to decrease screen brightness by 5%
+super + F7
+	~/.local/bin/display/brightness down
+
+# script to increase screen brightness by 5%
+super + F8
+	~/.local/bin/display/brightness up
+
+# script to switch between night and day mode
+super + F9
+	~/.local/bin/display/gamma
+
+

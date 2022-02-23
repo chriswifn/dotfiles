@@ -10,7 +10,7 @@ off() {
 	nmcli connection down "$1"
 }
 
-OPTION=$(printf "wifi\nvpn\nethernet" | dmenu -i -p "Select type:")
+OPTION=$(printf "wifi\nvpn\nwireguard\nethernet" | dmenu -i -p "Select type:")
 
 NAMES=$(nmcli connection | grep "$OPTION" | awk '{print $1}')  
 CHOICE=$(echo "$NAMES" | dmenu -i -p "Select name:") 

@@ -1,5 +1,5 @@
 # export
-export TERM="xterm-256color"
+# export TERM="xterm-256color"
 export HISTCONTROL=ignoredups:erasedups
 export HISTFILESIZE=
 export HISTSIZE=

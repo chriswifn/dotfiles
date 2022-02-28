@@ -14,7 +14,7 @@ bind -m vi-insert 'Control-l: clear screen'
 
 # title of terminals
 case ${TERM} in
-  xterm*|alacritty|st)
+  xterm*|alacritty|st-256color)
     PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\007"'
     ;;
   screen*)
@@ -37,5 +37,6 @@ alias ytp='yt-dlp --format bestaudio --extract-audio --audio-format mp3 --audio-
 alias yts='yt-dlp --format bestaudio --extract-audio --audio-format mp3 --audio-quality 160K --output "%(title)s.%(ext)s"'
 alias n='nvim'
 alias config='/usr/bin/git --git-dir=/home/chri/dotfiles --work-tree=/home/chri'
+alias aurupd='yay -Sua'
 
 eval "$(starship init bash)"

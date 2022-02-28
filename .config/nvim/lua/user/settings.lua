@@ -5,11 +5,12 @@ local set = vim.opt
 local config = {
 
  -- Set colorscheme
-  --colorscheme = "OceanicNext",
   colorscheme = "OceanicNext",
+  -- colorscheme = "gruvbox-material",
   -- Add plugins
   plugins = {
     { "mhartington/oceanic-next"},
+    { "wittyjudge/gruvbox-material.nvim" },
     -- {
     -- "ray-x/lsp_signature.nvim",
     -- event = "BufRead",

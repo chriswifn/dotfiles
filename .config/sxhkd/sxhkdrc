@@ -14,11 +14,11 @@ super + e
 
 # htop
 super + shift + r 
-  alacritty -e htop
+  st -e htop
 
 # lf 
 super + r
-	alacritty -e lf 
+	st -e lf 
 
 # zathura
 super + z
@@ -26,7 +26,7 @@ super + z
 
 # cmus
 super + a
-	alacritty -e cmus
+	st -e cmus
 
 # matlab
 super + shift + m
@@ -34,7 +34,7 @@ super + shift + m
 
 # slock
 super + s
-	slock
+  slock
 
 # pcmanfm
 super + shift + f 
@@ -134,5 +134,6 @@ super + F8
 # script to switch between night and day mode
 super + F9
 	~/.local/bin/display/gamma
+
 
 

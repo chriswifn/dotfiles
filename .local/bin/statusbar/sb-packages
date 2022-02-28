@@ -1,4 +1,3 @@
 #!/bin/sh
 
-upd=$(checkupdates | wc -l)
-echo "[ $upd]"
+printf "[$(checkupdates | wc -l)]"

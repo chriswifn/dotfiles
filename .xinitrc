@@ -10,8 +10,12 @@ fi
 setxkbmap -option caps:escape &
 sxhkd &
 xsetroot -cursor_name left_ptr &
-#feh --bg-scale ~/pic/monterey.png &
+hsetroot -fill ~/pic/minimal.jpg &
+lxsession &
 /usr/bin/emacs --daemon &
 dunst &
-dwmblocks &
-exec dwm > /dev/null 2>&1
+slstatus &
+
+while :; do 
+  ssh-agent dwm
+done

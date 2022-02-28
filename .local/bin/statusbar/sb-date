@@ -1,4 +1,3 @@
 #!/bin/sh
 
-DATE=$(date '+%d.%m.%y %H:%M')
-echo "[$DATE]"
+printf "[%s]\n" "$(date '+%d.%m.%y %H:%M')"

@@ -10,7 +10,7 @@ fi
 setxkbmap -option caps:escape &
 sxhkd &
 xsetroot -cursor_name left_ptr &
-hsetroot -fill ~/pic/minimal.jpg &
+hsetroot -fill ~/pic/dark-minimal.jpg &
 lxsession &
 /usr/bin/emacs --daemon &
 dunst &

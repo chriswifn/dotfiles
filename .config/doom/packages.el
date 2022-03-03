@@ -50,3 +50,4 @@
 ;(unpin! t)
 
 (package! pdf-tools)
+(package! solaire-mode :disable t)

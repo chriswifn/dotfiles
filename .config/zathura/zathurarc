@@ -3,36 +3,36 @@
 set sandbox none
 map p print
 
-set notification-error-bg       "#5b6268" # Red
-set notification-error-fg       "#ff6c6b" # Foreground
-set notification-warning-bg     "#5b6268" # Orange
-set notification-warning-fg     "#ff6c6b" # Selection
-set notification-bg             "#5b6268" # Background
-set notification-fg             "#ecbe7b" # Foreground
+set notification-error-bg       "#1d1f21" # Red
+set notification-error-fg       "#cc342b" # Foreground
+set notification-warning-bg     "#1d1f21" # Orange
+set notification-warning-fg     "#cc342b" # Selection
+set notification-bg             "#1d1f21" # Background
+set notification-fg             "#fba922" # Foreground
 
-set completion-bg               "#1f2227" # Background
-set completion-fg               "#abb2bf" # Comment
-set completion-group-bg         "#1c1f24" # Background
-set completion-group-fg         "#a9a1e1" # Comment
-set completion-highlight-bg     "#46d9ff" # Selection
-set completion-highlight-fg     "#202328" # Foreground
+set completion-bg               "#1d1f21" # Background
+set completion-fg               "#c5c8c6" # Comment
+set completion-group-bg         "#1d1f21" # Background
+set completion-group-fg         "#a36ac7" # Comment
+set completion-highlight-bg     "#3971ed" # Selection
+set completion-highlight-fg     "#c5c8c6" # Foreground
 
-set index-bg                    "#1c1f24" # Background
-set index-fg                    "#46d9ff" # Foreground
-set index-active-bg             "#5b6268" # Current Line
-set index-active-fg             "#abb2bf" # Foreground
+set index-bg                    "#1d1f21" # Background
+set index-fg                    "#3971ed" # Foreground
+set index-active-bg             "#1d1f21" # Current Line
+set index-active-fg             "#c5c8c6" # Foreground
 
-set inputbar-bg                 "#5b6268" # Background
-set inputbar-fg                 "#abb2bf" # Foreground
+set inputbar-bg                 "#1d1f21" # Background
+set inputbar-fg                 "#c5c8c6" # Foreground
 
-set statusbar-bg                "#1f2227" # Background
-set statusbar-fg                "#abb2bf" # Foreground
+set statusbar-bg                "#1d1f21" # Background
+set statusbar-fg                "#c5c8c6" # Foreground
 
-set highlight-color             "#ecbe7b" # Orange
+set highlight-color             "#fba922" # Orange
 set highlight-active-color      "#5699af" # Pink
 
-set default-bg                  "#1f2227" # Background
-set default-fg                  "#abb2bf" # Foreground
+set default-bg                  "#1d1f21" # Background
+set default-fg                  "#c5c8c6" # Foreground
 
 # set render-loading              true
 #set render-loading-fg           "#282a36" # Background
@@ -40,7 +40,7 @@ set default-fg                  "#abb2bf" # Foreground
 
 # Recolor mode settings
 set recolor                     true
-set recolor-lightcolor          "#1f2227" # Background
-set recolor-darkcolor           "#abb2bf" # Foreground
+set recolor-lightcolor          "#1d1f21" # Background
+set recolor-darkcolor           "#c5c8c6" # Foreground
 set recolor-keephue             true
 

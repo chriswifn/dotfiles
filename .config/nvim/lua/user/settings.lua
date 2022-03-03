@@ -5,12 +5,10 @@ local set = vim.opt
 local config = {
 
  -- Set colorscheme
-  colorscheme = "OceanicNext",
-  -- colorscheme = "gruvbox-material",
+  colorscheme = "gruvbox-baby",
   -- Add plugins
   plugins = {
-    { "mhartington/oceanic-next"},
-    { "wittyjudge/gruvbox-material.nvim" },
+    { "luisiacc/gruvbox-baby" },
     -- {
     -- "ray-x/lsp_signature.nvim",
     -- event = "BufRead",
@@ -31,7 +29,7 @@ local config = {
 
   -- Disable default plugins
   enabled = {
-    bufferline = true,
+    --bufferline = true,
     nvim_tree = true,
     lualine = true,
     lspsaga = true,
@@ -42,7 +40,7 @@ local config = {
     symbols_outline = true,
     indent_blankline = true,
     dashboard = true,
-    which_key = true,
+    --which_key = true,
     neoscroll = true,
     ts_rainbow = true,
     ts_autotag = true,

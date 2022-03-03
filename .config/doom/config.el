@@ -8,7 +8,8 @@
 
 ;; background color
 (custom-set-faces
- '(default ((t (:background "#1f2227")))))
+ '(default ((t (:background "#1d1f21"))))
+ '(hl-line ((t (:background "#1d1f21")))))
 
 ;; font
 (setq doom-font (font-spec :family "JetBrains Mono" :size 15)
@@ -16,8 +17,8 @@
       doom-big-font (font-spec :family "JetBrains Mono" :size 20))
 
 ;; dashboard
-(setq fancy-splash-image "/home/chri/.config/doom/emacs.png")
-(setq doom-fallback-buffer-name "*dashboard*")
+;;(setq fancy-splash-image "/home/chri/.config/doom/emacs.png")
+;;(setq doom-fallback-buffer-name "*dashboard*")
 
 ;; linenumbers
 (setq display-line-numbers-type 'relative)
@@ -59,11 +60,14 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-city-lights)
+(setq doom-theme 'doom-gruvbox)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
+
+(after! solaire-mode
+  (solaire-global-mode -1))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.

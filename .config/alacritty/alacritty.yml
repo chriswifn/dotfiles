@@ -176,7 +176,7 @@ font:
 # If `true`, bold text is drawn using the bright color variants.
 #draw_bold_text_with_bright_colors: false
 
-# Colors (ArcoLinux)
+# Colors 
 schemes:
   # Doom One
   doom-one: &doom-one
@@ -207,35 +207,6 @@ schemes:
       magenta: '#a9a1e1'
       cyan:    '#46d9ff'
       white:   '#dfdfdf'
-
-  oceanic: &oceanic
-    # Default colors
-    primary:
-      background: '#1f2227'
-      foreground: '#abb2bf'
-  
-    # Normal colors
-    normal:
-      black:   '0x29414f'
-      red:     '0xec5f67'
-      green:   '0x99c794'
-      yellow:  '0xfac863'
-      blue:    '0x6699cc'
-      magenta: '0xc594c5'
-      cyan:    '0x5fb3b3'
-      white:   '0x65737e'
-  
-    # Bright colors
-    bright:
-      black:   '0x405860'
-      red:     '0xec5f67'
-      green:   '0x99c794'
-      yellow:  '0xfac863'
-      blue:    '0x6699cc'
-      magenta: '0xc594c5'
-      cyan:    '0x5fb3b3'
-      white:   '0xadb5c0'
-
 
   brodie: &brodie
     primary:
@@ -269,8 +240,36 @@ schemes:
       cyan:    '#8adaf1'
       white:   '#e0e3e7'
 
+  google: &google
+    # Default colors
+    primary:
+      background: '0x1d1f21'
+      foreground: '0xc5c8c6'
+    
+    # Normal colors
+    normal:
+      black:   '0x1d1f21'
+      red:     '0xcc342b'
+      green:   '0x198844'
+      yellow:  '0xfba922'
+      blue:    '0x3971ed'
+      magenta: '0xa36ac7'
+      cyan:    '0x3971ed'
+      white:   '0xc5c8c6'
+    
+    # Bright colors
+    bright:
+      black:   '0x969896'
+      red:     '0xcc342b'
+      green:   '0x198844'
+      yellow:  '0xfba922'
+      blue:    '0x3971ed'
+      magenta: '0xa36ac7'
+      cyan:    '0x3971ed'
+      white:   '0xffffff'
 
-colors: *oceanic
+
+colors: *google
 
 # Bell
 #

@@ -6,7 +6,7 @@ pgrep -x dmenu && exit
 # function to arrange 2 displayport Monitors
 double_monitors() {
 	xrandr --output "$DP1" --auto --left-of "$EDP"
-        xrandr --output "$DP2" --auto --left-of "$DP1"
+  xrandr --output "$DP2" --auto --left-of "$DP1"
 	xrandr --output "$EDP" --off
 }
 

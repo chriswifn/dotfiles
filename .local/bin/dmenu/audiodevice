@@ -10,7 +10,7 @@ pgrep -x dmenu && exit
 HEADPHONE="alsa_output.usb-Lenovo_ThinkPad_USB-C_Dock_Audio_000000000000-00.analog-stereo"
 INTERNAL_LAPTOP="alsa_output.pci-0000_04_00.6.analog-stereo"
 
-CHOICE=$(printf "headphones\nspeaker" | dmenu -i -p "Choose wisely:") 
+CHOICE=$(printf "headphones\nspeaker" | dmenu -i ) 
 case "$CHOICE" in
  	"headphones")
 		pactl set-default-sink "$HEADPHONE"

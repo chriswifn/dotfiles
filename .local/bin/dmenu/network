@@ -10,11 +10,11 @@ off() {
 	nmcli connection down "$1"
 }
 
-OPTION=$(printf "wifi\nvpn\nwireguard\nethernet" | dmenu -i -l 20 -p "Select type:") || exit 0
+OPTION=$(printf "wifi\nvpn\nwireguard\nethernet" | dmenu -i ) || exit 0
 
 NAMES=$(nmcli connection | grep "$OPTION" | awk -F '  ' '{ print $1 }')  
-CHOICE=$(echo "$NAMES" | dmenu -i -l 20 -p "Select name:")  || exit 0
-CHOICE2=$(printf "on\noff" | dmenu -i -l 20 -p "Select (dis)connect:") || exit 0
+CHOICE=$(echo "$NAMES" | dmenu -i )  || exit 0
+CHOICE2=$(printf "on\noff" | dmenu -i) || exit 0
 case "$CHOICE2" in
 	"on") 
 		on "$CHOICE" #&& pkill -RTMIN+11 dwmblocks

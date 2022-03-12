@@ -2,6 +2,6 @@
 
 # Dmenu script to connect to wifi
 
-BSSID=$(nmcli device wifi list | sed -n '1!p' | cut -b 9- | dmenu -i -p "Choose wisely:" -l 20 | cut -d ' ' -f1) || exit 0
-PASSWORD=$(echo "" | dmenu -p "Enter password:")
+BSSID=$(nmcli device wifi list | sed -n '1!p' | cut -b 9- | dmenu -i -l 20 | cut -d ' ' -f1) || exit 0
+PASSWORD=$(echo "" | dmenu)
 nmcli device wifi connect "$BSSID" "$PASSWORD"

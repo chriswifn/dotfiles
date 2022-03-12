@@ -10,7 +10,7 @@
 # an option it will execute the option
 
 pgrep -x dmenu && exit
-CHOICE=$(printf "Lock\nLogout\nReboot\nShutdown\nSuspend\nQuit" | dmenu -i -p "Choose wisely:") &&
+CHOICE=$(printf "Lock\nLogout\nReboot\nShutdown\nSuspend\nQuit" | dmenu -i ) &&
     case "$CHOICE" in
         "Lock")
             slock ;;

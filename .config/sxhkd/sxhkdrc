@@ -95,6 +95,9 @@ control + alt + w
 control + alt + n
   ~/.local/bin/dmenu/num3
 
+control + alt + e 
+  ~/.local/bin/dmenu/emojipicker
+
 ################################################################################
 # Scripts for audio and brightness contol: Super + Function key
 ################################################################################

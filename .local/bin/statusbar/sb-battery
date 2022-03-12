@@ -2,14 +2,12 @@
 
 # Battery
 case "$(cat /sys/class/power_supply/BAT0/status 2>&1)" in
-  "Full") STATUS="BAT";;
-  "Discharging") STATUS="bat";;
-  "Charging") STATUS="BAT";;
-  "Not charging") STATUS="BAT";;
-  "Unknown") STATUS="BAT";;
+  "Full") STATUS="=";;
+  "Discharging") STATUS="-";;
+  "Charging") STATUS="+";;
+  "Not charging") STATUS="o";;
+  "Unknown") STATUS="?";;
   *) exit 1;;
 esac
-
-# printf "[$STATUS:$(cat /sys/class/power_supply/BAT0/capacity)%%]"
-printf "[%s:%s]\n" "$STATUS" "$(cat /sys/class/power_supply/BAT0/capacity)%"
+printf "%s %s\n" "$STATUS" "$(cat /sys/class/power_supply/BAT0/capacity)%"
 

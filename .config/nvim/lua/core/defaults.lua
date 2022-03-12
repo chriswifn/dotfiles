@@ -1,6 +1,6 @@
 local config = {
 
-  colorscheme = "onedark",
+  colorscheme = "gruvbox-baby",
 
   plugins = {},
 
@@ -32,7 +32,7 @@ local config = {
     nvim_tree = true,
     lualine = true,
     lspsaga = true,
-    gitsigns = true,
+    --gitsigns = true,
     colorizer = true,
     toggle_term = true,
     comment = true,

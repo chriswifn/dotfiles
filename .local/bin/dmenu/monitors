@@ -41,7 +41,7 @@ ALLPOSS=$(xrandr -q | grep "connected")
 # all connected screens
 SCREENS=$(echo "$ALLPOSS" | awk '/ connected/ {print $1}')
 
-CHOICE=$(echo "$SCREENS"  | dmenu -i -p "Choose wisely:")
+CHOICE=$(echo "$SCREENS"  | dmenu -i )
 
 [ -z "$CHOICE" ] && exit 0
 

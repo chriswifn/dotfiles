@@ -47,22 +47,22 @@ packer.startup {
     }
 
     -- Icons
-    use {
-      "kyazdani42/nvim-web-devicons",
-      config = function()
-        require("configs.icons").config()
-      end,
-    }
+    -- use {
+    --   "kyazdani42/nvim-web-devicons",
+    --   config = function()
+    --     require("configs.icons").config()
+    --   end,
+    -- }
 
     -- Bufferline
-    use {
-      "akinsho/bufferline.nvim",
-      after = "nvim-web-devicons",
-      config = function()
-        require("configs.bufferline").config()
-      end,
-      disable = not config.enabled.bufferline,
-    }
+    -- use {
+    --   "akinsho/bufferline.nvim",
+    --   after = "nvim-web-devicons",
+    --   config = function()
+    --     require("configs.bufferline").config()
+    --   end,
+    --   disable = not config.enabled.bufferline,
+    -- }
 
     -- Better buffer closing
     use {
@@ -250,14 +250,14 @@ packer.startup {
     }
 
     -- Git integration
-    use {
-      "lewis6991/gitsigns.nvim",
-      event = "BufRead",
-      config = function()
-        require("configs.gitsigns").config()
-      end,
-      disable = not config.enabled.gitsigns,
-    }
+    -- use {
+    --   "lewis6991/gitsigns.nvim",
+    --   event = "BufRead",
+    --   config = function()
+    --     require("configs.gitsigns").config()
+    --   end,
+    --   disable = not config.enabled.gitsigns,
+    -- }
 
 
     -- Color highlighting

@@ -18,8 +18,6 @@ fi
 
 LAYOUT=$(setxkbmap -query | awk '/layout {print $2}')
 
-dunstify -r 2591 -u normal "KEYBOARD:$(setxkbmap -query | awk '/layout/ {print $2}')"
-
 #pkill -RTMIN+13 dwmblocks
 
 

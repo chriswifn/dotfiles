@@ -1,32 +1,31 @@
-local utils = require "core.utils"
+local present, impatient = pcall(require, "impatient")
 
-utils.disabled_builtins()
+if present then
+   impatient.enable_profile()
+end
 
-utils.bootstrap()
-
-utils.impatient()
-
-local sources = {
-  "core.options",
-  "core.autocmds",
-  "core.plugins",
-  "core.mappings",
+local core_modules = {
+   "core.options",
+   "core.autocmds",
+   "core.mappings",
 }
 
-for _, source in ipairs(sources) do
-  local status_ok, fault = pcall(require, source)
-  if not status_ok then
-    error("Failed to load " .. source .. "\n\n" .. fault)
-  end
+for _, module in ipairs(core_modules) do
+   local ok, err = pcall(require, module)
+   if not ok then
+      error("Error loading " .. module .. "\n\n" .. err)
+   end
 end
 
-local config = utils.user_settings()
+-- non plugin mappings
+require("core.mappings").misc()
 
-if type(config.polish) == "function" then
-  config.polish()
-else
-  error "The polish value in your user configuration must be a function"
+-- check if custom init.lua file exists
+if vim.fn.filereadable(vim.fn.stdpath "config" .. "/lua/custom/init.lua") == 1 then
+   -- try to call custom init, if not successful, show error
+   local ok, err = pcall(require, "custom")
+   if not ok then
+      vim.notify("Error loading custom/init.lua\n\n" .. err)
+   end
+   return
 end
-
--- keep this last:
-utils.compiled()

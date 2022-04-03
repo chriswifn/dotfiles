@@ -3,6 +3,7 @@
 # set preview true
 set hidden true
 set ignorecase true
+set drawbox true
 
 # Custom Functions
 cmd open ${{
@@ -46,7 +47,7 @@ cmd sudomkfile ${{
   sudo $EDITOR $ans
 }}
 
-cmd setwallpaper %cp "$f" ~/.config/wall.png && xwallpaper --zoom "$f"
+cmd setwallpaper %cp "$f" ~/.config/wall.png && hsetroot -fill "$f"
 
 cmd fzf_jump ${{
   res="$(find . -maxdepth 3 | fzf --reverse --header='Jump to location')"

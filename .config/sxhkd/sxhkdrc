@@ -98,6 +98,9 @@ control + alt + n
 control + alt + e 
   ~/.local/bin/dmenu/emojipicker
 
+control + alt + f
+  ~/.local/bin/useful/vid
+
 ################################################################################
 # Scripts for audio and brightness contol: Super + Function key
 ################################################################################

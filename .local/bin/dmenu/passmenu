@@ -9,7 +9,7 @@
 # - \(.*\)\/
 # - \/\2
 PASSWORD=$(find ~/.password-store/ -type f -name '*.gpg' |
-	sed 's/.*\/\(.*\)\/\(.*\)\.gpg$/\1\/\2/' | sort | dmenu -i )
+	sed 's/.*\/\(.*\)\/\(.*\)\.gpg$/\1\/\2/' | sort | dmenu -i -l 20 -p "Choose password:") || exit
  
 [ -n "$PASSWORD" ] && pass show -c "$PASSWORD"
 

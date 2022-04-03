@@ -243,32 +243,60 @@ schemes:
   google: &google
     # Default colors
     primary:
-      background: '0x1d1f21'
-      foreground: '0xc5c8c6'
+      background: '#1d1f21'
+      foreground: '#c5c8c6'
     
     # Normal colors
     normal:
-      black:   '0x1d1f21'
-      red:     '0xcc342b'
-      green:   '0x198844'
-      yellow:  '0xfba922'
-      blue:    '0x3971ed'
-      magenta: '0xa36ac7'
-      cyan:    '0x3971ed'
-      white:   '0xc5c8c6'
+      black:   '#1d1f21'
+      red:     '#cc342b'
+      green:   '#198844'
+      yellow:  '#fba922'
+      blue:    '#3971ed'
+      magenta: '#a36ac7'
+      cyan:    '#3971ed'
+      white:   '#c5c8c6'
     
     # Bright colors
     bright:
-      black:   '0x969896'
-      red:     '0xcc342b'
-      green:   '0x198844'
-      yellow:  '0xfba922'
-      blue:    '0x3971ed'
-      magenta: '0xa36ac7'
-      cyan:    '0x3971ed'
-      white:   '0xffffff'
+      black:   '#969896'
+      red:     '#cc342b'
+      green:   '#198844'
+      yellow:  '#fba922'
+      blue:    '#3971ed'
+      magenta: '#a36ac7'
+      cyan:    '#3971ed'
+      white:   '#ffffff'
 
-
+  solarized: &solarized
+    # Default colors
+    primary:
+      background: '#002b36'
+      foreground: '#93a1a1'
+  
+    # Normal colors
+    normal:
+      black:   '#002b36'
+      red:     '#dc322f'
+      green:   '#859900'
+      yellow:  '#b58900'
+      blue:    '#268bd2'
+      magenta: '#6c71c4'
+      cyan:    '#2aa198'
+      white:   '#93a1a1'
+  
+    # Bright colors
+    bright:
+      black:   '#657b83'
+      red:     '#dc322f'
+      green:   '#859900'
+      yellow:  '#b58900'
+      blue:    '#268bd2'
+      magenta: '#6c71c4'
+      cyan:    '#2aa198'
+      white:   '#fdf6e3'
+  
+  
 colors: *google
 
 # Bell

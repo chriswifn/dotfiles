@@ -10,21 +10,15 @@ off() {
 	nmcli connection down "$1"
 }
 
-OPTION=$(printf "wifi\nvpn\nwireguard\nethernet" | dmenu -i ) || exit 0
-
-NAMES=$(nmcli connection | grep "$OPTION" | awk -F '  ' '{ print $1 }')  
-CHOICE=$(echo "$NAMES" | dmenu -i )  || exit 0
-CHOICE2=$(printf "on\noff" | dmenu -i) || exit 0
-case "$CHOICE2" in
-	"on") 
-		on "$CHOICE" #&& pkill -RTMIN+11 dwmblocks
+NAMES=$(nmcli connection | awk -F '  ' 'NR>=2 {print $1}')  
+CHOICE=$(echo "$NAMES" | dmenu -i -p "Choose connection:")  || exit 
+case "$(nmcli connection | grep "$CHOICE" | awk '{print $NF}')" in
+	"--") 
+		on "$CHOICE" && pkill -RTMIN+11 dwmblocks
 		exit
 		;;
-	"off")
-		off "$CHOICE" #&& pkill -RTMIN+11 dwmblocks
-    exit
-		;;
-	*) 
-		exit
+	*)
+		off "$CHOICE" && pkill -RTMIN+11 dwmblocks
+                exit
 		;;
 esac

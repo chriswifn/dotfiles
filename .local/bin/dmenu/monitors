@@ -5,15 +5,15 @@
 pgrep -x dmenu && exit
 # function to arrange 2 displayport Monitors
 double_monitors() {
-	xrandr --output "$DP1" --auto --left-of "$EDP"
-  xrandr --output "$DP2" --auto --left-of "$DP1"
+	xrandr --output "$DP1" --auto --above "$EDP" --primary
+        xrandr --output "$DP2" --auto --left-of "$DP1"
 	xrandr --output "$EDP" --off
 }
 
 # function to arrange 3 monitors (2 displayport, 1 internal Laptop display)
 tripple_monitors() {
 	xrandr --output "$EDP" --auto
-	xrandr --output "$DP1" --auto --left-of "$EDP"
+	xrandr --output "$DP1" --auto --above "$EDP" --primary
 	xrandr --output "$DP2" --auto --left-of "$DP1"
 }
 
@@ -41,7 +41,7 @@ ALLPOSS=$(xrandr -q | grep "connected")
 # all connected screens
 SCREENS=$(echo "$ALLPOSS" | awk '/ connected/ {print $1}')
 
-CHOICE=$(echo "$SCREENS"  | dmenu -i )
+CHOICE=$(echo "$SCREENS"  | dmenu -i -p "Choose arrangement:")
 
 [ -z "$CHOICE" ] && exit 0
 

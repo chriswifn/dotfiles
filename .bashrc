@@ -13,14 +13,14 @@ bind -m vi-insert 'Control-l: clear screen'
 [[ $- != *i* ]] && return
 
 # title of terminals
-case ${TERM} in
-  xterm*|alacritty|st-256color)
-    PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\007"'
-    ;;
-  screen*)
-    PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\033\\"'
-    ;;
-esac
+# case ${TERM} in
+#   xterm*|alacritty|st-256color)
+#     PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\007"'
+#     ;;
+#   screen*)
+#     PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\033\\"'
+#     ;;
+# esac
 
 # shopt
 shopt -s autocd

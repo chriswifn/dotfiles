@@ -101,6 +101,9 @@ control + alt + e
 control + alt + f
   ~/.local/bin/useful/vid
 
+control + alt + o
+  ~/.local/bin/useful/mousepad
+
 ################################################################################
 # Scripts for audio and brightness contol: Super + Function key
 ################################################################################

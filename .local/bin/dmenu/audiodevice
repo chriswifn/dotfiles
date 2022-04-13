@@ -23,7 +23,7 @@ case "$CHOICE" in
 esac
 
 # update dwmblocks (delete this line if not used)
-pkill -RTMIN+10 dwmblocks
+# pkill -RTMIN+10 dwmblocks
 
 
 

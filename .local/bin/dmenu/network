@@ -14,11 +14,11 @@ NAMES=$(nmcli connection | awk -F '  ' 'NR>=2 {print $1}')
 CHOICE=$(echo "$NAMES" | dmenu -i -p "Choose connection:")  || exit 
 case "$(nmcli connection | grep "$CHOICE" | awk '{print $NF}')" in
 	"--") 
-		on "$CHOICE" && pkill -RTMIN+11 dwmblocks
+		on "$CHOICE" # && pkill -RTMIN+11 dwmblocks
 		exit
 		;;
 	*)
-		off "$CHOICE" && pkill -RTMIN+11 dwmblocks
+		off "$CHOICE" # && pkill -RTMIN+11 dwmblocks
                 exit
 		;;
 esac

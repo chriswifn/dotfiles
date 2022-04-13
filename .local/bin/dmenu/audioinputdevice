@@ -14,7 +14,7 @@ CHOICE=$(printf "external\ninternal" | dmenu -i -p "Choose device:")
 case "$CHOICE" in
 	"external")
 		pactl set-default-source "$MICROPHONE_EXTERNAL"
-	    dunstify -r 2593 -u normal "INPUT:usb-mic";;
+                dunstify -r 2593 -u normal "INPUT:usb-mic";;
 	"internal")
 		pactl set-default-source "$MICROPHONE_INTERNAL"
 		dunstify -r 2593 -u normal "INPUT:laptop-mic";;
@@ -23,4 +23,4 @@ case "$CHOICE" in
 esac
 
 # update dwmblocks (delete this line if not used)
-pkill -RTMIN+10 dwmblocks
+# pkill -RTMIN+10 dwmblocks

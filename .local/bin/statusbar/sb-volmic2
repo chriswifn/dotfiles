@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# Speaker
+od="$(pactl get-default-sink)"
+vol1=$(pactl get-sink-volume "$od" | awk -F '/' '{print $2}' | sed 's/ //;s/%//')
+mute1=$(pactl get-sink-mute "$od" | awk '{print $2}')
+
+# Microphone
+id="$(pactl get-default-source)"
+vol2=$(pactl get-source-volume "$id" | awk -F '/' '{print $2}' | sed 's/ //;s/%//')
+mute2=$(pactl get-source-mute "$id" | awk '{print $2}') 

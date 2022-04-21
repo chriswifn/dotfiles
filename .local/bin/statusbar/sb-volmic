@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# Speaker
+od="$(pactl get-default-sink)"
+vol1=$(pactl get-sink-volume "$od" | awk -F '/' '{print $2}' | sed 's/ //;s/%//')
+mute1=$(pactl get-sink-mute "$od" | awk '{print $2}')
+[ "$mute1" = "yes" ] && col1="#969896" || col1="#198844"
+
+# Microphone
+id="$(pactl get-default-source)"
+vol2=$(pactl get-source-volume "$id" | awk -F '/' '{print $2}' | sed 's/ //;s/%//')
+mute2=$(pactl get-source-mute "$id" | awk '{print $2}')
+[ "$mute2" = "yes" ] && col2="#969896" || col2="#198844"
+
+drawbar() {
+  to501=$((vol1 / 2))
+  to502=$((vol2 / 2))
+  printf "%s\n" "^r0,4,52,5^^c#1d1f21^^r1,5,50,3^^c$col1^^r1,5,$to501,3^^d^^r0,12,52,5^^c#1d1f21^^r1,13,50,3^^c$col2^^r1,13,$to502,3^^d^^f52^"
+}
+drawbar
+

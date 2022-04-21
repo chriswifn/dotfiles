@@ -1,0 +1,11 @@
+#!/bin/sh
+
+ID="16"
+CURRENT_STATE="$(xinput list-props $ID | grep "Device Enabled" | egrep -o [0-9]$)"
+case "$CURRENT_STATE" in
+  0) xinput --enable $ID # && dunstify -r 2593 -u normal "TOUCHPAD:enabled" 
+    ;;
+  1) xinput --disable $ID # && dunstify -r 2593 -u normal "TOUCHPAD:disabled" 
+    ;;
+  *) exit
+esac

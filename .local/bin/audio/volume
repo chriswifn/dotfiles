@@ -22,12 +22,12 @@ send_notification() {
 case "$1" in
   up)
     pactl set-sink-mute "$cur_dev" 0
-    pactl set-sink-volume "$cur_dev" +1%
+    pactl set-sink-volume "$cur_dev" +5%
     send_notification
     ;;
   down)
     pactl set-sink-mute "$cur_dev" 0
-    pactl set-sink-volume "$cur_dev" -1%
+    pactl set-sink-volume "$cur_dev" -5%
     send_notification
     ;;
   mute)

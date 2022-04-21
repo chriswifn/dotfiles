@@ -1,31 +1,43 @@
-local present, impatient = pcall(require, "impatient")
+vim.opt.rtp:append(vim.fn.stdpath "config" .. "/../astrovim")
 
-if present then
-   impatient.enable_profile()
+local impatient_ok, impatient = pcall(require, "impatient")
+if impatient_ok then
+  impatient.enable_profile()
 end
 
-local core_modules = {
-   "core.options",
-   "core.autocmds",
-   "core.mappings",
+local utils = require "core.utils"
+
+utils.disabled_builtins()
+
+utils.bootstrap()
+
+local sources = {
+  "core.options",
+  "core.plugins",
+  "core.autocmds",
+  "core.mappings",
+  "configs.which-key-register",
 }
 
-for _, module in ipairs(core_modules) do
-   local ok, err = pcall(require, module)
-   if not ok then
-      error("Error loading " .. module .. "\n\n" .. err)
-   end
+for _, source in ipairs(sources) do
+  local status_ok, fault = pcall(require, source)
+  if not status_ok then
+    error("Failed to load " .. source .. "\n\n" .. fault)
+  elseif source == "core.plugins" then
+    utils.compiled()
+  end
 end
 
--- non plugin mappings
-require("core.mappings").misc()
+local status_ok, ui = pcall(require, "core.ui")
+if status_ok then
+  for ui_addition, enabled in pairs(utils.user_settings().ui) do
+    if enabled and type(ui[ui_addition]) == "function" then
+      ui[ui_addition]()
+    end
+  end
+end
 
--- check if custom init.lua file exists
-if vim.fn.filereadable(vim.fn.stdpath "config" .. "/lua/custom/init.lua") == 1 then
-   -- try to call custom init, if not successful, show error
-   local ok, err = pcall(require, "custom")
-   if not ok then
-      vim.notify("Error loading custom/init.lua\n\n" .. err)
-   end
-   return
+local polish = utils.user_plugin_opts "polish"
+if type(polish) == "function" then
+  polish()
 end

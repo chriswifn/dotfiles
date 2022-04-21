@@ -1,13 +1,17 @@
 #!/bin/sh
 
-# Battery
-case "$(cat /sys/class/power_supply/BAT0/status 2>&1)" in
-  "Full") STATUS="BAT-full";;
-  "Discharging") STATUS="BAT-discharging";;
-  "Charging") STATUS="BAT-charging";;
-  "Not charging") STATUS="BAT-max";;
-  "Unknown") STATUS="BAT-?";;
-  *) exit 1;;
-esac
+status="$(cat /sys/class/power_supply/BAT0/status 2>/dev/null)"
+capacity="$(cat /sys/class/power_supply/BAT0/capacity 2>/dev/null)"
+if [ "$status" != "Discharging" ]; then
+  color="#198844"
+else
+  [ "$capacity" -ge "30" ] && color="#fba922" || color="#cc342b"
+fi
+# to50=$((capacity / 2))
+# x=$((53 - to50))
+#
+# printf "%s\n" "^r0,7,4,6^^r2,5,52,10^^c#121f21^^r3,6,50,8^^c$color^^r$x,6,$to50,8^^d^^f54^" 
 
-printf "[%s %s%%]\n" "$STATUS" "$(cat /sys/class/power_supply/BAT0/capacity 2>/dev/null)" 
+to25=$((capacity / 4))
+x=$((28 - to25))
+printf "%s %s%%\n" "^r0,7,4,6^^r2,5,27,10^^c#121f21^^r3,6,25,8^^c$color^^r$x,6,$to25,8^^d^^f31^" "$capacity"

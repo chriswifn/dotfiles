@@ -5,7 +5,7 @@
 pgrep -x dmenu && exit
 # function to arrange 2 displayport Monitors
 double_monitors() {
-	xrandr --output "$DP1" --auto --above "$EDP" --primary
+	xrandr --output "$DP1" --auto --left-of "$EDP" --primary
         xrandr --output "$DP2" --auto --left-of "$DP1"
 	xrandr --output "$EDP" --off
 }
@@ -13,7 +13,7 @@ double_monitors() {
 # function to arrange 3 monitors (2 displayport, 1 internal Laptop display)
 tripple_monitors() {
 	xrandr --output "$EDP" --auto
-	xrandr --output "$DP1" --auto --above "$EDP" --primary
+	xrandr --output "$DP1" --auto --left-of "$EDP" --primary
 	xrandr --output "$DP2" --auto --left-of "$DP1"
 }
 

@@ -36,7 +36,7 @@ alias la='exa -al --color=always --group-directories-first'
 alias ytp='yt-dlp --format bestaudio --extract-audio --audio-format mp3 --audio-quality 160K --output "%(title)s.%(ext)s" --yes-playlist'
 alias yts='yt-dlp --format bestaudio --extract-audio --audio-format mp3 --audio-quality 160K --output "%(title)s.%(ext)s"'
 alias n='nvim'
-alias config='/usr/bin/git --git-dir=/home/chri/dotfiles --work-tree=/home/chri'
+alias config='/usr/bin/git --git-dir=/home/chris/dotfiles --work-tree=/home/chris'
 alias aurupd='yay -Sua'
 
 # archive extractor

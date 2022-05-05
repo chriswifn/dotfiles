@@ -11,7 +11,7 @@ xrandr --dpi 96
 setxkbmap -option caps:escape &
 sxhkd &
 xsetroot -cursor_name left_ptr &
-hsetroot -fill ~/pic/wallpapers/pacman.png &
+# hsetroot -fill ~/pic/wallpapers/pacman.png &
 #/usr/bin/emacs --daemon &
 unclutter &
 dunst &

@@ -36,6 +36,10 @@ super + shift + m
 super + s
   slock
 
+# calcurse
+super + c
+  st -e calcurse
+
 # pcmanfm
 super + shift + f 
 	pcmanfm

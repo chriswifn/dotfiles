@@ -1,17 +1,17 @@
 #!/bin/sh
 
-status="$(cat /sys/class/power_supply/BAT0/status 2>/dev/null)"
 capacity="$(cat /sys/class/power_supply/BAT0/capacity 2>/dev/null)"
-if [ "$status" != "Discharging" ]; then
+if [ "$capacity" -ge "66" ]; then
   color="#198844"
 else
-  [ "$capacity" -ge "30" ] && color="#fba922" || color="#cc342b"
+  [ "$capacity" -ge "33" ] && color="#fba922" || color="#cc342b"
 fi
-# to50=$((capacity / 2))
-# x=$((53 - to50))
-#
-# printf "%s\n" "^r0,7,4,6^^r2,5,52,10^^c#121f21^^r3,6,50,8^^c$color^^r$x,6,$to50,8^^d^^f54^" 
 
 to25=$((capacity / 4))
-x=$((28 - to25))
-printf "%s %s%%\n" "^r0,7,4,6^^r2,5,27,10^^c#121f21^^r3,6,25,8^^c$color^^r$x,6,$to25,8^^d^^f31^" "$capacity"
+x=$((29 - to25))
+printf "%s\n" "^r0,7,4,6^^r2,5,29,10^^c#121f21^^r3,6,27,8^^c$color^^r$x,7,$to25,6^^d^^f31^"
+
+# to50=$((capacity / 2))
+# x=$((54 - to50))
+# printf "%s\n" "^r0,7,4,6^^r2,5,54,10^^c#121f21^^r3,6,52,8^^c$color^^r$x,7,$to50,6^^d^^f56^"
+

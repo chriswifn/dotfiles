@@ -48,7 +48,7 @@ ex ()
       *.tar.gz)    tar xzf $1   ;;
       *.tar.xz)    tar xJf $1   ;;
       *.bz2)       bunzip2 $1   ;;
-      *.rar)       unrar x $1     ;;
+      *.rar)       unrar x $1   ;;
       *.gz)        gunzip $1    ;;
       *.tar)       tar xf $1    ;;
       *.tbz2)      tar xjf $1   ;;
@@ -64,3 +64,6 @@ ex ()
 }
 
 eval "$(starship init bash)"
+export NVIM_TUI_ENABLE_TRUE_COLOR=1
+#Neovim cursor shape support
+export NVIM_TUI_ENABLE_CURSOR_SHAPE=1

@@ -64,6 +64,6 @@ ex ()
 }
 
 eval "$(starship init bash)"
-export NVIM_TUI_ENABLE_TRUE_COLOR=1
-#Neovim cursor shape support
-export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+# export NVIM_TUI_ENABLE_TRUE_COLOR=1
+# Neovim cursor shape support
+# export NVIM_TUI_ENABLE_CURSOR_SHAPE=1

@@ -16,6 +16,7 @@ xsetroot -cursor_name left_ptr &
 unclutter &
 dunst &
 slstatus &
-while :; do 
+while :; do
   ssh-agent dwm
 done
+# exec ratpoison

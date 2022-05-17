@@ -1,6 +1,13 @@
 [line_break]
 disabled = true 
 
+[character]
+success_symbol="[>](bold green)"
+error_symbol="[>](bold red)"
+
+[directory]
+format="$path "
+
 [python]
 symbol = " "
 pyenv_version_name = true

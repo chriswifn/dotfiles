@@ -19,6 +19,6 @@ case "$(nmcli connection | grep "$CHOICE" | awk '{print $NF}')" in
 		;;
 	*)
 		off "$CHOICE" # && pkill -RTMIN+11 dwmblocks
-                exit
+    exit
 		;;
 esac

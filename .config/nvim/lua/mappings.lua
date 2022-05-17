@@ -9,8 +9,13 @@ end
 vim.g.mapleader = ' '
 -- Telescope 
 Mapear('n', '<leader>ff', ':Telescope find_files<cr>')
--- Tree 
+-- Tree
 Mapear('n', '<leader>e', ':NvimTreeToggle<cr>')
 -- COC 
 Mapear('i', '<TAB>', '<C-n>')
 Mapear('n', 'gd', '<Plug>(coc-definition)') -- <C-o> to go back
+-- splits navigation
+Mapear('n', '<C-h>', '<C-w>h')
+Mapear('n', '<C-j>', '<C-w>j')
+Mapear('n', '<C-k>', '<C-w>k')
+Mapear('n', '<C-l>', '<C-w>l')

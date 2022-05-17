@@ -21,6 +21,8 @@ return require('packer').startup(function()
 		requires = { {'nvim-lua/plenary.nvim'} }
 	}
 
+        -- Treesitter
+        use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
 	-- Autopairs
 	use {'windwp/nvim-autopairs'}
 
@@ -38,5 +40,8 @@ return require('packer').startup(function()
 
 	-- lualine 
 	use {'nvim-lualine/lualine.nvim'}
+
+        -- Colorizer
+        use {'norcalli/nvim-colorizer.lua'}
 
 end)

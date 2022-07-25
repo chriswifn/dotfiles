@@ -1,5 +1,13 @@
 # Basic Settings
-# set previewer ~/scripts/lf/preview
+set previewer lf-previewer 
+set cleaner lf-cleaner
+
+map x quitcd
+cmd quitcd ${{
+	echo "1" > "$LF_TEMPDIR"/cdtolastdir
+	lf -remote "send $id quit"
+}}
+
 # set preview true
 set hidden true
 set ignorecase true
@@ -7,11 +15,11 @@ set ignorecase true
 # Custom Functions
 cmd open ${{
     case $(file --mime-type "$f" -bL) in
-        text/*|application/json) lvim "$f";;
+        text/*|application/json) nvim "$f";;
         pdf/*|application/pdf) zathura "$f";;
         png/*|image/png) sxiv "$f";;
         jpg/*|image/jpg) sxiv "$f";;
-        jpeg/*|image/jped) sxiv "$f";;
+        jpeg/*|image/jpeg) sxiv "$f";;
         *) xdg-open "$f" ;;
     esac
 }}

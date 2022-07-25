@@ -10,10 +10,11 @@
 OPTIONS=$(awk '{print $1}' ~/.cache/bookmarks.txt)
 
 # echo to dmenu
-CHOICE=$(printf '%s\n' "$OPTIONS" | sort | dmenu -i -p "Choose bookmark:") || exit 0
+CHOICE=$(printf '%s\n' "$OPTIONS" | sort | dmenu -i -l 20 -p "Choose bookmark:") || exit 0
+# CHOICE=$(printf '%s\n' "$OPTIONS" | sort | fzfmenu) || exit 0
 
 [ "$CHOICE" = "tipptest" ] && setxkbmap de 
-URL=$(grep "$CHOICE" ~/.cache/bookmarks.txt | awk '{print $2}') && [ -z "$URL" ] && exit 0 || brave --new-window "$URL" 
+URL=$(grep "$CHOICE " ~/.cache/bookmarks.txt | awk '{print $2}') && [ -z "$URL" ] && exit 0 || firefox --new-window "$URL" 
 
 
 

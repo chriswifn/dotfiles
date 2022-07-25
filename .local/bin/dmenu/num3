@@ -2,7 +2,8 @@
 
 OPTIONS=$(awk '{print $1}' ~/.cache/num3.txt)
 
-CHOICE=$(echo "$OPTIONS" | dmenu -i -l 20 -p "Enter video:")
+CHOICE=$(echo "$OPTIONS" | dmenu -i -l 20 -p "Choose lession:")
+# CHOICE=$(echo "$OPTIONS" | fzfmenu)
 
 if [ "$CHOICE" ]; then
   vpn="vpn.uni-tuebingen.de"

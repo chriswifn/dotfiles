@@ -1,22 +1,10 @@
 #!/bin/sh
 
-drawwifi() {
-  col="#5c5c5c"
-  case "$(awk '/^\s*w/ {print int($3 * 100 / 70)}' /proc/net/wireless)" in
-    7[6-9]|8[0-9]|9[0-9]|100) printf "^r0,14,2,2^^r4,11,2,5^^r8,8,2,8^^r12,5,2,11^^f14^";;
-    5[1-9]|6[0-9]|7[0-4]) printf "^r0,14,2,2^^r4,11,2,5^^r8,8,2,8^^c$col^^r12,5,2,11^^d^^f14^";;
-    2[6-9]|3[0-9]|4[0-9]|50) printf "^r0,14,2,2^^r4,11,2,5^^$col^^r8,8,2,8^^r12,5,2,11^^d^^f14^";;
-    [1-9]|2[0-5]) printf "^r0,14,2,2^^$col^^r4,11,2,5^^r8,8,2,8^^r12,5,2,11^^d^^f14^";;
-    *) printf "^c$col^^r0,14,2,2^^r4,11,2,5^^r8,8,2,8^^r12,5,2,11^^d^^f14^";;
-  esac
-}
-
 if grep -xq 'up' /sys/class/net/wl*/operstate 2>/dev/null ; then
-  wifiicon="$(drawwifi)"
+    wifiicon="Wi-Fi"
 elif grep -xq 'down' /sys/class/net/wl*/operstate 2>/dev/null ; then
-  grep -xq '0x1003' /sys/class/net/wl*/flags && wifiicon="$(drawwifi)" || wifiicon="n/a"
+    grep -xq '0x1003' /sys/class/net/wl*/flags && wifiicon="down" || wifiicon="n/a"
 fi
 
-printf "%s %s %s%s\n" "$wifiicon" "$(sed "s/down/n\/a/;s/up/ETH/" /sys/class/net/enp2*/operstate 2>/dev/null)" "$(sed "s/.*/^c#969896^vpn^d^/"  /sys/class/net/wg-*/operstate 2>/dev/null)" "$(sed "s/.*/^c#cc342b^uni^d^/" /sys/class/net/ppp*/operstate 2>/dev/null)"
-
+printf "[%s %s %s%s] \n" "$wifiicon" "$(sed "s/down/n\/a/;s/up/ETH/" /sys/class/net/enp2*/operstate 2>/dev/null)" "$(sed "s/.*/vpn/"  /sys/class/net/wg-*/operstate 2>/dev/null)" "$(sed "s/.*/uni/" /sys/class/net/ppp*/operstate 2>/dev/null)"
 

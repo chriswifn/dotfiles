@@ -2,16 +2,15 @@
 disabled = true 
 
 [character]
-success_symbol="[>](bold green)"
-error_symbol="[>](bold red)"
+success_symbol="[❯❯❯](bold green)"
+error_symbol="[❯❯❯](bold red)"
 
 [directory]
 format="$path "
 
-[python]
-symbol = " "
-pyenv_version_name = true
-python_binary = "python3"
+# [python]
+# pyenv_version_name = true
+# python_binary = "python3"
 
 
 

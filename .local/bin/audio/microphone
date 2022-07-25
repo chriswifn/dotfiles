@@ -13,9 +13,9 @@ is_mute() {
 send_notification() {
   volume=$(get_volume)
   if [ "$(is_mute)" = "yes" ]; then
-    dunstify -h int:value:"$volume" -r 2593 -u normal "MICROPHONE:mute"
+    dunstify -r 2593 -u normal "MICROPHONE:mute"
   else
-    dunstify -h int:value:"$volume" -r 2593 -u normal "MICROPHONE:$volume"
+    dunstify -r 2593 -u normal "MICROPHONE:$volume"
   fi
 }
 

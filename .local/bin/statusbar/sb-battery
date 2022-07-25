@@ -1,17 +1,6 @@
 #!/bin/sh
 
 capacity="$(cat /sys/class/power_supply/BAT0/capacity 2>/dev/null)"
-if [ "$capacity" -ge "66" ]; then
-  color="#198844"
-else
-  [ "$capacity" -ge "33" ] && color="#fba922" || color="#cc342b"
-fi
+status="$(cat /sys/class/power_supply/BAT0/status 2>/dev/null)"
 
-to25=$((capacity / 4))
-x=$((29 - to25))
-printf "%s\n" "^r0,7,2,6^^r2,5,29,10^^c#121f21^^r3,6,27,8^^c$color^^r$x,7,$to25,6^^d^^f31^"
-
-# to50=$((capacity / 2))
-# x=$((54 - to50))
-# printf "%s\n" "^r0,7,4,6^^r2,5,54,10^^c#121f21^^r3,6,52,8^^c$color^^r$x,7,$to50,6^^d^^f56^"
-
+printf "[%s %s] " "$status" "$capacity"

@@ -3,15 +3,16 @@
 # Dmenu script to control network connection including vpns
 
 on() {
-	nmcli connection up "$1"
+	nmcli connection up "$1" # && dunstify -r 2593 -u normal "Network: Connected to $1"
 }
 
 off() {
-	nmcli connection down "$1"
+	nmcli connection down "$1" # && dunstify -r 2593 -u normal "Network: Disconnected from $1"
 }
 
 NAMES=$(nmcli connection | awk -F '  ' 'NR>=2 {print $1}')  
-CHOICE=$(echo "$NAMES" | dmenu -i -p "Choose connection:")  || exit 
+CHOICE=$(echo "$NAMES" | dmenu -i -p "Choose network option:")  || exit
+# CHOICE=$(echo "$NAMES" | fzfmenu)  || exit
 case "$(nmcli connection | grep "$CHOICE" | awk '{print $NF}')" in
 	"--") 
 		on "$CHOICE" # && pkill -RTMIN+11 dwmblocks

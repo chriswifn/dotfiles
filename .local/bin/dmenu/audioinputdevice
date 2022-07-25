@@ -6,11 +6,12 @@
 # Changes these variables
 # get them with command: pactl list sources | grep "Name:"
 # get the default one: pactl get-default-source
-pgrep -x dmenu && exit
+# pgrep -x dmenu && exit
 MICROPHONE_EXTERNAL="alsa_input.usb-0c76_USB_PnP_Audio_Device-00.mono-fallback"
 MICROPHONE_INTERNAL="alsa_input.pci-0000_04_00.6.analog-stereo"
 
-CHOICE=$(printf "external\ninternal" | dmenu -i -p "Choose device:")
+CHOICE=$(printf "external\ninternal" | dmenu -i -p "Choose input:")
+# CHOICE=$(printf "external\ninternal" | fzfmenu)
 case "$CHOICE" in
 	"external")
 		pactl set-default-source "$MICROPHONE_EXTERNAL"

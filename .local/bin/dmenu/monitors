@@ -2,11 +2,11 @@
 
 # script to adjust multiple monitors 
 
-pgrep -x dmenu && exit
+# pgrep -x dmenu && exit
 # function to arrange 2 displayport Monitors
 double_monitors() {
 	xrandr --output "$DP1" --auto --left-of "$EDP" --primary
-  xrandr --output "$DP2" --auto --left-of "$DP1"
+    xrandr --output "$DP2" --auto --left-of "$DP1" 
 	xrandr --output "$EDP" --off
 }
 
@@ -41,7 +41,8 @@ ALLPOSS=$(xrandr -q | grep "connected")
 # all connected screens
 SCREENS=$(echo "$ALLPOSS" | awk '/ connected/ {print $1}')
 
-CHOICE=$(echo "$SCREENS"  | dmenu -i -p "Choose arrangement:")
+CHOICE=$(echo "$SCREENS"  | dmenu -i -p "Choose option:")
+# CHOICE=$(echo "$SCREENS"  | fzfmenu)
 
 [ -z "$CHOICE" ] && exit 0
 

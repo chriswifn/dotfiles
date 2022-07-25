@@ -1,115 +1,125 @@
-
 # My Keyboard shortcuts that are independent from the window manager
-# For the scripts go to: chriswifn/scripts/system
+# For the scripts go to: chriswifn/dotfiles/.local/bin/...
 
+# restart sxhkd
 super + Escape
   pkill -USR1 -x sxhkd
+
 ################################################################################
-# Programs: Super + some other key on the keyboard
+# gui programs: <super> + <some other key(s)>
 ################################################################################
 
 # emacs
 super + e
   emacsclient -c -n -a 'emacs' 
 
-# htop
-super + shift + r 
-  st -e htop
-
-# lf 
-super + r
-	st -e lf 
-
 # zathura
 super + z
 	zathura
 
-# cmus
-super + a
-	st -e cmus
-
 # matlab
-super + shift + m
-	matlab -desktop -nosplash
+# super + shift + m
+#	matlab -desktop -nosplash
 
 # slock
-super + s
-  slock
-
-# calcurse
-super + c
-  st -e calcurse
+super + shift + s
+    slock
 
 # pcmanfm
 super + shift + f 
 	pcmanfm
 
-# dmenu
-super + shift + d
-	dmenu_run
-
-# brave
+# firefox 
 super + g
-	brave -no-default-browser-check
+	firefox -no-default-browser-check
 
-# vimb
-super + v
-  vimb
+################################################################################
+# terminal programs: <super> + <t> + <some other key> 
+################################################################################
+
+# tmux
+super + t;t
+    st -e tmux 
+
+# nvim
+super + t; n
+    st -e nvim
+
+# calcurse
+super + t; c
+    st -e calcurse
+
+# htop
+super + t; h
+    st -e htop
+
+# cmus
+super + t; a
+    st -e cmus
+
+super + t; r
+    st -e lf-run
+
+super + t; v
+    st -e pulsemixer
 
 
 ################################################################################
-# Scripts: Control + Alt + some other key on the keyboard
+# scripts that involve a menu: <super> + <p> + <some other key> 
 ################################################################################
+
+# applauncher: a fzf replacement for dmenu
+#fzfmenu_run 
+super + p; a
+    dmenu_run
+
 
 # script to adjust monitors
-control + alt + m
-	~/.local/bin/dmenu/monitors
+super + p; m
+    monitors 
 
 # script for bookmars
-control + alt + b
-	~/.local/bin/dmenu/bookmarks
+super + p; b
+    bookmarks	
 
 # script to change keyboard layout
-control + alt + k 
-	~/.local/bin/useful/keyboard
+super + p; k 
+    keyboard	
 
 # script to take a screenshot
-control + alt + s
-	~/.local/bin/dmenu/maimmenu
+super + p; s
+    maimmenu
 
 # script to control network connection
-control + alt + i
-	~/.local/bin/dmenu/network
+super + p; i
+    network
 
-control + alt + l
-	~/.local/bin/dmenu/logout
+super + p; l
+    logoutmenu
 
-control + alt + p
-	~/.local/bin/dmenu/passmenu
+super + p; p
+	passmen
 
-control + alt + v
-	~/.local/bin/dmenu/audiodevice
+super + p; w
+    connectwifi
 
-control + alt + x  
-	~/.local/bin/dmenu/audioinputdevice
+super + p; n
+    num3
 
-control + alt + w 
-	~/.local/bin/dmenu/connectwifi
+super + p; e
+    emojipicker
 
-control + alt + n
-  ~/.local/bin/dmenu/num3
+super + p; f
+    vid
 
-control + alt + e 
-  ~/.local/bin/dmenu/emojipicker
+super + p; c
+    picomtoggle
 
-control + alt + f
-  ~/.local/bin/useful/vid
-
-control + alt + o
-  ~/.local/bin/useful/mousepad
+super + p; x 
+    notify_battery
 
 ################################################################################
-# Scripts for audio and brightness contol: Super + Function key
+# scripts for audio and brightness contol: <super> + <fn[::digit::] >
 ################################################################################
 
 # script to mute volume
@@ -147,6 +157,3 @@ super + F8
 # script to switch between night and day mode
 super + F9
 	~/.local/bin/display/gamma
-
-
-

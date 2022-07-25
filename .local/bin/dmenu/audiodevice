@@ -6,11 +6,12 @@
 # Change these variables
 # get them with command: pactl list sinks | grep "Name:"
 # get the default one: pactl get-default-sink
-pgrep -x dmenu && exit
+# pgrep -x dmenu && exit
 HEADPHONE="alsa_output.usb-Lenovo_ThinkPad_USB-C_Dock_Audio_000000000000-00.analog-stereo"
 INTERNAL_LAPTOP="alsa_output.pci-0000_04_00.6.analog-stereo"
 
-CHOICE=$(printf "headphones\nspeaker" | dmenu -i -p "Choose device:") 
+CHOICE=$(printf "headphones\nspeaker" | dmenu -i -p "Choose output:")
+# CHOICE=$(printf "headphones\nspeaker" | fzfmenu) 
 case "$CHOICE" in
  	"headphones")
 		pactl set-default-sink "$HEADPHONE"

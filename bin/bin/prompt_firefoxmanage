@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# Description:  Script to focus a given firefox window 
+# Dependencies: tofi (wayland), rofi (xorg) 
+#               wmctrl
+# Author:       Christian Hageloch
+
+
+# set the prompt variable
+# this currently only works on xorg, because wayland doesn't have a tool similar
+# to wmctrl at least to my knowledge
+_PROMPT="rofi -dmenu -i -p "
+
+printf "%s\n" "$(wmctrl -l | grep -i firefox)" | sort | $_PROMPT "Tabs: " | awk '{print $1}' | xargs -r -i wmctrl -ia {}

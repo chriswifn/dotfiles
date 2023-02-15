@@ -1,0 +1,102 @@
+#!/bin/bash
+
+# TODO: Port the script over to posix shell
+
+# Description: script to check potential duplicates in students submissions to Matlab homeworks
+# Assumes directory structure:
+# .
+# ├── <student-1>
+# │   ├── <name>.m
+# │   └── <some-other-name>.m
+# ├── <student-2>
+# │   ├── <name>.m
+# │   └── <some-other-name>.m
+# ├── <student-3> 
+# │   ├── <name>.m
+# │   └── <some-other-name>.m
+# ├── <student-4> 
+# │   ├── <name>.m
+#     └── <some-other-name>.m
+# ...
+
+# CAUTION
+# DO NOT RUN THIS SCRIPT WITH MULTIPLE ARGUMENTS BECAUSE IT WON'T WORK
+# THIS SCRIPT IS NOT IDIOT PROOF SO USE IT AT YOUR OWN RISK
+# IF YOU USE IT WRONG IT MIGHT DELETE OVER OVERRIDE YOUR FILES
+
+# Instruction:
+# run the script like this:
+# checker <name>.m
+
+# Author: Christian Hageloch
+
+# prepare function
+# finds all the <name>.m files in the subdirectories
+# it will create a directory called checker-<name> that stores the diff files
+_prepare() {
+    # shellcheck disable=SC2207
+    _FILES=( $(find "$(pwd)" -type f -iname "$1" | sort) )
+    _NAME="$(basename "$1" .m)"
+    _DIR="$(pwd)"/checker-"$name"
+    # shellcheck disable=SC2015
+    [ -d "$_DIR" ] && echo "Directory $dir already exists. BREAK!" && exit 1 || mkdir "$_DIR"
+}
+
+# isolate the names (directory names) for file naming
+# the files will be called <student-...>_<student-...>.diff
+_get_parent() {
+    _COMPARE1="$(basename "$(dirname "$1")")"
+    _COMPARE2="$(basename "$(dirname "$2")")"
+}
+
+# diff command
+# -Bbwu -I flags should do the job in theory but the don't
+# ==> use of sed command to ignore whitespace, comments, and empty lines
+# runs the diff command through process substitution and outputs to
+# a file called
+# <student-...>_<student-...>.diff
+_create_diffs() {
+    for ((i=0; i<"${#_FILES[@]}"; i++)); do
+        for ((j=$((i + 1)); j<"${#_FILES[@]}"; j++)); do
+            get_parent "${_FILES[i]}" "${_FILES[j]}"
+            diff -Bbwu -I '/^\s*\%.*$' \
+                <(sed -e '/^\s*\%.*$/d ; /^\s*$/d ; s/\s\+//g' "${_FILES[i]}") \
+                <(sed -e '/^\s*\%.*$/d ; /^\s*$/d ; s/\s\+//g' "${_FILES[j]}") \
+                > "$_DIR"/"$_COMPARE1"_"$_COMPARE2".diff
+            _get_difference
+        done
+    done
+}
+
+# get the amount of changes (both addition and deletion)
+# stores the changes in a file called result-<name>.toml
+# makes a prediction on potential duplicates
+# currently: if additions + deletions <= 10 then it is very likely a duplicate
+# adjust the value in the if statement depending on the complexity of the
+# homework
+_get_difference() {
+    _ADDITION="$(grep -c -e '^\s*+[^+0]' "$dir"/"$_COMPARE1"_"$_COMPARE2".diff)"
+    _DELETION="$(grep -c -e '^\s*-[^-0]' "$dir"/"$_COMPARE1"_"$_COMPARE2".diff)"
+    [ $((_ADDITION + _DELETION)) -le 10 ] && _BOOL="true" || _BOOL="false"
+    printf '[%s - %s]\nadd = %s\ndelete = %s\nplagiat = %s\n\n' \
+        "$_COMPARE1" \
+        "$_COMPARE2" \
+        "$_ADDITION" \
+        "$_DELETION" \
+        "$_BOOL" \
+        >> result-"$_NAME".toml
+}
+
+# this function gets run when script is executed
+_main() {
+    _prepare "$1" && _create_diffs || exit 1
+}
+
+# if no argument is supplied the script exits
+# else it runs the main function with the argument
+if [ "$#" -eq 0 ]; then
+    echo "No argument. BREAK!"
+    exit 0
+else
+    _main "$1"
+fi

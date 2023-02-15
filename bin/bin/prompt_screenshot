@@ -1,0 +1,79 @@
+#!/bin/sh
+
+# Description:  A script with multiple options to take a screenshot on both Wayland and Xorg
+#               and save to ~/Pictures/screenshots/
+#               - a selected area
+#               - focused window
+#               - fullscreen
+# NOTE: wayland is only supported on Hyprland in case of the "current window" option
+# Dependencies: grim, slurp, tofi, hyprctl, jq (on Wayland)
+#               maim, rofi (on Xorg)
+#               a working Gnu/Linux system (gnu-utils)
+# Author:       Christian Hageloch
+
+
+# set the environment session variable 
+_SESSION="$XDG_SESSION_TYPE"
+
+# set the prompt variable based on _SESSION
+case "$_SESSION" in
+    wayland)
+	_PROMPT="tofi --prompt-text "
+	;;
+    *)
+	_PROMPT="rofi -dmenu -i -p "
+	;;
+esac
+
+# take a screenshot of selected area
+_selected_area() {
+    case "$_SESSION" in
+	wayland)
+	    grim -g "$(slurp)" ~/Pictures/screenshots/grim-selected-"$(date '+%y%m%d-%H%M-%S').png" 
+	;;
+	*)
+	    maim -s ~/Pictures/screenshots/maim-selected-"$(date '+%y%m%d-%H%M-%S').png" 
+	;;
+    esac
+}
+
+# take a screenshot of currently focused window
+_current_window() {
+    case "$_SESSION" in
+	wayland)
+	    # grim -g "$(hyprctl activewindow -j | jq -er '.at,.size' | jq -s "add" | jq '_nwise(4)' | jq -er '"\(.[0]),\(.[1]) \(.[2])x\(.[3])"')" ~/Pictures/screenshots/grim-window-"$(date '+%y%m%d-%H%M-%S').png"
+	    grim -g "$(swaymsg -t get_tree | jq -j '.. | select(.type?) | select(.focused).rect | "\(.x),\(.y) \(.width)x\(.height)"')" ~/Pictures/screenshots/grim-window-"$(date '+%y%m%d-%H%M-%S').png"
+	    ;;
+	*)
+	    maim -i "$(xdotool getactivewindow)" ~/Pictures/screenshots/maim-window-"$(date '+%y%m%d-%H%M-%S').png"
+	    ;;
+    esac
+}
+
+# take a fullscreen screenshot
+_fullscreen() {
+    case "$_SESSION" in
+	wayland)
+	    grim ~/Pictures/screenshots/grim-full-"$(date '+%y%m%d-%H%M-%S').png" 
+	;;
+	*)
+	    maim ~/Pictures/screenshots/maim-full-"$(date '+%y%m%d-%H%M-%S').png" 
+	;;
+    esac
+}
+
+# main part 
+case "$(printf "a selected area\ncurrent window\nfullscreen" | $_PROMPT "Screenshot: ")" in
+    "a selected area")
+	_selected_area
+	;;
+    "current window")
+	_current_window
+	;;
+    "fullscreen")
+	_fullscreen
+	;;
+    *)
+	exit 0
+	;;
+esac

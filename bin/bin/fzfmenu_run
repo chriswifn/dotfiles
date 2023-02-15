@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Description: dmenu_run alternative using fzfmenu
+# Dependencies: compgen, st, fzf
+# Author: Christian Hageloch
+
+
+compgen -c | fzfmenu | sh

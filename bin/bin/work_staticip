@@ -1,0 +1,71 @@
+#!/bin/bash
+
+# Description script to assign a static IP-address to a VM (KVM/Qemu) for port forwarding
+# Input:
+# - add: add a static IP to a given virtual machine
+# - delete: delete the static IP of a given virtual machine
+# - modify: change the static IP of a given virtual machine
+# - quit: quit the script
+# Dependencies: some sort of running kvm virtual machine, virsh
+# Author: Christian Hageloch
+
+
+PS3="Enter the number for the operation: "
+_OPTIONS=("add" "delete" "modify" "quit")
+
+select opt in "${_OPTIONS[@]}"
+do
+    case $opt in
+	add)
+	    read -p "Enter the Name of the VM: " _NAME
+	    read -p "Enter the IP-address you want to assign: " _IP
+	    _MAC="$(virsh dumpxml "$_NAME" | grep "mac adress" | awk -F\' '{print $2}')" 2>/dev/null
+	    virsh net-update default add-last ip-dhcp-host \
+		  "<host mac='$_MAC' name='$_NAME' ip='_$IP' />" \
+		  --live --config 2>/dev/null
+
+	    if [[ $? -ne 0 ]]; then
+		echo "Failed! There is no VM called $_NAME or your IP $_IP is not in range!"
+	    else
+		_RESULT="$(virsh net-dumpxml default | grep -i "host mac")"
+		echo -e "Done! Result: \n $_RESULT"
+	    fi
+	    ;;
+	delete)
+	    read -p "Enter the name of the VM: " _NAME
+	    _IP="$(virsh net-dumpxml default | grep "$_NAME" | awk -F \' '{print $6}')" 2>/dev/null
+	    _MAC="$(virsh net-dumpxml default | grep "$_NAME" | awk -F \' '{print $2}')" 2>/dev/null
+	    virsh net-update default delete ip-dhcp-host \
+		  "<host mac='$_MAC' name='$_NAME' ip='$_IP' />" \
+		  --live --config 2>/dev/null
+
+	    if [[ $? -ne 0 ]]; then
+		echo "Failed! There is no VM called $_NAME"
+	    else
+		_RESULT="$(virsh net-dumpxml default | grep -i "host mac")"
+		echo -e "Done! Result: \n $_RESULT"
+	    fi 
+	    ;;
+	modify)
+	    read -p "Enter the name of the VM: " _NAME
+	    _IP="$(virsh net-dumpxml default | grep "$_NAME" | awk -F\' '{print $6}')" 2>/dev/null
+	    _MAC="$(virsh dumpxml "$NAME" | grep "mac address" | awk -F\' '{print $2}')" 2>/dev/null
+	    virsh net-update default modify ip-dhcp-host \
+		  "<host mac='$MAC' name='$_NAME' ip='$_IP' />" \
+		  --live --config 2>/dev/null
+
+	    if [[ $? -ne 0 ]]; then
+		echo "Failed! There is no VM called $_NAME"
+	    else
+		_RESULT="$(virsh net-dumpxml default | grep -i "host mac")"
+		echo -e "Done! Result: \n $_RESULT"
+	    fi
+	    ;;
+	quit)
+	    break
+	    ;;
+	*)
+	    echo "Not a valid operation! It seems like you can't read!"
+	    ;;
+    esac
+done

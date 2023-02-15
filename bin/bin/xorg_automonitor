@@ -1,0 +1,30 @@
+#!/bin/sh
+
+# Description:  Script to manage multiple monitor setups 
+# Dependencies: xrandr 
+# Author:       Christian Hageloch
+
+
+_multihead() {
+    xrandr --output DisplayPort-3 --mode 1920x1080 --pos 0x0 \
+	   --output DisplayPort-2 --mode 1920x1080 --pos 1920x0 \
+	   --output eDP --off
+}
+
+_beamer() {
+    xrandr --output eDP --mode 1920x1080 \
+	   --output HDMI-1 --mode 1920x1080 --same-as eDP
+}
+
+_laptop() {
+    xrandr --output eDP --mode 1920x1080 --pos 0x0
+}
+
+# shellcheck disable=SC2143
+if [ -n "$(xrandr --query | grep 'DisplayPort-[[:digit:]] connected')" ] ; then
+    _multihead
+elif [ -n "$(xrandr --query | grep 'HDMI-A-[[:digit:]] connected')" ] ; then
+    _beamer
+else
+    _laptop
+fi

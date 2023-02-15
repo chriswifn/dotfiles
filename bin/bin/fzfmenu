@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# Description: a fzf+st replacement for dmenu, 
+# requires window rules in window manager in order to be centered
+# Dependencies: st, fzf
+# Author: Christian Hageloch
+
+
+_MYFZF="fzf --color=bg:#1e1e1e,bg+:#323232,fg+:#b6a0ff,hl+:#b6a0ff,hl:#f78fe7"
+st bash -c "$_MYFZF $* < /proc/$$/fd/0 > /proc/$$/fd/1"

@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# Description:  Toggle connection to my Soundcore bluetooth headphones
+# Dependencies: bluetoothctl, pactl
+# Author:       Christian Hageloch
+
+
+# variables
+_HEADPHONES_MAC="E8:EE:CC:00:AD:24"
+_HEADPHONES_SINK="bluez_output.E8_EE_CC_00_AD_24.1"
+_CUR_DEV="$(pactl get-default-sink)"
+
+# toggle
+if [ "$_CUR_DEV" = "$_HEADPHONES_SINK" ]; then
+    bluetoothctl disconnect "$_HEADPHONES_MAC" && bluetoothctl power off
+else
+    bluetoothctl power on && bluetoothctl connect "$_HEADPHONES_MAC"
+fi
+

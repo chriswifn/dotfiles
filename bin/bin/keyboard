@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# Description:  With input set the keyboard to input.
+#               Without input toggle between a German and English layout.
+# Dependencies: setxkbmap 
+# Author:       Christian Hageloch
+
+
+if [ -n "$1" ]; then
+    setxkbmap "$1"
+else
+    _LAYOUT=$(setxkbmap -query | awk '/layout/ {print $2}') 2>/dev/null
+    case "$_LAYOUT" in
+        us)
+            setxkbmap de
+            ;;
+        *)
+            setxkbmap us
+            ;;
+    esac
+fi

@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# Description: Script to remove output from compiling tex documents 
+# Dependencies: 
+# Author: Christian Hageloch
+# inspired by a script of Luke Smith
+
+case "$1" in
+	*.tex)
+	    _FILE=$(readlink -f "$1")
+	    _DIR=$(dirname "$file")
+	    _BASE="${file%.*}"
+	    find "$dir"  -maxdepth 1 -type f -regextype gnu-awk -regex "^$_BASE\\.(4tc|xref|tmp|pyc|pyg|pyo|fls|vrb|fdb_latexmk|bak|swp|aux|log|synctex\\(busy\\)|lof|lot|maf|idx|mtc|mtc0|nav|out|snm|toc|bcf|run\\.xml|synctex\\.gz|blg|bbl)" -delete
+	    rm -rdf "$_DIR/_minted-$(basename -- $_BASE)"
+	    ;;
+	*)
+	    printf "Give .tex file as argument.\\n"
+	    ;;
+esac

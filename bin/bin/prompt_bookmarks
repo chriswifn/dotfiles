@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# Description:  Script to manage bookmarks using a text file of the format
+#               <description> <url>
+# Dependencies: tofi (wayland), rofi (xorg) 
+#               firefox
+# Author:       Christian Hageloch
+
+
+# set the prompt variable
+case "$XDG_SESSION_TYPE" in
+    wayland)
+	_PROMPT="tofi --prompt-text "
+	;;
+    *)
+	_PROMPT="rofi -dmenu -i -p "
+	;;
+esac
+
+# return url
+_URL="$(cat ~/.cache/bookmarks.txt | sort | $_PROMPT "Bookmarks: ")"
+
+# pass url to firefox
+[ -n "$_URL" ] && firefox --new-tab "$_URL" || exit 1

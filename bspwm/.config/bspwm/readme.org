@@ -1,0 +1,27 @@
+#+title: bspwm configuration
+#+author: Christian Hageloch
+
+My configuration for the binary space partitioning window manager (bspwm)
+
+* Features
+
+** Run or raise
+A very simple run or raise implementation that is not window manager agnostic and doesn't work well with
+programs that rely on daemon processes 
+
+** Dynamic desktops
+(see =bspwm_dynamic_desktops=).
+The implementation is a 1:1 copy of [[https://gitlab.com/protesilaos/dotfiles/-/blob/master/bspwm/bin/bspwm_dynamic_desktops][Protesilaos Stavrou]].
+
+* Installation
+Dependencies:
+- bspwm
+- sxhkd
+- xprop, xrandr, ... (a working X environment basically)
+
+To install this configuration:
+#+begin_src sh
+git clone https://gitub.com/chriswifn/bspwm-config.git ~/.config/bspwm
+#+end_src
+  
+  

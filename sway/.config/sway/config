@@ -1,0 +1,206 @@
+################################################################################
+### Variables
+################################################################################
+
+# super key 
+set $mod Mod4
+
+# direction keys
+set $left h
+set $down j
+set $up k
+set $right l
+
+# terminal
+set $term foot
+
+# run prompt
+set $menu tofi-run | xargs swaymsg exec --
+
+# font
+font pango:Monoid regular 9
+
+################################################################################
+### Output configuration
+################################################################################
+
+# wallpaper
+output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+
+# monitor configuration multihead
+output DP-3 resolution 1920x1080 position 1920,0
+output DP-4 resolution 1920x1080 position 0,0
+output eDP-1 disable
+
+# monitor configuration singlehead
+# output eDP-1 resolution 1920x1080 poisition 0,0 
+
+################################################################################
+### Input configuration
+################################################################################
+
+input * {
+        xkb_layout "us,de"
+        xkb_options "caps:escape"
+    }
+
+################################################################################
+### Window rules
+################################################################################
+
+for_window [class=".*"] border pixel 4
+
+################################################################################
+### Key bindings
+################################################################################
+
+# terminal
+bindsym $mod+Return exec $term
+
+# drag floating windows
+floating_modifier $mod normal
+
+# move focus around
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+
+# Move the focused window with the same, but add Shift
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+
+# Workspaces:
+# Switch to workspace
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+# Move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+
+# control split direction
+bindsym $mod+b splith
+bindsym $mod+v splitv
+
+# Swap focus between the tiling area and the floating area
+bindsym $mod+space focus mode_toggle
+
+# Move focus to the parent container
+bindsym $mod+a focus parent
+
+# Scratchpad:
+# Move the currently focused window to the scratchpad
+bindsym $mod+Shift+minus move scratchpad
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+bindsym $mod+minus scratchpad show
+
+# Resizing containers:
+bindsym $mod+r mode "resize"
+mode "resize" {
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+    bindsym Return mode default
+    bindsym Escape mode default 
+}
+
+# prompt and custom prompt scripts
+bindsym $mod+d mode prompt
+mode prompt {
+    bindsym Escape mode default
+    bindsym a exec $menu, mode default
+    bindsym b exec prompt_bookmarks, mode default
+    bindsym s exec prompt_screenshot, mode default
+    bindsym l exec prompt_logout, mode default
+}
+
+# client side key bindings
+bindsym $mod+c mode client
+mode client {
+    bindsym Escape mode default
+    bindsym f fullscreen, mode default
+    bindsym space floating toggle, mode default
+    bindsym c kill, mode default
+}
+
+# sway side key bindings
+bindsym $mod+x mode sway
+mode sway {
+    bindsym Escape mode default
+    bindsym q exec swaymsg exit, mode default
+    bindsym r reload, mode default
+    bindsym s exec swaylock -c "#000000", mode default
+}
+
+# keybindings for gui programs
+bindsym $mod+g mode guiprograms 
+mode guiprograms {
+    bindsym Escape mode default
+    bindsym g exec swaymsg '[app_id=firefox] focus' || firefox, mode default 
+    bindsym e exec swaymsg '[class=Emacs] focus'  || emacs, mode default
+    bindsym t exec swaymsg '[app_id=foot] focus' || foot -e tmux new-session -A -s tempterm, mode default
+}
+
+bindsym $mod+m mode layout
+mode layout {
+     bindsym Escape mode default
+     bindsym s layout stacking, mode default
+     bindsym t layout tabbed, mode default
+     bindsym m layout toggle split, mode default
+}
+
+################################################################################
+### Status Bar
+################################################################################
+bar {
+    position bottom
+
+    font Monoid 9
+
+    height 28
+
+    status_command while date +'%Y-%m-%d %I:%M:%S %p'; do sleep 1; done
+
+    colors {
+        statusline #ffffff
+        background #303030
+        binding_mode #ff8f88 #ff8f88 #000000
+        focused_workspace #79a8ff #79a8ff #000000
+        inactive_workspace #535353 #ffffff #535353
+    }
+}
+
+################################################################################
+### Autostart
+################################################################################
+exec_always sway_colors
+exec_always wmname LG3D
+
+exec swayidle -w \
+     timeout 600 'swaylock -f -c 000000' \
+     timeout 900 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+     before-sleep 'swaylock -f -c 000000'
+
+
+include /etc/sway/config.d/*

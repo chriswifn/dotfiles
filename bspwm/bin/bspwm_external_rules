@@ -1,0 +1,36 @@
+#!/bin/sh
+
+# Description:  Window rules for bspwm
+# Author:       Christian Hageloch
+
+window_id="$1"
+window_class="$2"
+# shellcheck disable=SC2034
+window_instance="$3"
+window_title="$(xprop -id "$window_id" _NET_WM_NAME | sed '/^_NET_WM_NAME(UTF8_STRING)/!d ; s,.*"\(.*\)".*,\1,')"
+
+case "$window_class" in
+    [Ss]xiv|[Mm][Aa][Tt][Ll][Aa][Bb]*)
+	echo "state=floating"
+	echo "center=on"
+	;;
+    *)
+	case "$(xprop -id "$window_id" _NET_WM_WINDOW_TYPE)" in
+	    *_NET_WM_WINDOW_TYPE_DIALOG*|*_NET_WM_WINDOW_TYPE_SPLASH*)
+		echo "state=floating"
+		echo "center=on"
+		;;
+	    *)
+		echo "state=tiled"
+		;;
+	esac
+	;;
+esac
+
+case "$window_title" in
+    'File Operations'*|'Save As'*)
+	echo "state=floating"
+	echo "center=on"
+	;;
+esac
+

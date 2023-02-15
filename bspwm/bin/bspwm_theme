@@ -1,0 +1,119 @@
+#!/bin/sh
+
+# Description:  Script to change between a light and dark theme in bspwm and
+#               programs that I use.
+#               Heavily inspired by https://git.sr.ht/~protesilaos/dotfiles/tree/master/item/bin/bin/delight
+#               This is a worse version so checkout Protesilaos Stavrous version
+# Dependencies: Script doesn't execute that parts that have missing dependencies
+# Author:       Christian Hageloch
+
+
+
+# Check command 
+_depcheck() {
+    command -v "$1" > /dev/null || { echo "Missing dependency: $1."; return 1; }
+}
+
+# for managing dotfiles with GNU Stow
+_sed() {
+    sed --follow-symlinks -i "$@"
+}
+
+# Alacritty
+_alacritty() {
+    _depcheck alacritty
+    _ALACRITTY_CONFIG="$HOME"/.config/alacritty/modus-themes-active.yml
+    case "$__STYLE" in
+	modus-operandi) _sed "s/vivendi/operandi/" "$_ALACRITTY_CONFIG" ;;
+	modus-vivendi) _sed "s/operandi/vivendi/" "$_ALACRITTY_CONFIG" ;;
+    esac
+}
+
+# Neovim
+_neovim() {
+    _depcheck nvim
+    _NVIM_CONFIG="$HOME"/.config/nvim/after/plugin/colors.lua
+    case "$__STYLE" in
+	modus-operandi) _sed 's/vim.o.background = "dark"/vim.o.background = "light"/' "$_NVIM_CONFIG";;
+	modus-vivendi) _sed 's/vim.o.background = "light"/vim.o.background = "dark"/' "$_NVIM_CONFIG";;
+    esac
+}
+
+# Rofi
+_rofi() {
+    _depcheck rofi
+    _ROFI_CONFIG="$HOME"/.config/rofi/themes/modus-themes-active.rasi
+    # shellcheck disable=SC2086
+    echo -e '@import "'${_STYLE}'.rasi"' > "$_ROFI_CONFIG"
+}
+
+# Xresources
+# I use Xresources to manage dmenu, st colors 
+_xresources() {
+    _depcheck dmenu
+    _depcheck st
+    _XRESOURCES_CONFIG="$HOME"/.config/x11/xresources
+    case "$_STYLE" in
+        modus-operandi) _sed "s/vivendi/operandi/" "$_XRESOURCES_CONFIG" ;;
+	modus-vivendi) _sed "s/operandi/vivendi/" "$_XRESOURCES_CONFIG" ;;
+    esac
+    xrdb -merge "$_XRESOURCES_CONFIG"
+    # TODO if this doesn't work: Install the st Xresources patch
+    pidof st | xargs kill -s USR1
+}
+
+# Emacs
+_emacs() {
+    _depcheck emacs
+    pgrep -x emacs > /dev/null || return 1
+    emacsclient -e "(modus-themes-load-theme '${_STYLE})" > /dev/null
+}
+
+# Gtk
+_gtk() {
+    _gtk_common() {
+	_sed "s,\(gtk-theme-name=\).*,\1${1}, ; s,\(gtk-icon-theme-name=\).*,\1${2}," \
+             "$HOME"/.config/gtk-3.0/settings.ini
+    }
+    _gtk_live() {
+	_depcheck xsettingsd
+	_XSETTINGSD_CONFIG="$HOME"/.config/xsettingsd/xsettingsd.conf
+	if [ -f "$_XSETTINGSD_CONFIG" ]
+	then
+	    _sed "s,\(.*\/ThemeName\) \"[a-zA-Z-]*\",\1 \"${1}\"," "$_XSETTINGSD_CONFIG"
+	fi 
+	pgrep -xo xsettingsd > /dev/null && pkill -xo xsettingsd
+        xsettingsd -c "$_XSETTINGSD_CONFIG" &
+    }
+    case "$_STYLE" in
+	modus-operandi)
+	    _gtk_common 'Adwaita' 'Adwaita'
+	    _gtk_live 'Adwaita'
+	    ;;
+	modus-vivendi)
+	    _gtk_common 'Adwaita-dark' 'Adwaita'
+	    _gtk_live 'Adwaita-dark'
+	    ;;
+    esac
+}
+
+# main part
+_depcheck bspwm 
+_WM_THEME="$HOME"/.config/bspwm/active-theme
+case "$(cat "$_WM_THEME")" in
+    modus-operandi)
+	_STYLE="modus-vivendi"
+	echo "$_STYLE" > "$_WM_THEME"
+	;;
+    modus-vivendi)
+	_STYLE="modus-operandi"
+	echo "$_STYLE" > "$_WM_THEME"
+	;;
+esac
+_alacritty
+_emacs
+_neovim
+_rofi
+_xresources
+_gtk
+bspwm_conf_colors 

@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# Description:  Define bspwm workspaces (used with bspwm_dynamic_desktops)
+# Author:       Christian Hageloch
+
+bspc config remove_unplugged_monitors true
+bspc config remove_disabled_monitors true
+
+# shellcheck disable=SC2143
+if [ "$(bspc query -M --names | grep "DisplayPort")" ]; then
+	bspc monitor DisplayPort-3 -d 1
+	bspc monitor DisplayPort-2 -d 8
+else
+	bspc monitor -d web emacs sys
+fi
+

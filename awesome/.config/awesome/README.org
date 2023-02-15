@@ -1,0 +1,15 @@
+#+TITLE: AwesomeWM configuration
+#+AUTHOR: Christian Hageloch
+
+
+* Configuration
+Very basic configuration of the Awesome Window Manager.
+Custom settings:
+- Modus-Vivendi and Modus-Operandi themes 
+- dynamic tags
+- keychords
+
+* Installation
+#+begin_src emacs-lisp
+  git clone https://github.com/chriswifn/awesomewm-config.git ~/.config/awesome
+#+end_src

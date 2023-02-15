@@ -1,0 +1,35 @@
+dmenu.font : Monoid:size=9
+dmenu.background : #ffffff 
+dmenu.foreground : #000000
+dmenu.selbackground : #c0deff
+dmenu.selforeground : #000000
+
+dwm.normbordercolor: #ffffff
+dwm.normbgcolor: #e6e6e6
+dwm.normfgcolor: #000000
+dwm.selbordercolor: #721045
+dwm.selbgcolor: #c8c8c8
+dwm.selfgcolor: #000000
+
+st.font: Monoid-9;
+st.color0: #000000
+st.color1: #a60000
+st.color2: #005e00
+st.color3: #813e00
+st.color4: #0031a9
+st.color5: #721045
+st.color6: #00538b
+st.color7: #bfbfbf
+st.color8: #595959
+st.color9: #972500
+st.color10: #315b00
+st.color11: #70480f
+st.color12: #2544bb
+st.color13: #5317ac
+st.color14: #005a5f
+st.color15: #ffffff
+st.background: #ffffff
+st.foreground: #000000
+st.cursorColor: #000000
+
+

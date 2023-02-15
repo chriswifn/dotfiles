@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Description: Run or raise functionality for bspwm 
+# Dependencies: xdotool, bspc 
+# Author: Christian Hageloch
+
+_CLASS="${*:1:1}"
+_COMMAND="${*:2}"
+
+if _WINID=$(xdotool search --class "$_CLASS") ; then
+    for i in $_WINID; do
+        bspc node -f "$(printf "0x%x\n" "$i")" && break
+    done
+else
+    # shellcheck disable=SC2046
+    exec $_COMMAND
+fi

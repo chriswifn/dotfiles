@@ -1,0 +1,12 @@
+#!/bin/bash
+
+_CLASS="${*:1:1}"
+_COMMAND="${*:2}"
+
+if _WINID=$(swaymsg -t get_tree | sed -En "/\"(app_id|class)\"/ { /null/d;s/.*\"(class|app_id)\": \"([^\"]*)\".*/\1=\2/;p; }" | grep "$_CLASS"); then
+    for i in $_WINID; do
+	swaymsg "["$i"] focus" && break
+    done
+else
+    exec $_COMMAND
+fi

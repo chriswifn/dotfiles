@@ -1,0 +1,11 @@
+#+TITLE: My configuration files for Arch Linux
+
+This is a set of configuration files for my Linux setup.
+
+* Installation
+
+#+begin_src bash
+git clone https://github.com/chriswifn/dotfiles
+cd dotfiles
+stow *
+#+end_src

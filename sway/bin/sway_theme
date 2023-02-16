@@ -1,0 +1,107 @@
+#!/bin/bash
+
+# Description:  Script to change between a light and dark theme in swaywm and
+#               programs that I use.
+#               Heavily inspired by https://git.sr.ht/~protesilaos/dotfiles/tree/master/item/bin/bin/delight
+#               This is a worse version so checkout Protesilaos Stavrous version
+# Dependencies: Script doesn't execute that parts that have missing dependencies
+# Author:       Christian Hageloch
+
+
+# Check command 
+_depcheck() {
+    command -v "$1" > /dev/null || { echo "Missing dependency: $1."; return 1; }
+}
+
+# for managing dotfiles with GNU Stow
+_sed() {
+    sed --follow-symlinks -i "$@"
+}
+
+# Alacritty
+_alacritty() {
+    _depcheck alacritty
+    _ALACRITTY_CONFIG="$HOME"/.config/alacritty/modus-themes-active.yml
+    case "$_STYLE" in
+	modus-operandi) _sed "s/vivendi/operandi/" "$_ALACRITTY_CONFIG" ;;
+	modus-vivendi) _sed "s/operandi/vivendi/" "$_ALACRITTY_CONFIG" ;;
+    esac
+}
+
+# Neovim
+_neovim() {
+    _depcheck nvim
+    _NVIM_CONFIG="$HOME"/.config/nvim/after/plugin/colors.lua
+    case "$_STYLE" in
+	modus-operandi) _sed 's/vim.o.background = "dark"/vim.o.background = "light"/' "$_NVIM_CONFIG";;
+	modus-vivendi) _sed 's/vim.o.background = "light"/vim.o.background = "dark"/' "$_NVIM_CONFIG";;
+    esac
+}
+
+# Emacs
+_emacs() {
+    _depcheck emacs
+    pgrep -x emacs > /dev/null || return 1
+    emacsclient -e "(modus-themes-load-theme '${_STYLE})" > /dev/null
+}
+
+_ggtk() {
+    gsettings "$1" org.gnome.desktop.interface gtk-theme "${@:2}"
+}
+
+_gcolor_scheme() {
+    gsettings "$1" org.gnome.desktop.interface color-scheme "${@:2}"
+}
+
+# Get the GTK theme
+_ggtk_get() {
+    _ggtk 'get'
+}
+
+# Set the GTK theme
+_ggtk_set() {
+    _ggtk 'set' "$1"
+}
+
+# Get the Color Scheme
+_gcolor_scheme_get() {
+    _gcolor_scheme 'get'
+}
+
+# Set the Color Scheme
+_gcolor_scheme_set() {
+    _gcolor_scheme 'set' "$1"
+}
+
+_gtheme () {
+    _depcheck gsettings
+
+    if [ "$_STYLE" = "modus-vivendi" ]; then
+        _ggtk_set 'Adwaita-dark'
+        _gcolor_scheme_set 'prefer-dark'
+    else
+        _ggtk_set 'Adwaita'
+        _gcolor_scheme_set 'prefer-light'
+    fi
+}
+
+# main part
+_depcheck sway
+_WM_THEME="$HOME"/.config/sway/active-theme
+case "$(cat "$_WM_THEME")" in
+    modus-operandi)
+	_STYLE="modus-vivendi"
+	echo "$_STYLE" > "$_WM_THEME"
+	;;
+    modus-vivendi)
+	_STYLE="modus-operandi"
+	echo "$_STYLE" > "$_WM_THEME"
+	;;
+esac
+_alacritty
+_emacs
+_neovim
+_gtheme
+
+
+

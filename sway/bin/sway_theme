@@ -38,6 +38,15 @@ _neovim() {
     esac
 }
 
+_tofi() {
+    _depcheck tofi
+    _TOFI_CONFIG="$HOME"/.config/tofi/config
+    case "$_STYLE" in
+	modus-operandi) _sed "s/vivendi/operandi/" "$_TOFI_CONFIG" ;;
+	modus-vivendi) _sed "s/operandi/vivendi/" "$_TOFI_CONFIG" ;;
+    esac
+}
+
 # Emacs
 _emacs() {
     _depcheck emacs
@@ -117,6 +126,7 @@ case "$(cat "$_WM_THEME")" in
 	;;
 esac
 _alacritty
+_tofi
 _emacs
 _neovim
 _gtheme

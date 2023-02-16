@@ -33,7 +33,7 @@ output DP-4 resolution 1920x1080 position 0,0
 output eDP-1 disable
 
 # monitor configuration singlehead
-# output eDP-1 resolution 1920x1080 poisition 0,0 
+# output eDP-1 resolution 1920x1080 position 0,0 
 
 ################################################################################
 ### Input configuration

@@ -174,6 +174,7 @@ mode layout {
 ### Status Bar
 ################################################################################
 bar {
+    id 0
     position bottom
 
     font Monoid 9
@@ -184,7 +185,7 @@ bar {
 
     colors {
         statusline #ffffff
-        background #303030
+        background #000000
         binding_mode #ff8f88 #ff8f88 #000000
         focused_workspace #79a8ff #79a8ff #000000
         inactive_workspace #535353 #ffffff #535353

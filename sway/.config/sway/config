@@ -12,7 +12,7 @@ set $up k
 set $right l
 
 # terminal
-set $term foot
+set $term alacritty
 
 # run prompt
 set $menu tofi-run | xargs swaymsg exec --
@@ -159,7 +159,7 @@ mode guiprograms {
     bindsym Escape mode default
     bindsym g exec swaymsg '[app_id=firefox] focus' || firefox, mode default 
     bindsym e exec swaymsg '[class=Emacs] focus'  || emacs, mode default
-    bindsym t exec swaymsg '[app_id=foot] focus' || foot -e tmux new-session -A -s tempterm, mode default
+    bindsym t exec swaymsg '[app_id=Alacritty] focus' || alacritty -e tmux new-session -A -s tempterm, mode default
 }
 
 bindsym $mod+m mode layout
@@ -187,8 +187,8 @@ bar {
         statusline #ffffff
         background #000000
         binding_mode #ff8f88 #ff8f88 #000000
-        focused_workspace #79a8ff #79a8ff #000000
-        inactive_workspace #535353 #ffffff #535353
+	focused_workspace '#aaaaaa' '#efefef' '#000000'
+	inactive_workspace '#ffffff' '#ffffff' '#505050'
     }
 }
 

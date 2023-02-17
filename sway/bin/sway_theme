@@ -108,8 +108,8 @@ case "$(cat "$_WM_THEME")" in
         swaymsg bar 0 colors background '#000000'
         swaymsg bar 0 colors statusline '#ffffff'
         swaymsg bar 0 colors binding_mode '#ff8f88' '#ff8f88' '#000000'
-        swaymsg bar 0 colors focused_workspace '#aaaaaa' '#efefef' '#000000'
-        swaymsg bar 0 colors inactive_workspace '#ffffff' '#ffffff' '#505050'
+        swaymsg bar 0 colors focused_workspace '#000000' '#79a8ff' '#000000'
+        swaymsg bar 0 colors inactive_workspace '#000000' '#2fafff' '#000000'
 	;;
     modus-vivendi)
         _STYLE="modus-operandi"
@@ -121,8 +121,8 @@ case "$(cat "$_WM_THEME")" in
         swaymsg bar 0 colors background '#ffffff'
         swaymsg bar 0 colors statusline '#000000'
         swaymsg bar 0 colors binding_mode '#cd2f30' '#cd2f30' '#ffffff'
-        swaymsg bar 0 colors focused_workspace '#535353' '#303030' '#ffffff'
-        swaymsg bar 0 colors inactive_workspace '#000000' '#000000' '#989898'
+        swaymsg bar 0 colors focused_workspace '#ffffff' '#2544bb' '#ffffff'
+        swaymsg bar 0 colors inactive_workspace '#ffffff' '#0031a9' '#ffffff'
 	;;
 esac
 _alacritty

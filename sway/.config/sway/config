@@ -133,6 +133,7 @@ mode prompt {
     bindsym b exec prompt_bookmarks, mode default
     bindsym k input type:keyboard xkb_switch_layout next, mode default 
     bindsym s exec prompt_screenshot, mode default
+    bindsym t exec sway_theme, mode default
     bindsym l exec prompt_logout, mode default
 }
 

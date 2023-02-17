@@ -42,7 +42,7 @@ output eDP-1 disable
 input * {
         xkb_layout "us,de"
         xkb_options "caps:escape"
-    }
+}
 
 ################################################################################
 ### Window rules
@@ -131,6 +131,7 @@ mode prompt {
     bindsym Escape mode default
     bindsym a exec $menu, mode default
     bindsym b exec prompt_bookmarks, mode default
+    bindsym k input type:keyboard xkb_switch_layout next, mode default 
     bindsym s exec prompt_screenshot, mode default
     bindsym l exec prompt_logout, mode default
 }

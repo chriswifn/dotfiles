@@ -1,6 +1,6 @@
 #+TITLE: My configuration files for Arch Linux
 
-This is a set of configuration files for my Linux setup.
+This is a set of configuration files for my Arch Linux setup.
 
 * Installation
 

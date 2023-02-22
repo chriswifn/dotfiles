@@ -15,7 +15,7 @@ set $right l
 set $term foot
 
 # run prompt
-set $menu tofi-drun | xargs swaymsg exec --
+set $menu tofi-run | xargs swaymsg exec --
 
 # font
 font pango:Monoid regular 9

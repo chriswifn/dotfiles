@@ -2,12 +2,19 @@
 
 # Description:  Make screen sharing work temporarily on chosen output on SwayWM.
 # Dependencies: xdg-desktop-portal, xdg-desktop-portal-wlr, sway
+# Author:       Christian Hageloch
 
 export XDG_CURRENT_DESKTOP=sway
 
 # set the prompt variable
 _PROMPT="tofi --prompt-text "
 
+# get the output for sharing
 _OUTPUT="$(swaymsg -pt get_outputs | grep "Output" | $_PROMPT "Choose monitor: " | awk '{print $2}')"
 
-/usr/lib/xdg-desktop-portal -r & /usr/lib/xdg-desktop-portal-wlr -r -o "$_OUTPUT" &
+# if no output is chosen, exit
+if [ -n "$_OUTPUT" ]; then
+    /usr/lib/xdg-desktop-portal -r & /usr/lib/xdg-desktop-portal-wlr -r -o "$_OUTPUT" &
+else
+    exit 0
+fi

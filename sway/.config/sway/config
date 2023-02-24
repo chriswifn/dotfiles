@@ -96,8 +96,8 @@ bindsym $mod+Shift+8 move container to workspace number 8
 bindsym $mod+Shift+9 move container to workspace number 9
 bindsym $mod+Shift+0 move container to workspace number 10
 # previous and next workspace
-bindsym $mod+p workspace prev
-bindsym $mod+n workspace next
+bindsym $mod+p workspace prev_on_output
+bindsym $mod+n workspace next_on_output
 
 # control split direction
 bindsym $mod+b splith

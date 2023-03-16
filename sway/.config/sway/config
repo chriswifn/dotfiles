@@ -179,26 +179,26 @@ mode layout {
 ################################################################################
 ### Status Bar
 ################################################################################
-bar {
-    id 0
-    position bottom
+# bar {
+#     id 0
+#     position bottom
 
-    font Monoid 9
+#     font Monoid 9
 
-    height 28
+#     height 28
 
-    status_command while date +'%Y-%m-%d %H:%M:%S'; do sleep 1; done
+#     status_command while date +'%Y-%m-%d %H:%M:%S'; do sleep 1; done
 
-    colors {
-        statusline #ffffff
-        background #000000
-        binding_mode #000000 #000000 #79a8ff
-	focused_workspace '#000000' '#000000' '#ffffff'
-	active_workspace '#000000' '#000000' '#535353'
-	inactive_workspace '#000000' '#000000' '#303030'
-	urgent_workspace '#000000' '#000000' '#ff8f88'
-    }
-}
+#     colors {
+#         statusline #ffffff
+#         background #000000
+#         binding_mode #000000 #000000 #79a8ff
+# 	focused_workspace '#000000' '#000000' '#ffffff'
+# 	active_workspace '#000000' '#000000' '#535353'
+# 	inactive_workspace '#000000' '#000000' '#303030'
+# 	urgent_workspace '#000000' '#000000' '#ff8f88'
+#     }
+# }
 
 ################################################################################
 ### Autostart

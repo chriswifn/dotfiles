@@ -25,12 +25,12 @@ font pango:Monoid regular 9
 ################################################################################
 
 # wallpaper
-output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+# output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 
 # monitor configuration multihead
-output DP-3 resolution 1920x1080 position 1920,0
-output DP-4 resolution 1920x1080 position 0,0
-output eDP-1 disable
+# output DP-3 resolution 1920x1080 position 1920,0
+# output DP-4 resolution 1920x1080 position 0,0
+# output eDP-1 disable
 
 # monitor configuration singlehead
 # output eDP-1 resolution 1920x1080 position 0,0 
@@ -182,13 +182,13 @@ mode layout {
 # bar {
 #     id 0
 #     position bottom
-
+#
 #     font Monoid 9
-
+#
 #     height 28
-
+#
 #     status_command while date +'%Y-%m-%d %H:%M:%S'; do sleep 1; done
-
+#
 #     colors {
 #         statusline #ffffff
 #         background #000000
@@ -204,12 +204,12 @@ mode layout {
 ### Autostart
 ################################################################################
 exec_always sway_colors
+exec_always sway_monitors
 exec_always wmname LG3D
 
 exec swayidle -w \
      timeout 600 'swaylock -f -c 000000' \
      timeout 900 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
      before-sleep 'swaylock -f -c 000000'
-
 
 include /etc/sway/config.d/*

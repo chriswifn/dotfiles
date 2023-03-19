@@ -21,4 +21,4 @@ esac
 _URL="$(cat ~/.cache/bookmarks.txt | sort | $_PROMPT "Bookmarks: ")"
 
 # pass url to firefox
-[ -n "$_URL" ] && firefox --new-tab "$_URL" || exit 1
+[ -n "$_URL" ] && firefox --new-window "$_URL" || exit 1

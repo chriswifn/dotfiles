@@ -340,10 +340,3 @@ if __name__ == "__main__":
         switchToNextWS()
     else:
         sys.exit(0)
-
-proc_out = subprocess.run(['swaymsg', '-t', 'get_workspaces'], stdout=subprocess.PIPE)
-wkList = json.loads(proc_out.stdout.decode('utf-8'))
-
-
-
- 

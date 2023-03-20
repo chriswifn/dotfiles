@@ -169,7 +169,7 @@ def createProject(projectName):
     output: void
     """
     if projectName == True:
-        tofi_cmd = "tofi --height=40 --prompt-text='Enter project name: '"
+        tofi_cmd = "tofi --prompt-text='Enter project name: '"
         projectName = tofi("", tofi_cmd)
 
     if (projectName is None) or (len(projectName) == 0):
@@ -215,7 +215,7 @@ def renameProject():
     input:
     output: void
     """
-    tofi_cmd = "tofi --height=40 --prompt-text='Enter new project name: '"
+    tofi_cmd = "tofi --prompt-text='Enter new project name: '"
     projectName = tofi("", tofi_cmd)
 
     if (projectName is None) or (len(projectName) == 0):

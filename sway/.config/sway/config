@@ -200,16 +200,6 @@ bar {
     height 28
 
     status_command while date +'%Y-%m-%d %H:%M:%S'; do sleep 1; done
-
-    colors {
-        statusline #ffffff
-        background #535353
-        binding_mode #535353 #535353 #ffffff
-	focused_workspace '#535353' '#535353' '#ffffff'
-	active_workspace '#535353' '#535353' '#a8a8a8'
-	inactive_workspace '#535353' '#535353' '#a8a8a8'
-	urgent_workspace '#535353' '#535353' '#ff8f88'
-    }
 }
 
 ################################################################################

@@ -1,8 +1,12 @@
-include = modus-operandi
-anchor = center 
-width = 40%
-height = 30%
-horizontal = false
+include = modus-vivendi
+anchor = bottom
+# anchor = center 
+width = 100%
+# width = 40%
+height = 28
+# height = 30%
+horizontal = true
+# horizontal = false
 font-size = 9
 prompt-text = "M-x "
 font = Monoid

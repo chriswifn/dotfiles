@@ -5,13 +5,14 @@
 # Author:       Christian Hageloch
 # Inspired by https://github.com/sainathadapa/sway-wm-multi-disp-scripts
 # This is just a wrapper around that project to call a single script
-# with less functionality that I don't need
+# with some things strapped out and some additional functionality 
 
 import re
 import subprocess
 import json
 import sys
 import argparse
+import os
 
 # Helper function: tofi wrapper for text input
 def tofi(options, tofi):
@@ -160,6 +161,108 @@ def getListOfProjects(wkList):
     sortedProjects = [x for (y, x) in sorted(zip(out3, listOfProjects))]
 
     return sortedProjects
+
+# Helper function: Return the name of programm with pid
+def proc_name_by_pid(pid):
+    """
+    Return the name of program with pid
+    input: pid (str)
+    output: name (str)
+    """
+    pid_path = "/proc/{}/comm".format(pid)
+    name = "???"
+    if os.path.exists(pid_path):
+        with open(pid_path) as f:
+            name = f.read().rstrip('\n')
+    return name
+
+# Helper function: Process a single window
+def process_window(window, workspace):
+    """
+    Process a single window (make output appealing for tofi selection menu)
+    input: window (dict), workspace (str)
+    output: str
+    """
+    focused = "  "
+    if window["focused"]:
+        focused = " *"
+    if workspace == "__i3_scratch":
+        workspace = "S"
+    name = proc_name_by_pid(window["pid"]).ljust(20)
+    ids = "{}{} ({})".format(focused, workspace, window["id"]).ljust(10)
+    return "{} | {} | {}".format(ids, name, window["name"])
+
+# Helper function: recursively process a windows set
+def process_windows(windows, workspace):
+    """
+    Recursively process a windows set
+    input: windows (set), workspace (str)
+    output: list
+    """
+    ret = []
+    for window in windows:
+        sub_wins = window["nodes"]
+        if len(sub_wins) == 0:
+            desc = process_window(window, workspace)
+            ret.append(desc)
+        else:
+            ret += process_windows(sub_wins, workspace)
+    return ret
+
+# Helper function: lookup windows
+def lookup_windows():
+    """
+    Lookup windows
+    input:
+    output: windows (list) 
+    """
+    windows = []
+    command = "swaymsg -t get_tree"
+    process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    data = json.loads(process.communicate()[0])
+    outputs = data["nodes"]
+
+    proc_out = subprocess.run(['swaymsg', '-t', 'get_workspaces'], stdout=subprocess.PIPE)
+    wkList = json.loads(proc_out.stdout.decode('utf-8'))
+
+    currentWK = getFocusedWK(wkList)
+    currentProj = getProjectFromWKName(currentWK)
+
+    for output in outputs:
+        workspaces = output["nodes"]
+        for wk in workspaces:
+            if currentProj in wk["name"]:
+                workspace_name = wk["name"]
+                windows += process_windows(wk["nodes"], workspace_name)
+                windows += process_windows(wk["floating_nodes"], workspace_name)
+    return windows
+
+# Helper function: Show menu of open applications in project
+def show_menu(windows):
+    """
+    Show menu of open applications in project
+    input: windows (set)
+    output: selection (str)
+    """
+    command="tofi --horizontal=false --height=15% --prompt-text 'Running applications: '"
+    enter="\n"
+    input=enter.join(windows).encode("UTF-8")
+    process = subprocess.Popen(command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    selected = process.communicate(input)[0]
+    selected = str(selected, 'UTF-8')
+    if selected == "":
+        sys.exit(0)
+    return re.search('\(([0-9]+)\)', selected).group(1)
+
+# Helper function: Switch focus to the selected window
+def focus_window(selection):
+    """
+    Switch focus to the selected window
+    input: selection (str)
+    output: void
+    """
+    command="swaymsg [con_id=\"{}\"] focus".format(id)
+    subprocess.Popen(command, shell=True)
 
 # Create a new project
 def createProject(projectName):
@@ -326,8 +429,9 @@ if __name__ == "__main__":
     argParser = argparse.ArgumentParser()
     argParser.add_argument("-c", "--create", required=False, nargs='?', const=True, help="Create new project")
     argParser.add_argument("-r", "--rename", required=False, action='store_true', help="Rename currently focused project")
-    argParser.add_argument("-n", "--next", required=False, action='store_true', help="Rename currently focused project")
-    argParser.add_argument("-w", "--wsnext", required=False, action='store_true', help="Rename currently focused project")
+    argParser.add_argument("-n", "--next", required=False, action='store_true', help="Switch to next project")
+    argParser.add_argument("-w", "--wsnext", required=False, action='store_true', help="Switch to next workspace in project")
+    argParser.add_argument("-l", "--listinproj", required=False, action='store_true', help="List applications is current proj")
     argParser.add_mutually_exclusive_group()
     args = argParser.parse_args()
     if args.create:
@@ -338,5 +442,9 @@ if __name__ == "__main__":
         switchToNextroject()
     elif args.wsnext:
         switchToNextWS()
+    elif args.listinproj:
+        windows = lookup_windows()
+        id = show_menu(windows)
+        focus_window(id)
     else:
         sys.exit(0)

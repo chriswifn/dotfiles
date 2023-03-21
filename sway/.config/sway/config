@@ -185,6 +185,7 @@ mode project {
      bindsym p exec sway_dynamic_projects -c, mode default
      bindsym r exec sway_dynamic_projects -r, mode default
      bindsym n exec sway_dynamic_projects -n, mode default
+     bindsym l exec sway_dynamic_projects -l, mode default
      bindsym t exec sway_dynamic_projects -w, mode default
 }
 

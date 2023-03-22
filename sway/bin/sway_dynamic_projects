@@ -244,7 +244,7 @@ def show_menu(windows):
     input: windows (set)
     output: selection (str)
     """
-    command="tofi --horizontal=false --height=15% --prompt-text 'Running applications: '"
+    command="tofi --horizontal=false --height=10% --prompt-text 'Running applications: '"
     enter="\n"
     input=enter.join(windows).encode("UTF-8")
     process = subprocess.Popen(command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)

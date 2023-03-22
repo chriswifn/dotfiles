@@ -1,12 +1,76 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
-_CLASS="${*:1:1}"
-_COMMAND="${*:2}"
+import sys
+import argparse
+import json
+import subprocess
 
-if _WINID=$(swaymsg -t get_tree | sed -En "/\"(app_id|class)\"/ { /null/d;s/.*\"(class|app_id)\": \"([^\"]*)\".*/\1=\2/;p; }" | grep "$_CLASS"); then
-    for i in $_WINID; do
-	swaymsg "["$i"] focus" && break
-    done
-else
-    exec $_COMMAND
-fi
+def check(node, match, ids):
+    if type(node) is dict:
+
+        app_id = node.get("app_id", "")
+
+        if app_id == match:
+            ids.append((node["id"], node["focused"]))
+        else:
+            wp = node.get("window_properties", {})
+            xclass = wp.get("class", "")
+            if xclass == match:
+                ids.append((node["id"], node["focused"]))
+        nodes = node.get("nodes", [])
+        for node in nodes:
+            check(node, match, ids)
+        return ids
+
+    if type(node) is list:
+        for item in node:
+            nodes = item.get('nodes', [])
+            for node in nodes:
+                check(node, match, ids) 
+        return ids
+
+def get_tree(match):
+    tree = subprocess.run(["swaymsg", "-t", "get_tree"], capture_output = True).stdout
+    tree = json.loads(tree)
+    return tree
+
+def raise_id(id):
+    args = ["swaymsg", "[con_id=%s]" % id[0], "focus"]
+    subprocess.run(args)
+    sys.exit(0)
+
+def raise_ids(ids, command):
+    if len(ids) == 0:
+        subprocess.Popen(command)
+        sys.exit(0)
+
+    if len(ids) == 1:
+        raise_id(ids[0])
+
+    focused = None
+    n = 0
+    while n < len(ids):
+        p = ids[n]
+        if p[1]:
+            focused = n
+            break
+        n += 1
+
+    if focused is None:
+        raise_id(ids[0])
+
+    n += 1
+    if n >= len(ids):
+        n = 0
+    raise_id(ids[n])
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(prog = 'sway_run-or-raise')
+    parser.add_argument('match')
+    parser.add_argument('command')
+    opts = parser.parse_args()
+
+    ids = []
+    tree = get_tree(opts.match)
+    ids = check(tree, opts.match, ids)
+    raise_ids(ids, opts.command)

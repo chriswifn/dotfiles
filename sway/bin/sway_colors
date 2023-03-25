@@ -7,8 +7,8 @@ theme="$HOME"/.config/sway/active-theme
 
 if [ "$(cat "$theme")" = "modus-operandi" ]; then
     swaymsg client.focused "#c4c4c4" "#c4c4c4" "#000000" "#a60000" "#354fcf"
-    swaymsg client.unfocused "#ffffff" "#ffffff" "#585858" "#c4c4c4" "#c4c4c4"
-    swaymsg client.focused_inactive "#ffffff" "#ffffff" "#585858" "#c4c4c4" "#c4c4c4"
+    swaymsg client.unfocused "#e0e0e0" "#e0e0e0" "#585858" "#c4c4c4" "#c4c4c4"
+    swaymsg client.focused_inactive "#e0e0e0" "#e0e0e0" "#585858" "#c4c4c4" "#c4c4c4"
 
     swaymsg bar 0 colors background '#ffffff'
     swaymsg bar 0 colors statusline '#000000'
@@ -19,8 +19,8 @@ if [ "$(cat "$theme")" = "modus-operandi" ]; then
     swaymsg bar 0 colors urgent_workspace '#ffffff' '#ffffff'  '#cd2f30'
 else
     swaymsg client.focused "#535353" "#535353" "#ffffff" "#ff5f59" "#79a8ff"
-    swaymsg client.unfocused "#000000" "#000000" "#a8a8a8" "#535353" "#535353"
-    swaymsg client.focused_inactive "#000000" "#000000" "#a8a8a8" "#535353" "#535353"
+    swaymsg client.unfocused "#303030" "#303030" "#a8a8a8" "#535353" "#535353"
+    swaymsg client.focused_inactive "#303030" "#303030" "#a8a8a8" "#535353" "#535353"
 
     swaymsg bar 0 colors background '#000000'
     swaymsg bar 0 colors statusline '#ffffff'

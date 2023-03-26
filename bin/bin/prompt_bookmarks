@@ -10,7 +10,7 @@
 # set the prompt variable
 case "$XDG_SESSION_TYPE" in
     wayland)
-	_PROMPT="tofi --horizontal=false --height=10% --prompt-text"
+	_PROMPT="tofi --prompt-text"
 	;;
     *)
 	_PROMPT="rofi -dmenu -i -p "

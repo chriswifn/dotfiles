@@ -18,7 +18,7 @@ case "$XDG_SESSION_TYPE" in
 esac
 
 # return url
-_URL="$(cat ~/.cache/bookmarks.txt | sort | $_PROMPT "Bookmarks: ")"
+_URL="$(awk -F ',' '{print $1 " " $2}' ~/.cache/bookmarks.csv | sort | $_PROMPT "Bookmarks: " | awk '{print $2}')"
 
 # pass url to firefox
 [ -n "$_URL" ] && firefox --new-window "$_URL" || exit 1

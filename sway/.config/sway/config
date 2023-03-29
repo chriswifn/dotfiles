@@ -36,7 +36,6 @@ output eDP-1 disable
 # output eDP-1 resolution 1920x1080 position 0,0 
 
 smart_borders on
-workspace_layout tabbed
 
 ################################################################################
 ### Input configuration
@@ -192,16 +191,16 @@ mode project {
 ################################################################################
 ### Status Bar
 ################################################################################
-bar {
-    id 0
-    position bottom
+# bar {
+#     id 0
+#     position top 
 
-    font Monoid 9
+#     font Monoid 9
 
-    height 28
+#     height 28
 
-    status_command while date +'%Y-%m-%d %H:%M:%S'; do sleep 1; done
-}
+#     status_command while date +'%Y-%m-%d %H:%M:%S'; do sleep 1; done
+# }
 
 ################################################################################
 ### Autostart

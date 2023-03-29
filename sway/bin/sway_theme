@@ -106,13 +106,13 @@ case "$(cat "$_WM_THEME")" in
 	swaymsg client.unfocused "#303030" "#303030" "#a8a8a8" "#535353" "#535353"
 	swaymsg client.focused_inactive "#303030" "#303030" "#a8a8a8" "#535353" "#535353"
 
-	swaymsg bar 0 colors background '#535353'
-	swaymsg bar 0 colors statusline '#ffffff'
-	swaymsg bar 0 colors binding_mode '#535353' '#535353' '#ffffff'
-	swaymsg bar 0 colors focused_workspace '#535353' '#535353' '#ffffff'
-	swaymsg bar 0 colors active_workspace '#535353' '#535353' '#a8a8a8'
-	swaymsg bar 0 colors inactive_workspace '#535353' '#535353' '#a8a8a8'
-	swaymsg bar 0 colors urgent_workspace '#535353' '#535353' '#ff8f88'
+	# swaymsg bar 0 colors background '#535353'
+	# swaymsg bar 0 colors statusline '#ffffff'
+	# swaymsg bar 0 colors binding_mode '#535353' '#535353' '#ffffff'
+	# swaymsg bar 0 colors focused_workspace '#535353' '#535353' '#ffffff'
+	# swaymsg bar 0 colors active_workspace '#535353' '#535353' '#a8a8a8'
+	# swaymsg bar 0 colors inactive_workspace '#535353' '#535353' '#a8a8a8'
+	# swaymsg bar 0 colors urgent_workspace '#535353' '#535353' '#ff8f88'
 	;;
     modus-vivendi)
         _STYLE="modus-operandi"
@@ -122,13 +122,13 @@ case "$(cat "$_WM_THEME")" in
 	swaymsg client.unfocused "#e0e0e0" "#e0e0e0" "#585858" "#c4c4c4" "#c4c4c4"
 	swaymsg client.focused_inactive "#e0e0e0" "#e0e0e0" "#585858" "#c4c4c4" "#c4c4c4"
 
-	swaymsg bar 0 colors background '#c4c4c4'
-	swaymsg bar 0 colors statusline '#000000'
-	swaymsg bar 0 colors binding_mode '#c4c4c4' '#c4c4c4' '#2544bb'
-	swaymsg bar 0 colors focused_workspace '#c4c4c4' '#c4c4c4' '#000000'
-	swaymsg bar 0 colors active_workspace '#c4c4c4' '#c4c4c4' '#585858'
-	swaymsg bar 0 colors inactive_workspace '#c4c4c4' '#c4c4c4' '#585858'
-	swaymsg bar 0 colors urgent_workspace '#c4c4c4' '#c4c4c4'  '#cd2f30'
+	# swaymsg bar 0 colors background '#c4c4c4'
+	# swaymsg bar 0 colors statusline '#000000'
+	# swaymsg bar 0 colors binding_mode '#c4c4c4' '#c4c4c4' '#2544bb'
+	# swaymsg bar 0 colors focused_workspace '#c4c4c4' '#c4c4c4' '#000000'
+	# swaymsg bar 0 colors active_workspace '#c4c4c4' '#c4c4c4' '#585858'
+	# swaymsg bar 0 colors inactive_workspace '#c4c4c4' '#c4c4c4' '#585858'
+	# swaymsg bar 0 colors urgent_workspace '#c4c4c4' '#c4c4c4'  '#cd2f30'
 	;;
 esac
 _alacritty

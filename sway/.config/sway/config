@@ -35,7 +35,7 @@ output eDP-1 disable
 # monitor configuration singlehead
 # output eDP-1 resolution 1920x1080 position 0,0 
 
-smart_borders on
+# smart_borders on
 
 ################################################################################
 ### Input configuration

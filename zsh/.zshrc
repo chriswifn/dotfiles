@@ -39,6 +39,16 @@ alias utftest='curl https://www.cl.cam.ac.uk/~mgk25/ucs/examples/UTF-8-demo.txt'
 alias mytmux='tmux new-session -A -s tempterm'
 alias ssh='TERM=xterm-256color ssh'
 
+function fd {
+    local dir
+    dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
+}
+
+function fo {
+    IFS=$'\n' files=($(fzf +m --query="$1" --multi --select-1 --exit-0))
+    [[ -n "$files" ]] && xdg-open "${files[@]}"
+}
+
 # Archive extractor
 function extract {
     if [ -z "$1" ]; then

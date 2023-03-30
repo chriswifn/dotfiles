@@ -205,10 +205,9 @@ mode layout {
 ################################################################################
 ### Autostart
 ################################################################################
-exec_always sway_colors
-# exec_always sway_monitors
-exec_always wmname LG3D
-exec_always kanshi
+exec_always --no-startup-id sway_colors
+exec_always --no-startup-id wmname LG3D
+exec_always --no-startup-id kanshi
 
 exec swayidle -w \
      timeout 600 'swaylock -f -c 000000' \

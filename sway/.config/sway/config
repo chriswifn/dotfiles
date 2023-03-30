@@ -28,9 +28,9 @@ font pango:Monoid regular 9
 output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 
 # monitor configuration multihead
-output DP-3 resolution 1920x1080 position 1920,0
-output DP-4 resolution 1920x1080 position 0,0
-output eDP-1 disable
+# output DP-3 resolution 1920x1080 position 1920,0
+# output DP-4 resolution 1920x1080 position 0,0
+# output eDP-1 disable
 
 # monitor configuration singlehead
 # output eDP-1 resolution 1920x1080 position 0,0 
@@ -178,15 +178,15 @@ mode layout {
      bindsym m layout toggle split, mode default
 }
 
-bindsym $mod+p mode project
-mode project {
-     bindsym Escape mode default
-     bindsym p exec sway_dynamic_projects -c, mode default
-     bindsym r exec sway_dynamic_projects -r, mode default
-     bindsym n exec sway_dynamic_projects -n, mode default
-     bindsym l exec sway_dynamic_projects -l, mode default
-     bindsym t exec sway_dynamic_projects -w, mode default
-}
+# bindsym $mod+p mode project
+# mode project {
+#      bindsym Escape mode default
+#      bindsym p exec sway_dynamic_projects -c, mode default
+#      bindsym r exec sway_dynamic_projects -r, mode default
+#      bindsym n exec sway_dynamic_projects -n, mode default
+#      bindsym l exec sway_dynamic_projects -l, mode default
+#      bindsym t exec sway_dynamic_projects -w, mode default
+# }
 
 ################################################################################
 ### Status Bar
@@ -208,6 +208,7 @@ mode project {
 exec_always sway_colors
 # exec_always sway_monitors
 exec_always wmname LG3D
+exec_always kanshi
 
 exec swayidle -w \
      timeout 600 'swaylock -f -c 000000' \

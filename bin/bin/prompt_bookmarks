@@ -10,11 +10,11 @@
 # set the prompt variable
 case "$XDG_SESSION_TYPE" in
     wayland)
-	_PROMPT="tofi --prompt-text"
-	;;
+    _PROMPT="tofi --prompt-text"
+    ;;
     *)
-	_PROMPT="rofi -dmenu -i -p "
-	;;
+    _PROMPT="rofi -dmenu -i -p "
+    ;;
 esac
 
 # return url

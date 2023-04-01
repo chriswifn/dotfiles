@@ -205,8 +205,7 @@ mode layout {
 ################################################################################
 ### Autostart
 ################################################################################
-exec_always --no-startup-id sway_colors
-exec_always --no-startup-id wmname LG3D
+exec_always sway_colors
 exec_always --no-startup-id kanshi
 
 exec swayidle -w \

@@ -39,7 +39,7 @@ alias utftest='curl https://www.cl.cam.ac.uk/~mgk25/ucs/examples/UTF-8-demo.txt'
 alias mytmux='tmux new-session -A -s tempterm'
 alias ssh='TERM=xterm-256color ssh'
 
-function fd {
+function fcd {
     local dir
     dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
 }

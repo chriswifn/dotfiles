@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# Description:  Script to manage tmux sessions
+# Dependencies: tmux, fzf
+# Author:       ThePrimeagen
+
+[ $# -eq 1 ] && _SELECTED="$1" || _SELECTED=$(find ~/code ~/media/code ~/ ~/.config -mindepth 1 -maxdepth 1 -type d | fzf)
+[ -z "$_SELECTED" ] && exit 0
+
+_SELECTED_NAME="$(basename "$_SELECTED" | tr . _)"
+_TMUX_RUNNING="$(pgrep tmux)"
+
+if [ -z "$TMUX" ] && [ -z "$_TMUX_RUNNING" ]; then
+    tmux new-session -s "$_SELECTED_NAME" -c "$_SELECTED"
+    exit 0
+fi
+
+if ! tmux has-session -t="$_SELECTED_NAME" 2> /dev/null; then
+    tmux new-session -ds "$_SELECTED_NAME" -c "$_SELECTED"
+fi
+
+tmux switch-client -t "$_SELECTED_NAME" 

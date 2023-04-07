@@ -23,6 +23,9 @@ _comp_options+=(globdots)
 # Enable searching through history
 bindkey '^R' history-incremental-pattern-search-backward
 
+# tmux_sessionizer
+bindkey -s '^f' "tmux_sessionizer\n"
+
 # Vi keybindings
 bindkey -v
 

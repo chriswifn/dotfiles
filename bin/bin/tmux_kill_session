@@ -1,6 +1,0 @@
-#!/bin/sh
-
-tmux list-sessions -f '#{?session_attached,,#{session_name}}' |\
-    fzf-tmux --header=kill-session |\
-    awk -F ':' '{print $1}' |\
-    xargs -I {} tmux kill-session -t {}

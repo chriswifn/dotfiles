@@ -41,6 +41,7 @@ alias suckless='make clean && rm -f config.h'
 alias utftest='curl https://www.cl.cam.ac.uk/~mgk25/ucs/examples/UTF-8-demo.txt'
 alias mytmux='tmux new-session -A -s tempterm'
 alias ssh='TERM=xterm-256color ssh'
+alias battery="cat /sys/class/power_supply/BAT0/capacity"
 
 function fcd {
     local dir

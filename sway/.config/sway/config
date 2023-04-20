@@ -50,8 +50,7 @@ input * {
 ### Window rules
 ################################################################################
 
-for_window [class=".*"] border pixel 0
-smart_borders on
+for_window [class=".*"] border pixel 4
 
 ################################################################################
 ### Key bindings

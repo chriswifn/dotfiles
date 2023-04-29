@@ -1,79 +1,133 @@
-#!/bin/sh
+#!/bin/bash
 
-# Description:  A script with multiple options to take a screenshot on both Wayland and Xorg
-#               and save to ~/Pictures/screenshots/
-#               - a selected area
-#               - focused window
-#               - fullscreen
-# NOTE: wayland is only supported on Hyprland in case of the "current window" option
-# Dependencies: grim, slurp, tofi, hyprctl, jq (on Wayland)
-#               maim, rofi (on Xorg)
-#               a working Gnu/Linux system (gnu-utils)
+# Description:  Take a screenshot
+# Input:        menu: run script interactively in a menu style
+#               sel:  take a screenshot of selected area
+#               foc:  take a screenshot of the focused window
+#               full: take a fullscreen screenshot
+#               optionally a filename can be passed to any
+#               option in order to save the file under a specific
+#               name in the current working directory
+# Dependencies: grim, slurp, bemenu [optional], jq (on Wayland)
+#               maim, dmenu [optional] (on Xorg)
 # Author:       Christian Hageloch
 
+set -e
 
-# set the environment session variable 
-_SESSION="$XDG_SESSION_TYPE"
+#------------------------------------------------------------------------------
+# complete context
+#------------------------------------------------------------------------------
+declare -a COMMANDS=(menu sel foc full)
 
-# set the prompt variable based on _SESSION
-case "$_SESSION" in
+if [[ -n "$COMP_LINE" ]]; then
+  line=${COMP_LINE#* }
+  for c in "${COMMANDS[@]}"; do
+    [[ ${c:0:${#line}} == "${line,,}" ]] && echo "$c"
+  done
+  exit
+fi
+
+#------------------------------------------------------------------------------
+# utility functions
+#------------------------------------------------------------------------------
+_have(){ type "$1" &>/dev/null; }
+
+#------------------------------------------------------------------------------
+# functions
+#------------------------------------------------------------------------------
+_sel() {
+  local file
+  file="$HOME/Pictures/screenshots/$(date '+%y%m%d%H%M%S').png"
+  if [[ -n "$1" ]]; then
+    file="$(pwd)/${1%.*}.png"
+  fi
+  case "$XDG_SESSION_TYPE" in
     wayland)
-	_PROMPT="tofi --prompt-text "
-	;;
+      if _have grim && _have slurp; then
+        grim -g "$(slurp 2>/dev/null)" "$file" 2>/dev/null \
+          && echo "$file" && return 0
+      fi
+      return 1
+      ;;
     *)
-	_PROMPT="rofi -dmenu -i -p "
-	;;
-esac
-
-# take a screenshot of selected area
-_selected_area() {
-    case "$_SESSION" in
-	wayland)
-	    grim -g "$(slurp)" ~/Pictures/screenshots/grim-selected-"$(date '+%y%m%d-%H%M-%S').png" 
-	;;
-	*)
-	    maim -s ~/Pictures/screenshots/maim-selected-"$(date '+%y%m%d-%H%M-%S').png" 
-	;;
-    esac
+      if _have maim; then
+        maim -s "$file" 2>/dev/null && echo "$file" && return 0
+      fi
+      return 1
+      ;;
+  esac
 }
 
-# take a screenshot of currently focused window
-_current_window() {
-    case "$_SESSION" in
-	wayland)
-	    # grim -g "$(hyprctl activewindow -j | jq -er '.at,.size' | jq -s "add" | jq '_nwise(4)' | jq -er '"\(.[0]),\(.[1]) \(.[2])x\(.[3])"')" ~/Pictures/screenshots/grim-window-"$(date '+%y%m%d-%H%M-%S').png"
-	    grim -g "$(swaymsg -t get_tree | jq -j '.. | select(.type?) | select(.focused).rect | "\(.x),\(.y) \(.width)x\(.height)"')" ~/Pictures/screenshots/grim-window-"$(date '+%y%m%d-%H%M-%S').png"
-	    ;;
-	*)
-	    maim -i "$(xdotool getactivewindow)" ~/Pictures/screenshots/maim-window-"$(date '+%y%m%d-%H%M-%S').png"
-	    ;;
-    esac
-}
-
-# take a fullscreen screenshot
-_fullscreen() {
-    case "$_SESSION" in
-	wayland)
-	    grim ~/Pictures/screenshots/grim-full-"$(date '+%y%m%d-%H%M-%S').png" 
-	;;
-	*)
-	    maim ~/Pictures/screenshots/maim-full-"$(date '+%y%m%d-%H%M-%S').png" 
-	;;
-    esac
-}
-
-# main part 
-case "$(printf "a selected area\ncurrent window\nfullscreen" | $_PROMPT "Screenshot: ")" in
-    "a selected area")
-	_selected_area
-	;;
-    "current window")
-	_current_window
-	;;
-    "fullscreen")
-	_fullscreen
-	;;
+_foc() {
+  local file
+  file="$HOME/Pictures/screenshots/$(date '+%y%m%d%H%M%S').png"
+  if [[ -n "$1" ]]; then
+    file="$(pwd)/${1%.*}.png"
+  fi
+  case "$XDG_SESSION_TYPE" in
+    wayland)
+      if _have grim; then 
+        # this only works in swaywm
+        grim -g "$(swaymsg -t get_tree | \
+          jq -j '.. | select(.type?) | select(.focused).rect | "\(.x),\(.y) \(.width)x\(.height)"')" \
+          "$file" 2>/dev/null && echo "$file" && return 0
+      fi
+      return 1
+      ;;
     *)
-	exit 0
-	;;
-esac
+      if _have maim; then
+        maim -i "$(xdotool getactivewindow 2>/dev/null)" "$file" 2>/dev/null \
+          && echo "$file" && return 0
+      fi
+      return 1
+      ;;
+  esac
+}
+
+_full() {
+  local file
+  file="$HOME/Pictures/screenshots/$(date '+%y%m%d%H%M%S').png"
+  if [[ -n "$1" ]]; then
+    file="$(pwd)/${1%.*}.png"
+  fi
+  case "$XDG_SESSION_TYPE" in
+    wayland)
+      if _have grim; then
+        grim "$file" 2>/dev/null && echo "$file" && return 0
+      fi
+      return 1
+      ;;
+    *)
+      if _have maim; then
+        maim "$file" 2>/dev/null && echo "$file" && return 0
+      fi
+      return 1
+      ;;
+  esac
+}
+
+_menu() {
+  unset 'COMMANDS[0]'
+  case "$XDG_SESSION_TYPE" in
+    wayland)
+      prompt="bemenu -b -H 26 --fn monospace 12 --tf #ffffff
+      --nb #101010 --nf #ffffff --hf #000000 --hb #79a8ff -i -p"
+      ;;
+    *)
+      prompt="dmenu -b -fn monospace -nb #101010 -nf #ffffff
+      -sb #79a8ff -sf #000000 -i -p"
+      ;;
+  esac
+  selection="$(printf "%s\n" "${COMMANDS[@]}" | ${prompt} Screenshot:)"
+  [ -n "$selection" ] && "_$selection" "$@" || exit 1
+}
+
+#------------------------------------------------------------------------------
+# delegation
+#------------------------------------------------------------------------------
+if [[ -n "$1" ]]; then
+  declare cmd="$1"; shift
+  for c in "${COMMANDS[@]}"; do
+    [[ $c == "$cmd" ]] && "_$cmd" "$@" && exit $?
+  done
+fi

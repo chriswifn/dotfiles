@@ -23,7 +23,7 @@ _sed() {
 _alacritty() {
     _depcheck alacritty
     _ALACRITTY_CONFIG="$HOME"/.config/alacritty/modus-themes-active.yml
-    case "$__STYLE" in
+    case "$_STYLE" in
 	modus-operandi) _sed "s/vivendi/operandi/" "$_ALACRITTY_CONFIG" ;;
 	modus-vivendi) _sed "s/operandi/vivendi/" "$_ALACRITTY_CONFIG" ;;
     esac
@@ -33,7 +33,7 @@ _alacritty() {
 _neovim() {
     _depcheck nvim
     _NVIM_CONFIG="$HOME"/.config/nvim/after/plugin/colors.lua
-    case "$__STYLE" in
+    case "$_STYLE" in
 	modus-operandi) _sed 's/vim.o.background = "dark"/vim.o.background = "light"/' "$_NVIM_CONFIG";;
 	modus-vivendi) _sed 's/vim.o.background = "light"/vim.o.background = "dark"/' "$_NVIM_CONFIG";;
     esac

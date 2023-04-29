@@ -8,28 +8,28 @@
 # set the prompt variable
 case "$XDG_SESSION_TYPE" in
     wayland)
-	_PROMPT="tofi --prompt-text "
-	;;
+      _PROMPT="tofi --prompt-text "
+      ;;
     *)
-	_PROMPT="rofi -dmenu -i -p "
-	;;
+      _PROMPT="rofi -dmenu -i -p "
+      ;;
 esac
 
 # logout
 case "$(printf "shutdown\nreboot\nsuspend\nlock" | $_PROMPT "Logout: ")" in
     "shutdown")
-	systemctl poweroff
-	;;
+      systemctl poweroff
+      ;;
     "reboot")
-	systemctl reboot
-	;;
+      systemctl reboot
+      ;;
     "hybernate")
-	systemctl suspend 
-	;;
+      systemctl suspend 
+      ;;
     "lock")
-	swaylock -c "#000000"
-	;;
+      swaylock -c "#000000"
+      ;;
     *)
-	exit 1
-	;;
+      exit 1
+      ;;
 esac

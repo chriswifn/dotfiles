@@ -1,6 +1,3 @@
-# Theme: modus-operandi
-# Description: Alacritty port of modus-operandi (Modus themes for Emacs)
-# Author: Protesilaos Stavrou, <https://protesilaos.com>
 colors:
   primary:
     background: '#ffffff'

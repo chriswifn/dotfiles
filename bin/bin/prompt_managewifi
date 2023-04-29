@@ -8,24 +8,24 @@
 
 # set the prompt variable
 case "$XDG_SESSION_TYPE" in
-    wayland)
-	_PROMPT="tofi --prompt-text "
-	;;
-    *)
-	_PROMPT="rofi -dmenu -i -p "
-	;;
+  wayland)
+    _PROMPT="tofi --prompt-text "
+    ;;
+  *)
+    _PROMPT="rofi -dmenu -i -p "
+    ;;
 esac
 
 _NAMES="$(nmcli connection | awk -F '  ' 'NR>=2 {print $1}')"
 _CHOICE="$(echo "$_NAMES" | $_PROMPT "Choose network option:")" || exit
 
 case "$(nmcli connection | grep "$_CHOICE" | awk '{print $NF}')" in
-    "--") 
-	nmcli connection up "$_CHOICE"
-	exit
-	;;
-    *)
-	nmcli connection down "$_CHOICE"
-	exit
-	;;
+  "--") 
+    nmcli connection up "$_CHOICE"
+    exit
+    ;;
+  *)
+    nmcli connection down "$_CHOICE"
+    exit
+    ;;
 esac

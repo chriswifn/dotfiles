@@ -14,32 +14,32 @@ local configuration_path = gfs.get_configuration_dir()
 local theme = {}
 
 -- font
-theme.font = "Monoid 9"
+theme.font = "monospace 12"
 theme.tasklist_disable_icon = true
 
 -- background colors
-theme.bg_normal     = "#2d2d2d"
-theme.bg_focus      = "#505050"
-theme.bg_urgent     = "#ff8059"
-theme.bg_minimize   = "#363636"
+theme.bg_normal     = "#e6e6e6"
+theme.bg_focus      = "#bfbfbf"
+theme.bg_urgent     = "#a60000"
+theme.bg_minimize   = "#595959"
 theme.bg_systray    = theme.bg_normal
 
 -- foreground colors
-theme.fg_normal     = "#969696"
-theme.fg_focus      = "#ffffff"
-theme.fg_urgent     = "#000000"
+theme.fg_normal     = "#000000"
+theme.fg_focus      = "#000000"
+theme.fg_urgent     = "#ffffff"
 theme.fg_minimize   = "#ffffff"
 
 -- gaps and border options
 theme.useless_gap   = dpi(0)
-theme.gap_single_client = false
+theme.gap_single_client =  false
 theme.border_width  = dpi(2)
-theme.border_normal = "#000000"
-theme.border_focus  = "#feacd0"
-theme.border_marked = "#ff8059"
+theme.border_normal = "#ffffff"
+theme.border_focus  = "#721045"
+theme.border_marked = "#a60000"
 
 -- taglist
-theme.taglist_spacing = 2 
+theme.taglist_spacing = 2
 local taglist_square_size = dpi(4)
 theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
   taglist_square_size, theme.fg_normal

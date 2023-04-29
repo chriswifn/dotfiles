@@ -21,20 +21,10 @@ _sed() {
 # Alacritty
 _alacritty() {
     _depcheck alacritty
-    _ALACRITTY_CONFIG="$HOME"/.config/alacritty/modus-themes-active.yml
+    _ALACRITTY_CONFIG="$HOME"/.config/alacritty/active-theme.yml
     case "$_STYLE" in
-	modus-operandi) _sed "s/vivendi/operandi/" "$_ALACRITTY_CONFIG" ;;
-	modus-vivendi) _sed "s/operandi/vivendi/" "$_ALACRITTY_CONFIG" ;;
-    esac
-}
-
-# Neovim
-_neovim() {
-    _depcheck nvim
-    _NVIM_CONFIG="$HOME"/.config/nvim/after/plugin/colors.lua
-    case "$_STYLE" in
-	modus-operandi) _sed 's/vim.o.background = "dark"/vim.o.background = "light"/' "$_NVIM_CONFIG";;
-	modus-vivendi) _sed 's/vim.o.background = "light"/vim.o.background = "dark"/' "$_NVIM_CONFIG";;
+        dark) _sed "s/light/dark/" "$_ALACRITTY_CONFIG" ;;
+        light) _sed "s/dark/light/" "$_ALACRITTY_CONFIG" ;;
     esac
 }
 
@@ -42,16 +32,18 @@ _tofi() {
     _depcheck tofi
     _TOFI_CONFIG="$HOME"/.config/tofi/config
     case "$_STYLE" in
-	modus-operandi) _sed "s/vivendi/operandi/" "$_TOFI_CONFIG" ;;
-	modus-vivendi) _sed "s/operandi/vivendi/" "$_TOFI_CONFIG" ;;
+        dark) _sed "s/light/dark/" "$_TOFI_CONFIG" ;;
+        light) _sed "s/dark/light/" "$_TOFI_CONFIG" ;;
     esac
 }
 
-# Emacs
-_emacs() {
-    _depcheck emacs
-    pgrep -x emacs > /dev/null || return 1
-    emacsclient -e "(modus-themes-load-theme '${_STYLE})" > /dev/null
+_neovim() {
+    _depcheck nvim
+    _NVIM_CONFIG="$HOME"/.config/nvim/lua/plugins/colorscheme.lua
+    case "$_STYLE" in
+        dark) _sed "s/light/dark/" "$_NVIM_CONFIG" ;;
+        light) _sed "s/dark/light/" "$_NVIM_CONFIG";;
+    esac
 }
 
 _ggtk() {
@@ -85,7 +77,7 @@ _gcolor_scheme_set() {
 _gtheme () {
     _depcheck gsettings
 
-    if [ "$_STYLE" = "modus-vivendi" ]; then
+    if [ "$_STYLE" = "dark" ]; then
         _ggtk_set 'Adwaita-dark'
         _gcolor_scheme_set 'prefer-dark'
     else
@@ -98,44 +90,24 @@ _gtheme () {
 _depcheck sway
 _WM_THEME="$HOME"/.config/sway/active-theme
 case "$(cat "$_WM_THEME")" in
-    modus-operandi)
-        _STYLE="modus-vivendi"
+    light)
+        _STYLE="dark"
         echo "$_STYLE" > "$_WM_THEME"
 
-	swaymsg client.focused "#535353" "#535353" "#ffffff" "#ff5f59" "#79a8ff"
-	swaymsg client.unfocused "#303030" "#303030" "#a8a8a8" "#535353" "#535353"
-	swaymsg client.focused_inactive "#303030" "#303030" "#a8a8a8" "#535353" "#535353"
-
-	# swaymsg bar 0 colors background '#535353'
-	# swaymsg bar 0 colors statusline '#ffffff'
-	# swaymsg bar 0 colors binding_mode '#535353' '#535353' '#ffffff'
-	# swaymsg bar 0 colors focused_workspace '#535353' '#535353' '#ffffff'
-	# swaymsg bar 0 colors active_workspace '#535353' '#535353' '#a8a8a8'
-	# swaymsg bar 0 colors inactive_workspace '#535353' '#535353' '#a8a8a8'
-	# swaymsg bar 0 colors urgent_workspace '#535353' '#535353' '#ff8f88'
+        swaymsg client.focused "#000000" "#000000" "#000000" "#ff8059" "#79a8ff"
+        swaymsg client.unfocused "#000000" "#000000" "#000000" "#000000" "#000000"
+        swaymsg client.focused_inactive "#000000" "#000000" "#000000" "#000000" "#000000"
 	;;
-    modus-vivendi)
-        _STYLE="modus-operandi"
+    dark)
+        _STYLE="light"
         echo "$_STYLE" > "$_WM_THEME"
 
-	swaymsg client.focused "#c4c4c4" "#c4c4c4" "#000000" "#a60000" "#354fcf"
-	swaymsg client.unfocused "#e0e0e0" "#e0e0e0" "#585858" "#c4c4c4" "#c4c4c4"
-	swaymsg client.focused_inactive "#e0e0e0" "#e0e0e0" "#585858" "#c4c4c4" "#c4c4c4"
-
-	# swaymsg bar 0 colors background '#c4c4c4'
-	# swaymsg bar 0 colors statusline '#000000'
-	# swaymsg bar 0 colors binding_mode '#c4c4c4' '#c4c4c4' '#2544bb'
-	# swaymsg bar 0 colors focused_workspace '#c4c4c4' '#c4c4c4' '#000000'
-	# swaymsg bar 0 colors active_workspace '#c4c4c4' '#c4c4c4' '#585858'
-	# swaymsg bar 0 colors inactive_workspace '#c4c4c4' '#c4c4c4' '#585858'
-	# swaymsg bar 0 colors urgent_workspace '#c4c4c4' '#c4c4c4'  '#cd2f30'
+        swaymsg client.focused "#ffffff" "#ffffff" "#ffffff" "#a60000" "#354fcf"
+        swaymsg client.unfocused "#ffffff" "#ffffff" "#ffffff" "#ffffff" "#ffffff"
+        swaymsg client.focused_inactive "#ffffff" "#ffffff" "#ffffff" "#ffffff" "#ffffff"
 	;;
 esac
 _alacritty
 _tofi
-_emacs
 _neovim
 _gtheme
-
-
-

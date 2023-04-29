@@ -6,14 +6,14 @@
 
 
 # variables
-_HEADPHONES_MAC="E8:EE:CC:00:AD:24"
-_HEADPHONES_SINK="bluez_output.E8_EE_CC_00_AD_24.1"
-_CUR_DEV="$(pactl get-default-sink)"
+hmac="E8:EE:CC:00:AD:24"
+hsink="bluez_output.E8_EE_CC_00_AD_24.1"
+cdev="$(pactl get-default-sink)"
 
 # toggle
-if [ "$_CUR_DEV" = "$_HEADPHONES_SINK" ]; then
-    bluetoothctl disconnect "$_HEADPHONES_MAC" && bluetoothctl power off
+if [ "$cdev" = "$hsink" ]; then
+    bluetoothctl disconnect "$hmac" && bluetoothctl power off
 else
-    bluetoothctl power on && bluetoothctl connect "$_HEADPHONES_MAC"
+    bluetoothctl power on && bluetoothctl connect "$hmac"
 fi
 

@@ -15,7 +15,8 @@ set $right l
 set $term alacritty
 
 # run prompt
-set $menu tofi-run | xargs swaymsg exec --
+# set $menu tofi-drun | xargs swaymsg exec --
+set $menu bemenu-run -b -H 26 --fn "monospace 12" --tf "#ffffff" --nb "#101010" --nf "#ffffff" --hf "#000000" --hb "#79a8ff"
 
 # font
 font pango:Monoid regular 9
@@ -25,17 +26,7 @@ font pango:Monoid regular 9
 ################################################################################
 
 # wallpaper
-output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-
-# monitor configuration multihead
-# output DP-3 resolution 1920x1080 position 1920,0
-# output DP-4 resolution 1920x1080 position 0,0
-# output eDP-1 disable
-
-# monitor configuration singlehead
-# output eDP-1 resolution 1920x1080 position 0,0 
-
-# smart_borders on
+# output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 
 ################################################################################
 ### Input configuration
@@ -51,6 +42,8 @@ input * {
 ################################################################################
 
 for_window [class=".*"] border pixel 4
+smart_borders on
+hide_edge_borders smart
 
 ################################################################################
 ### Key bindings
@@ -97,9 +90,6 @@ bindsym $mod+Shift+6 move container to workspace number 6
 bindsym $mod+Shift+7 move container to workspace number 7
 bindsym $mod+Shift+8 move container to workspace number 8
 bindsym $mod+Shift+9 move container to workspace number 9
-# previous and next workspace
-# bindsym $mod+p workspace prev_on_output
-# bindsym $mod+n workspace next_on_output
 
 # control split direction
 bindsym $mod+b splith
@@ -178,41 +168,21 @@ mode layout {
      bindsym m layout toggle split, mode default
 }
 
-# bindsym $mod+p mode project
-# mode project {
-#      bindsym Escape mode default
-#      bindsym p exec sway_dynamic_projects -c, mode default
-#      bindsym r exec sway_dynamic_projects -r, mode default
-#      bindsym n exec sway_dynamic_projects -n, mode default
-#      bindsym l exec sway_dynamic_projects -l, mode default
-#      bindsym t exec sway_dynamic_projects -w, mode default
-# }
+# colors
+include ~/.config/sway/"$(cat ~/.config/sway/active-theme)"
 
-################################################################################
-### Status Bar
-################################################################################
-# bar {
-#     id 0
-#     position top 
-#
-#     font Monoid 9
-#
-#     height 28
-#
-#     status_command while date +'%Y-%m-%d %H:%M:%S'; do sleep 1; done
-# }
+client.focused          $main $main $main $red  $blue
+client.focused_inactive $main $main $main $main $main
+client.unfocused        $main $main $main $main $main
 
 ################################################################################
 ### Autostart
 ################################################################################
-exec_always sway_colors
 exec_always --no-startup-id kanshi
 
 exec swayidle -w \
      timeout 600 'swaylock -f -c 000000' \
      timeout 900 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
      before-sleep 'swaylock -f -c 000000'
-
-# exec --no-startup-id sway_dynamic_projects -c default 
 
 include /etc/sway/config.d/*

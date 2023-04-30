@@ -1,104 +1,198 @@
-#!/bin/bash
+#
+# ~/.bashrc
+#
 
-# return if not interactive
-[[ $- != *i* ]] && return
+case $- in
+*i*) ;; # interactive
+*) return ;; 
+esac
 
+#------------------------------------------------------------------------------- 
+# local utility functions
+#------------------------------------------------------------------------------- 
+_have()      { type "$1" &>/dev/null; }
+_source_if() { [[ -r "$1" ]] && source "$1"; }
+
+#------------------------------------------------------------------------------- 
+# environment variables
+#------------------------------------------------------------------------------- 
 # export TERM=xterm-256color
-# export COLORTERM=xterm-256color
+export EDITOR=nvim
+export VISUAL=nvim
+export GOPATH="$HOME/.local/share/go"
+export GOBIN="$HOME/.local/bin"
+export LESS="-FXR"
+export LESS_TERMCAP_mb=$'\E[6m'          # begin blinking
+export LESS_TERMCAP_md=$'\E[34m'         # begin bold
+export LESS_TERMCAP_us=$'\E[4;32m'       # begin underline
+export LESS_TERMCAP_so=$'\E[1;33;41m'    # begin standout-mode - info box
+export LESS_TERMCAP_me=$'\E[0m'          # end mode
+export LESS_TERMCAP_ue=$'\E[0m'          # end underline
+export LESS_TERMCAP_se=$'\E[0m'          # end standout-mode
+export MOZ_ENABLE_WAYLAND=1
+export GITUSER="chriswifn"
+export REPOS="$HOME/repos"
+export GHREPOS="$REPOS/github.com/$GITUSER"
 
-# export
-export HISTCONTROL=ignoredups:erasedups
-export HISTFILESIZE=
-export HISTSIZE=
+#------------------------------------------------------------------------------- 
+# pager
+#------------------------------------------------------------------------------- 
+if [[ -x /usr/bin/lesspipe ]]; then
+  export LESSOPEN="| /usr/bin/lesspipe %s";
+  export LESSCLOSE="/usr/bin/lesspipe %s %s";
+fi
 
-# vi mode
+#------------------------------------------------------------------------------- 
+# path
+#------------------------------------------------------------------------------- 
+pathappend() {
+  declare arg
+  for arg in "$@"; do
+    test -d "$arg" || continue
+    PATH=${PATH//":$arg:"/:}
+    PATH=${PATH/#"$arg:"/}
+    PATH=${PATH/%":$arg"/}
+    export PATH="${PATH:+"$PATH:"}$arg"
+  done
+} && export -f pathappend
+
+pathprepend() {
+  for arg in "$@"; do
+    test -d "$arg" || continue
+    PATH=${PATH//:"$arg:"/:}
+    PATH=${PATH/#"$arg:"/}
+    PATH=${PATH/%":$arg"/}
+    export PATH="$arg${PATH:+":${PATH}"}"
+  done
+} && export -f pathprepend
+
+pathprepend \
+    "$HOME/.local/bin" \
+    "$HOME/bin"
+
+#------------------------------------------------------------------------------- 
+# cdpath
+#------------------------------------------------------------------------------- 
+export CDPATH=".:$GHREPOS:$HOME/media/uni/01:$HOME"
+
+#------------------------------------------------------------------------------- 
+# bash shell options
+#------------------------------------------------------------------------------- 
+shopt -s checkwinsize  # enables $COLUMNS and $ROWS
+shopt -s expand_aliases
+shopt -s globstar
+shopt -s dotglob
+shopt -s extglob
+
+#------------------------------------------------------------------------------- 
+# stty annoyances
+#------------------------------------------------------------------------------- 
+stty stop undef # disable control-s accidental terminal stops
+
+#------------------------------------------------------------------------------- 
+# bash shell options 
+#------------------------------------------------------------------------------- 
+shopt -s checkwinsize  # enables $COLUMNS and $ROWS
+shopt -s expand_aliases
+shopt -s globstar
+shopt -s dotglob
+shopt -s extglob
+
+#------------------------------------------------------------------------------- 
+# history
+#------------------------------------------------------------------------------- 
+
+export HISTCONTROL=ignoreboth
+export HISTSIZE=5000
+export HISTFILESIZE=10000
 set -o vi
-bind -m vi-command 'Control-l: clear-screen'
-bind -m vi-insert 'Control-l: clear screen'
+shopt -s histappend
 
-# keybindings
-bind '"\C-l":"clear\n"'
-bind '"\C-f":"cd_with_fzf\n"'
-bind '"\C-o":"open_with_fzf\n"'
-bind '"\C-w":"sshmenu\n"'
+#------------------------------------------------------------------------------- 
+# prompt
+#------------------------------------------------------------------------------- 
+PROMPT_LONG=20
+PROMPT_MAX=95
+PROMPT_AT=@
 
-# functions for keybindings
-cd_with_fzf() {
-    cd "$HOME" && cd "$(fd --type d --hidden | fzf)" || exit
-}
-open_with_fzf() {
-    cd "$HOME" && xdg-open "$(fd --type f --hidden | fzf)"
-}
+__ps1() {
+    local P='$' dir="${PWD##*/}" B countme short long double\
+        r='\[\e[31m\]' g='\[\e[37m\]' h='\[\e[34m\]' \
+        u='\[\e[33m\]' p='\[\e[34m\]' w='\[\e[35m\]' \
+        b='\[\e[36m\]' x='\[\e[0m\]'
 
-# vterm stuff
-vterm_printf() {
-    if [ -n "$TMUX" ] && ([ "${TERM%%-*}" = "tmux" ] || [ "${TERM%%-*}" = "screen" ]); then
-        # Tell tmux to pass the escape sequences through
-        printf "\ePtmux;\e\e]%s\007\e\\" "$1"
-    elif [ "${TERM%%-*}" = "screen" ]; then
-        # GNU screen (screen, screen-256color, screen-256color-bce)
-        printf "\eP\e]%s\007\e\\" "$1"
+    [[ $EUID == 0 ]] && P='#' && u=$r && p=$u # root
+    [[ $PWD = / ]] && dir=/
+    [[ $PWD = "$HOME" ]] && dir='~'
+
+    B=$(git branch --show-current 2>/dev/null)
+    [[ $dir = "$B" ]] && B=.
+    countme="$USER$PROMPT_AT$(hostname):$dir($B)\$ "
+
+    [[ $B == master || $B == main ]] && b="$r"
+    [[ -n "$B" ]] && B="$g($b$B$g)"
+
+    short="$u\u$g$PROMPT_AT$h\h$g:$w$dir$B$p$P$x "
+    long="$u\u$g$PROMPT_AT$h\h$g:$w$dir$B\n$p$P$x "
+    double="$u\u$g$PROMPT_AT$h\h$g:$w$dir\n$B\n$p$P$x "
+
+    if (( ${#countme} > PROMPT_MAX )); then
+        PS1="$double"
+    elif (( ${#countme} > PROMPT_LONG )); then
+        PS1="$long"
     else
-        printf "\e]%s\e\\" "$1"
+        PS1="$short"
     fi
 }
 
-vterm_cmd() {
-    local vterm_elisp
-    vterm_elisp=""
-    while [ $# -gt 0 ]; do
-        vterm_elisp="$vterm_elisp""$(printf '"%s" ' "$(printf "%s" "$1" | sed -e 's|\\|\\\\|g' -e 's|"|\\"|g')")"
-        shift
-    done
-    vterm_printf "51;E$vterm_elisp"
-}
+PROMPT_COMMAND="__ps1"
 
-find-file() {
-    vterm_cmd find-file "$(realpath "${@:-.}")"
-}
-
-# shopt
-shopt -s autocd
-shopt -s cdspell
-shopt -s cmdhist
-shopt -s histappend
-
-# ls -> exa
-alias ls='exa -l --color=always --group-directories-first' 
-alias la='exa -al --color=always --group-directories-first' 
-
+#------------------------------------------------------------------------------- 
 # aliases
+#------------------------------------------------------------------------------- 
+unalias -a
+alias ls='ls -h --color=auto'
+alias diff='diff --color'
+alias grep='grep --color=auto'
+alias '?'=duck
+alias temp='cd $(mktemp -d)'
 alias ytp='yt-dlp --format bestaudio --extract-audio --audio-format mp3 --audio-quality 160K --output "%(title)s.%(ext)s" --yes-playlist'
 alias yts='yt-dlp --format bestaudio --extract-audio --audio-format mp3 --audio-quality 160K --output "%(title)s.%(ext)s"'
-alias aurupd='paru -Sua'
-alias typingtest='$HOME/.cargo/bin/toipe -n 100 -w top25000'
-alias suck='sudo make install'
-alias weather="curl wttr.in"
-alias suckless='make clean && rm -f config.h'
-alias utftest='curl https://www.cl.cam.ac.uk/~mgk25/ucs/examples/UTF-8-demo.txt'
-alias mytmux='tmux new-session -A -s tempterm'
-alias ssh='TERM=xterm-256color ssh'
+alias battery='cat /sys/class/power_supply/BAT0/capacity'
 
-# archive extractor
-export ()
-{
-  if [ -f "$1" ] ; then
-    case $1 in
-      *.tar.bz2)   tar xjf "$1"   ;;
-      *.tar.gz)    tar xzf "$1"   ;;
-      *.tar.xz)    tar xJf "$1"   ;;
-      *.bz2)       bunzip2 "$1"   ;;
-      *.rar)       unrar x "$1"   ;;
-      *.gz)        gunzip "$1"    ;;
-      *.tar)       tar xf "$1"    ;;
-      *.tbz2)      tar xjf "$1"   ;;
-      *.tgz)       tar xzf "$1"   ;;
-      *.zip)       unzip "$1"     ;;
-      *.Z)         uncompress "$1";;
-      *.7z)        7z x "$1"      ;;
-      *)           echo "'$1' cannot be extracted via ex()" ;;
-    esac
-  else
-    echo "'$1' is not a valid file"
-  fi
+#------------------------------------------------------------------------------- 
+# functions
+#------------------------------------------------------------------------------- 
+ex() {
+
+    if [ -f "$1" ] ; then
+        case $1 in
+            *.tar.bz2)   tar xjf "$1"   ;;
+            *.tar.gz)    tar xzf "$1"   ;;
+            *.bz2)       bunzip2 "$1"   ;;
+            *.rar)       unrar x "$1"   ;;
+            *.gz)        gunzip "$1"    ;;
+            *.tar)       tar xf "$1"    ;;
+            *.tbz2)      tar xjf "$1"   ;;
+            *.tgz)       tar xzf "$1"   ;;
+            *.zip)       unzip "$1"     ;;
+            *.Z)         uncompress "$1";;
+            *.7z)        7z x "$1"      ;;
+            *.deb)       ar x "$1"      ;;
+            *.tar.xz)    tar xf "$1"    ;;
+            *.tar.zst)   unzstd "$1"    ;;
+            *)           echo "'$1' cannot be extracted via ex()" ;;
+        esac
+    else
+        echo "'$1' is not a valid file"
+    fi
 }
+
+#------------------------------------------------------------------------------- 
+# completion
+#------------------------------------------------------------------------------- 
+bind 'set completion-ignore-case on'
+complete -c man which
+complete -cf sudo
+complete -C screenshot screenshot
+complete -C theme theme

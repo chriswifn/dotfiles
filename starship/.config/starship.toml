@@ -1,6 +1,0 @@
-[line_break]
-disabled = true 
-
-[[battery.display]]
-threshold = 30
-style = 'bold red'

@@ -1,0 +1,180 @@
+#!/bin/bash
+
+# Description:  Toggle between a light and dark theme for selected
+#               programs
+# Input:        alacritty: toggle alacritty theme
+#               neovim: toggle neovim theme
+#               emacs:  toggle emacs theme
+#               gtk: toggle gtk theme
+#               awesome: toggle all on Xorg
+#               sway: toggle all on Wayland
+# Dependencies: script will check for availability of programs
+#               but sed is needed
+# Author:       Christian Hageloch
+
+set -e
+
+#------------------------------------------------------------------------------
+# complete context
+#------------------------------------------------------------------------------
+declare -a COMMANDS=(sway alacritty neovim gtk awesome)
+
+if [[ -n "$COMP_LINE" ]]; then
+  line=${COMP_LINE#* }
+  for c in "${COMMANDS[@]}"; do
+    [[ ${c:0:${#line}} == "${line,,}" ]] && echo "$c"
+  done
+  exit
+fi
+
+#------------------------------------------------------------------------------
+# utility functions
+#------------------------------------------------------------------------------
+_have(){ type "$1" &>/dev/null; }
+
+_sed() {
+    sed --follow-symlinks -i "$@"
+}
+
+_error() {
+  echo "$1: No argument supplied"
+  return 1
+}
+
+#------------------------------------------------------------------------------
+# helper functions
+#------------------------------------------------------------------------------
+# this only works for gtk3 applications
+_xorg_gtk() {
+  local conf="$HOME/.config/gtk-3.0/settings.ini"
+  if [[ -f "$conf" ]]; then
+    _sed "s,\(gtk-theme-name=\).*,\1${1}, ; s,\(gtk-icon-theme-name=\).*,\1${2}," \
+      "$HOME"/.config/gtk-3.0/settings.ini
+  fi
+}
+
+_xorg_gtk_live() {
+  _have xsettingsd || exit 1
+  local conf="$HOME/.config/xsettingsd/xsettingsd.conf"
+  if [[ -f "$conf" ]]; then
+    _sed "s,\(.*\/ThemeName\) \"[a-zA-Z-]*\",\1 \"${1}\"," "$conf"
+  fi
+}
+
+_wayland_gtk() {
+  gsettings set org.gnome.desktop.interface gtk-theme "$1"
+  gsettings set org.gnome.desktop.interface color-scheme "$2"
+}
+
+#------------------------------------------------------------------------------
+# functions
+#------------------------------------------------------------------------------
+_alacritty() {
+  if [[ -n "$1" ]]; then
+    _have alacritty || exit 1
+    local conf="$HOME/.config/alacritty/active-theme.yml"
+    case "$1" in
+      dark) _sed 's/light/dark/' "$conf";;
+      light) _sed 's/dark/light/' "$conf";;
+    esac
+    return 0
+  fi
+  _error "alacritty"
+}
+
+_neovim() {
+  if [[ -n "$1" ]]; then
+    _have nvim || exit 1
+    local conf="$HOME/.config/nvim/lua/plugins/colorscheme.lua"
+    case "$1" in
+      dark) _sed 's/= "light"/= "dark"/' "$conf";;
+      light) _sed 's/= "dark"/= "light"/' "$conf";;
+    esac
+    return 0
+  fi
+  _error "neovim"
+}
+
+_gtk() {
+  if [[ -n "$1" ]]; then
+    case "$XDG_SESSION_TYPE" in
+      wayland)
+        case "$1" in
+          dark)
+            _wayland_gtk 'Adwaita-dark' 'prefer-dark'
+            ;;
+          light)
+            _wayland_gtk 'Adwaita' 'prefer-light'
+            ;;
+        esac
+        ;;
+      *)
+        case "$1" in
+          dark)
+            _xorg_gtk 'Adwaita-dark' 'Adwaita'
+            _xorg_gtk_live 'Adwaita-dark'
+            ;;
+          light)
+            _xorg_gtk 'Adwaita' 'Adwaita'
+            _xorg_gtk_live 'Adwaita'
+            ;;
+        esac
+        ;;
+    esac
+    return 0
+  fi
+  _error "gtk"
+}
+
+_sway() {
+  if [[ -n "$1" ]]; then
+    unset 'COMMANDS[0]'
+    unset 'COMMANDS[-1]'
+    _have sway || exit 1
+    local conf="$HOME/.config/sway/active-theme"
+    case "$1" in
+      dark)
+        swaymsg client.unfocused "#000000" "#000000" "#000000" "#000000" "#000000"
+        swaymsg client.focused "#000000" "#000000" "#000000" "#ff8059" "#79a8ff"
+        swaymsg client.focused_inactive "#000000" "#000000" "#000000" "#000000" "#000000"
+        ;;
+      light)
+        swaymsg client.focused "#ffffff" "#ffffff" "#ffffff" "#a60000" "#354fcf"
+        swaymsg client.unfocused "#ffffff" "#ffffff" "#ffffff" "#ffffff" "#ffffff"
+        swaymsg client.focused_inactive "#ffffff" "#ffffff" "#ffffff" "#ffffff" "#ffffff"
+        ;;
+    esac
+    echo "$1" > "$conf"
+    for c in "${COMMANDS[@]}"; do
+      "_$c" "$@" || exit $?
+    done
+    return 0
+  fi
+  _error "sway"
+}
+
+_awesome() {
+  if [[ -n "$1" ]]; then
+    unset 'COMMANDS[0]'
+    unset 'COMMANDS[-1]'
+    _have awesome || exit 1
+    local conf="$HOME/.config/awesome/theme/active-theme"
+    echo "$1" > "$conf"
+    for c in "${COMMANDS[@]}"; do
+      "_$c" "$@"  || exit $?
+    done
+    echo "awesome.restart()" | awesome-client 2>/dev/null
+    return 0
+  fi
+  _error "awesome"
+}
+
+#------------------------------------------------------------------------------
+# delegation
+#------------------------------------------------------------------------------
+if [[ -n "$1" ]]; then
+  declare cmd="$1"; shift
+  for c in "${COMMANDS[@]}"; do
+    [[ $c == "$cmd" ]] && "_$cmd" "$@" && exit $?
+  done
+fi

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-hrulewidth=73
+hrulewidth=80
 char='-'
 
 _filter(){

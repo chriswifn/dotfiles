@@ -170,6 +170,7 @@ client.unfocused        $main $main $main $main $main
 ### Autostart
 ################################################################################
 exec_always --no-startup-id kanshi
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
 
 exec swayidle -w \
      timeout 600 'swaylock -f -c 000000' \

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+while IFS= read -ra line; do
+  echo "${line[@]}" "$(date +%Y%m%dT%H%M%S)"
+done

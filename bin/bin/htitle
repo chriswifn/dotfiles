@@ -17,7 +17,7 @@ _echon() {
 
 _htitle() {
   _filter "$@" && return $?
-  local str="$1" pre="${2:--}"
+  local str="$1" pre="${2:-#}"
   local -i len=${#str}
   local -i side=$((((hrulewidth / 2) - len / 2) - 3))
   local -i left=$side

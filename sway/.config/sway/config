@@ -16,7 +16,7 @@ set $term alacritty
 
 # run prompt
 # set $menu tofi-drun | xargs swaymsg exec --
-set $menu bemenu-run -b -H 26 --fn "monospace 12" --tf "#ffffff" --nb "#101010" --nf "#ffffff" --hf "#000000" --hb "#79a8ff"
+set $menu bemenu-run -b -H 20 --fn "monospace 12" --tf "#ffffff" --nb "#101010" --nf "#ffffff" --hf "#000000" --hb "#79a8ff"
 
 # font
 font pango:Monoid regular 9

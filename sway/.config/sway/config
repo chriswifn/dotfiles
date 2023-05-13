@@ -2,7 +2,7 @@
 ### Variables
 ################################################################################
 
-# super key 
+# super key
 set $mod Mod4
 
 # direction keys
@@ -15,15 +15,18 @@ set $right l
 set $term alacritty
 
 # run prompt
-# set $menu tofi-drun | xargs swaymsg exec --
-set $menu bemenu-run -b -H 20 --fn "monospace 12" --tf "#ffffff" --nb "#101010" --nf "#ffffff" --hf "#000000" --hb "#79a8ff"
+set $menu fuzzel -r 0
 
 # font
-font pango:Monoid regular 9
+font pango:monospace 12
 
 ################################################################################
 ### Output configuration
 ################################################################################
+# output eDP-1 mode 1920x1080 position 0,0
+output DP-4 mode 1920x1080 position 0,0
+output DP-3 mode 1920x1080 position 1920,0
+output eDP-1 disable
 
 # wallpaper
 # output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
@@ -169,7 +172,6 @@ client.unfocused        $main $main $main $main $main
 ################################################################################
 ### Autostart
 ################################################################################
-exec_always --no-startup-id kanshi
 exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
 
 exec swayidle -w \

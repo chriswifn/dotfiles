@@ -1,0 +1,73 @@
+#!/bin/bash
+
+shopt -s extglob
+
+# ------------------------- utility functions ------------------------
+_filter() {
+  [[ -n "$1" ]] && return 1
+  while IFS= read -ra args; do
+    "${FUNCNAME[1]}" "${args[@]}"
+  done
+}
+
+# ------------------------- helper functions -------------------------
+_convert_format() {
+  # replace all non standard characters with spaces
+  local filename="${1//[^[:alnum:] ]}"
+  # replace any amount of consecutive spaces with a dash
+  filename="${filename//+([[:blank:]])/-}"
+  # convert to lower and return
+  echo "${filename,,}"
+}
+
+# ------------------------------ preview -----------------------------
+_preview() {
+  _filter "$@" && return $?
+  while IFS= read -r line; do
+    if [[ -f "${1}" ]]; then
+      local file dir filename id ext extf newfilename
+      file="$(readlink -f "${line}")"
+      dir="$(dirname "${file}")"
+      filename="$(basename -- "${file}")"
+      if [[ "${filename}" == *.* ]];then
+        ext="${line##*.}"
+        extf=".${ext}"
+      else
+        ext=""
+        extf=""
+      fi
+      filename="${filename%.*}"
+      newfilename="$(_convert_format "${filename}")"
+      id="$(date -u +%Y%m%dT%H%M%S)"
+      echo "${file}" "->" "${dir}/${id}${keyword}--${newfilename}${extf}"
+    else
+      echo "${line} is not a file"
+      exit 1
+    fi
+  done < <(printf "%s\n" "${@}")
+}
+
+# ---------------------------- completion ----------------------------
+declare -a COMMANDS=(preview fuck)
+
+if [[ -n "$COMP_LINE" ]]; then
+  line=${COMP_LINE#* }
+  for c in "${COMMANDS[@]}"; do
+    [[ ${c:0:${#line}} == "${line,,}" ]] && echo "$c"
+  done
+  exit
+fi
+
+# ---------------------------- delegation ----------------------------
+if [[ -n "$1" ]]; then
+  declare cmd="$1"; shift
+  echo "${1}"
+  if [[ -f "$1" ]] || [[ -z "${1}" ]] ; then
+    keyword=""
+  else
+    keyword="--${1}"; shift
+  fi
+  for c in "${COMMANDS[@]}"; do
+    [[ $c == "$cmd" ]] && "_$cmd" "$@" && exit $?
+  done
+fi

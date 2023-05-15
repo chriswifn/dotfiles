@@ -3,7 +3,7 @@ colors:
     background: '#1a1a1a'
     foreground: '#EBDBB2'
   normal:
-    black:   '#504945'
+    black:   '#1a1a1a'
     red:     '#cc241d'
     green:   '#98971a'
     yellow:  '#d79921'

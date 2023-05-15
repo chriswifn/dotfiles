@@ -128,7 +128,7 @@ PROMPT_AT=@
 
 __ps1() {
     local P='$' dir="${PWD##*/}" B countme short long double\
-        r='\[\e[31m\]' g='\[\e[30m\]' h='\[\e[34m\]' \
+        r='\[\e[31m\]' g='\[\e[37m\]' h='\[\e[34m\]' \
         u='\[\e[33m\]' p='\[\e[34m\]' w='\[\e[35m\]' \
         b='\[\e[36m\]' x='\[\e[0m\]'
 

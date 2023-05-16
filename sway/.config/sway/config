@@ -18,7 +18,7 @@ set $term alacritty
 set $menu fuzzel -r 0
 
 # font
-font pango:monospace 12
+# font pango:monospace 12
 
 ################################################################################
 ### Output configuration
@@ -47,6 +47,7 @@ input * {
 for_window [class=".*"] border pixel 4
 smart_borders on
 hide_edge_borders smart
+workspace_layout tabbed
 
 ################################################################################
 ### Key bindings
@@ -163,11 +164,11 @@ mode layout {
 }
 
 # colors
-include ~/.config/sway/"$(cat ~/.config/sway/active-theme)"
-
-client.focused          $main $main $main $red  $blue
-client.focused_inactive $main $main $main $main $main
-client.unfocused        $main $main $main $main $main
+# include ~/.config/sway/"$(cat ~/.config/sway/active-theme)"
+#
+# client.focused          $main $main $main $red  $blue
+# client.focused_inactive $main $main $main $main $main
+# client.unfocused        $main $main $main $main $main
 
 ################################################################################
 ### Autostart

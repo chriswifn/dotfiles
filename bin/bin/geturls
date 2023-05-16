@@ -1,28 +1,7 @@
 #!/bin/bash
 
-# Description:  Script to manage bookmarks using a text file of the format
-#               <description> <url>
-# Dependencies: tofi (wayland), rofi (xorg) 
-#               firefox
-# Author:       Christian Hageloch
-
-
-# set the prompt variable
-# case "$XDG_SESSION_TYPE" in
-#     wayland)
-#     _PROMPT="tofi --prompt-text"
-#     # _PROMPT="bemenu -b -H 26 --fn monospace 12 --tf #ffffff --nb #101010 --nf #ffffff --hf #000000 --hb #80a8ff -p"
-#     ;;
-#     *)
-#     _PROMPT="rofi -dmenu -i -p "
-#     ;;
-# esac
-#
-# # return url
-# _URL="$(awk -F ',' '{print $1 " | " $2}' ~/.cache/bookmarks.csv | sort | $_PROMPT "Bookmarks: " | awk -F "|" '{print $2}')"
-#
-# # pass url to firefox
-# [ -n "$_URL" ] && firefox --new-window "$_URL" || exit 1
+# Description: Match urls in given input
+# Author:      Christian Hageloch
 
 while IFS= read -r line; do
   if [[ "${line}" =~ (((http|https|gopher|gemini|ftp|ftps|git)://|www\\.)[a-zA-Z0-9.]*[:;a-zA-Z0-9./+@$&%?$\#=_~-]*)|((magnet:\\?xt=urn:btih:)[a-zA-Z0-9]*) ]]; then

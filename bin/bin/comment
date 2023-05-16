@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Description: filter input to add a comment symbol
+#              default comment symbol: #
+#              special comment: provide as $1
+#  Author:     Christian Hageloch
+
+while IFS= read -r line; do
+  indentation="${line%%[![:blank:]]*}"
+  if [[ $indentation ]]; then
+    echo "$indentation${1:-#} ${line#"$indentation"}"
+  else
+    echo "${1:-#} $line"
+  fi
+done

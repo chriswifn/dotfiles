@@ -33,6 +33,8 @@ export MOZ_ENABLE_WAYLAND=1
 export GITUSER="chriswifn"
 export REPOS="$HOME/repos"
 export GHREPOS="$REPOS/github.com/$GITUSER"
+export DOTFILES="$GHREPOS/dotfiles"
+export SNIPPETS="$DOTFILES/snippets"
 
 #-------------------------------------------------------------------------------
 # pager

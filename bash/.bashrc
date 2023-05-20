@@ -209,3 +209,4 @@ complete -c man which
 complete -cf sudo
 complete -C screenshot screenshot
 complete -C theme theme
+complete -C z z

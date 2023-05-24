@@ -15,7 +15,7 @@ set $right l
 set $term alacritty
 
 # run prompt
-set $menu fuzzel -r 0
+set $menu wofi --show drun
 
 # font
 # font pango:monospace 12

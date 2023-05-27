@@ -61,7 +61,6 @@ fi
 # ---------------------------- delegation ----------------------------
 if [[ -n "$1" ]]; then
   declare cmd="$1"; shift
-  echo "${1}"
   if [[ -f "$1" ]] || [[ -z "${1}" ]] ; then
     keyword=""
   else

@@ -47,7 +47,7 @@ input * {
 for_window [class=".*"] border pixel 4
 smart_borders on
 hide_edge_borders smart
-workspace_layout tabbed
+# workspace_layout tabbed
 
 ################################################################################
 ### Key bindings

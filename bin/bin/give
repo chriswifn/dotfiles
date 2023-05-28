@@ -16,10 +16,11 @@ x.git() {
   remote="$(git config --get remote.origin.url)"
 
   if [[ $remote =~ github\.com(:|\/)([^\/]+)\/([^\/]+) ]]; then
-    local entity=${BASH_REMATCH[2]}
-    local repo="${BASH_REMATCH[3]%.*}"
-    local file="${1#./}"
-    echo "https://raw.githubusercontent.com/$entity/$repo/$branch/$file"
+    local entity repo gitpath
+    entity=${BASH_REMATCH[2]}
+    repo="${BASH_REMATCH[3]%.*}"
+    gitpath="$(git ls-files --full-name "${1}")"
+    echo "https://raw.githubusercontent.com/$entity/$repo/$branch/$gitpath"
   fi
 }
 

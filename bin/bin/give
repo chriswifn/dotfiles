@@ -18,7 +18,7 @@ x.git() {
   if [[ $remote =~ github\.com(:|\/)([^\/]+)\/([^\/]+) ]]; then
     local entity=${BASH_REMATCH[2]}
     local repo="${BASH_REMATCH[3]%.*}"
-    local file="$1"
+    local file="${1#./}"
     echo "https://raw.githubusercontent.com/$entity/$repo/$branch/$file"
   fi
 }

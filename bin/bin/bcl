@@ -1,0 +1,6 @@
+#!/usr/bin/bash
+
+while IFS= read -r line; do
+  out="$(printf "%s\n" "${line}" | bc)"
+  echo "${line} = ${out}"
+done

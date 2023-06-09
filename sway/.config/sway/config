@@ -149,10 +149,10 @@ mode sway {
 bindsym $mod+g mode guiprograms 
 mode guiprograms {
     bindsym Escape mode default
-    bindsym g exec swaymsg '[app_id=firefox] focus' || firefox, mode default 
+    bindsym g exec swaymsg '[app_id=firefox] focus' || firefox, mode default
     bindsym e exec swaymsg '[class=Emacs] focus'  || emacs, mode default
     bindsym t exec swaymsg '[app_id=Alacritty] focus' || alacritty -e tmux new-session -A -s main, mode default
-    bindsym f exec swaymsg '[app_id=pcmanfm] focus' || pcmanfm, mode default 
+    bindsym f exec swaymsg '[app_id=pcmanfm] focus' || pcmanfm, mode default
 }
 
 bindsym $mod+m mode layout

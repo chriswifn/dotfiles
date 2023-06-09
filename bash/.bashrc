@@ -17,8 +17,8 @@ _source_if() { [[ -r "$1" ]] && source "$1"; }
 # environment variables
 #-------------------------------------------------------------------------------
 # export TERM=xterm-256color
-export EDITOR=nvim
-export VISUAL=nvim
+export EDITOR=vim
+export VISUAL=vim
 export GOPATH="$HOME/.local/share/go"
 export GOBIN="$HOME/.local/bin"
 export LESS="-FXR"
@@ -81,6 +81,7 @@ pathprepend() {
 
 pathprepend \
     "$HOME/.local/bin" \
+    "$HOME/repos/github.com/chriswifn/cmd-zet" \
     "$HOME/bin"
 
 #-------------------------------------------------------------------------------

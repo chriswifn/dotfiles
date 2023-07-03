@@ -12,7 +12,7 @@ set $up k
 set $right l
 
 # terminal
-set $term alacritty
+set $term kitty
 
 # run prompt
 set $menu wofi --show drun
@@ -151,7 +151,7 @@ mode guiprograms {
     bindsym Escape mode default
     bindsym g exec swaymsg '[app_id=firefox] focus' || firefox, mode default
     bindsym e exec swaymsg '[class=Emacs] focus'  || emacs, mode default
-    bindsym t exec swaymsg '[app_id=Alacritty] focus' || alacritty -e tmux new-session -A -s main, mode default
+    bindsym t exec swaymsg '[app_id=kitty] focus' || kitty -e tmux new-session -A -s main, mode default
     bindsym f exec swaymsg '[app_id=pcmanfm] focus' || pcmanfm, mode default
 }
 

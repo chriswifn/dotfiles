@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+read -p "query: " query
+
+tmux neww bash -c "echo \"curl cht.sh/$query/\" & curl cht.sh/$query & while [ : ]; do sleep 1; done"

@@ -58,7 +58,7 @@ _get_parent() {
 _create_diffs() {
     for ((i=0; i<"${#_FILES[@]}"; i++)); do
         for ((j=$((i + 1)); j<"${#_FILES[@]}"; j++)); do
-            get_parent "${_FILES[i]}" "${_FILES[j]}"
+            _get_parent "${_FILES[i]}" "${_FILES[j]}"
             diff -Bbwu -I '/^\s*\%.*$' \
                 <(sed -e '/^\s*\%.*$/d ; /^\s*$/d ; s/\s\+//g' "${_FILES[i]}") \
                 <(sed -e '/^\s*\%.*$/d ; /^\s*$/d ; s/\s\+//g' "${_FILES[j]}") \
@@ -75,8 +75,8 @@ _create_diffs() {
 # adjust the value in the if statement depending on the complexity of the
 # homework
 _get_difference() {
-    _ADDITION="$(grep -c -e '^\s*+[^+0]' "$dir"/"$_COMPARE1"_"$_COMPARE2".diff)"
-    _DELETION="$(grep -c -e '^\s*-[^-0]' "$dir"/"$_COMPARE1"_"$_COMPARE2".diff)"
+    _ADDITION="$(grep -c -e '^\s*+[^+0]' "$_DIR"/"$_COMPARE1"_"$_COMPARE2".diff)"
+    _DELETION="$(grep -c -e '^\s*-[^-0]' "$_DIR"/"$_COMPARE1"_"$_COMPARE2".diff)"
     [ $((_ADDITION + _DELETION)) -le 10 ] && _BOOL="true" || _BOOL="false"
     printf '[%s - %s]\nadd = %s\ndelete = %s\nplagiat = %s\n\n' \
         "$_COMPARE1" \

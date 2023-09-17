@@ -172,8 +172,8 @@ mode layout {
 exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
 
 exec swayidle -w \
-     timeout 600 'swaylock -f -c 000000' \
-     timeout 900 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+     timeout 1800 'swaylock -f -c 000000' \
+     timeout 2100 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
      before-sleep 'swaylock -f -c 000000'
 
 include /etc/sway/config.d/*

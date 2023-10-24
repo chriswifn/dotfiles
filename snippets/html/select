@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+
+<form method="POST">
+  <label for="{1}">"{2}":</label>
+  <select id="{1}" name="{1}">
+    <option value="foobar">bar</option>
+  </select>
+</form>

@@ -24,6 +24,7 @@ set $menu wofi --show drun
 ### Output configuration
 ################################################################################
 # output eDP-1 mode 1920x1080 position 0,0
+# output HDMI-A-1 mode 1920x1080 position 0,0
 output DP-4 mode 1920x1080 position 0,0
 output DP-3 mode 1920x1080 position 1920,0
 output eDP-1 disable

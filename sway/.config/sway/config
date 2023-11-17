@@ -46,6 +46,7 @@ input * {
 ################################################################################
 
 for_window [class=".*"] border pixel 4
+for_window [app_id="racket"] floating enable
 smart_borders on
 hide_edge_borders smart
 # workspace_layout tabbed

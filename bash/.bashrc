@@ -87,7 +87,7 @@ pathprepend \
 #-------------------------------------------------------------------------------
 # cdpath
 #-------------------------------------------------------------------------------
-export CDPATH=".:$GHREPOS:$HOME/media/uni/01:$HOME"
+export CDPATH=".:$GHREPOS:$HOME/media/uni/01:$HOME/media/uni/02/:$HOME"
 
 #-------------------------------------------------------------------------------
 # bash shell options
@@ -146,9 +146,15 @@ __ps1() {
     [[ $B == master || $B == main ]] && b="$r"
     [[ -n "$B" ]] && B="$g($b$B$g)"
 
-    short="$u\u$g$PROMPT_AT$h\h$g:$w$dir$B$p$P$x "
-    long="$u\u$g$PROMPT_AT$h\h$g:$w$dir$B\n$p$P$x "
-    double="$u\u$g$PROMPT_AT$h\h$g:$w$dir\n$B\n$p$P$x "
+    if [[ $SHLVL == "1" ]]; then
+      N=""
+    else
+      N="[nix-shell]"
+    fi
+
+    short="$u\u$g$PROMPT_AT$h\h$g:$w$dir$B$N$p$P$x "
+    long="$u\u$g$PROMPT_AT$h\h$g:$w$dir$B$N\n$p$P$x "
+    double="$u\u$g$PROMPT_AT$h\h$g:$w$dir\n$B$N\n$p$P$x "
 
     if (( ${#countme} > PROMPT_MAX )); then
         PS1="$double"

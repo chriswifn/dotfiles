@@ -173,7 +173,7 @@ unalias -a
 alias ls='ls -h --color=auto'
 alias diff='diff --color'
 alias grep='grep --color=auto'
-alias '?'='tgpt -w'
+alias '?'='gpt'
 alias '??'=duck
 alias temp='cd $(mktemp -d)'
 alias ytp='yt-dlp --format bestaudio --extract-audio --audio-format mp3 --audio-quality 160K --output "%(title)s.%(ext)s" --yes-playlist'

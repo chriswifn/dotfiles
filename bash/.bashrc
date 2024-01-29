@@ -146,10 +146,9 @@ __ps1() {
     [[ $B == master || $B == main ]] && b="$r"
     [[ -n "$B" ]] && B="$g($b$B$g)"
 
-    if [[ $SHLVL == "1" ]]; then
-      N=""
-    else
-      N="[nix-shell]"
+    # mainly for nix-shell. Can also be used for nested shells
+    if [[ $SHLVL > "2" ]]; then
+      N="$g[$SHLVL]$g"
     fi
 
     short="$u\u$g$PROMPT_AT$h\h$g:$w$dir$B$N$p$P$x "
@@ -174,11 +173,13 @@ unalias -a
 alias ls='ls -h --color=auto'
 alias diff='diff --color'
 alias grep='grep --color=auto'
-alias '?'=duck
+alias '?'='tgpt -w'
+alias '??'=duck
 alias temp='cd $(mktemp -d)'
 alias ytp='yt-dlp --format bestaudio --extract-audio --audio-format mp3 --audio-quality 160K --output "%(title)s.%(ext)s" --yes-playlist'
 alias yts='yt-dlp --format bestaudio --extract-audio --audio-format mp3 --audio-quality 160K --output "%(title)s.%(ext)s"'
 alias battery='cat /sys/class/power_supply/BAT0/capacity'
+alias mymux='tmux new-session -A -s main'
 
 #-------------------------------------------------------------------------------
 # functions
@@ -217,3 +218,5 @@ complete -cf sudo
 complete -C screenshot screenshot
 complete -C theme theme
 complete -C z z
+
+eval "$(direnv hook bash)"

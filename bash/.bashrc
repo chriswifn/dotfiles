@@ -146,14 +146,9 @@ __ps1() {
     [[ $B == master || $B == main ]] && b="$r"
     [[ -n "$B" ]] && B="$g($b$B$g)"
 
-    # mainly for nix-shell. Can also be used for nested shells
-    if [[ $SHLVL > "2" ]]; then
-      N="$g[$SHLVL]$g"
-    fi
-
-    short="$u\u$g$PROMPT_AT$h\h$g:$w$dir$B$N$p$P$x "
-    long="$u\u$g$PROMPT_AT$h\h$g:$w$dir$B$N\n$p$P$x "
-    double="$u\u$g$PROMPT_AT$h\h$g:$w$dir\n$B$N\n$p$P$x "
+    short="\[\e[1m\]$u\u$g$PROMPT_AT$h\h$g:$w$dir$B$p$P$x\[\e[0m\] "
+    long="\[\e[1m\]$u\u$g$PROMPT_AT$h\h$g:$w$dir$B\n$p$P$x\[\e[0m\] "
+    double="\[\e[1m\]$u\u$g$PROMPT_AT$h\h$g:$w$dir\n$B\n$p$P$x\[\e[0m\] "
 
     if (( ${#countme} > PROMPT_MAX )); then
         PS1="$double"

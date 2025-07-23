@@ -2,9 +2,8 @@
 
 # Description:  Script to manage tmux sessions
 # Dependencies: tmux, fzf
-# Author:       ThePrimeagen
 
-[ $# -eq 1 ] && _SELECTED="$1" || _SELECTED=$(find ~/code ~/media/code ~/ ~/.config -mindepth 1 -maxdepth 1 -type d | fzf)
+[ $# -eq 1 ] && _SELECTED="$1" || _SELECTED=$(find ~/media/uni/ ~/repos/gitlab.com ~/repos/github.com/chriswifn ~/repos/github.com/other -mindepth 0 -maxdepth 5 -not -path '*/\.*' -type d | fzf)
 [ -z "$_SELECTED" ] && exit 0
 
 _SELECTED_NAME="$(basename "$_SELECTED" | tr . _)"

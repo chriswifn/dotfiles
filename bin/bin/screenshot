@@ -8,7 +8,7 @@
 #               optionally a filename can be passed to any
 #               option in order to save the file under a specific
 #               name in the current working directory
-# Dependencies: grim, slurp, fuzzel [optional], jq (on Wayland)
+# Dependencies: grim, slurp, rofi [optional], jq (on Wayland)
 #               maim, dmenu [optional] (on Xorg)
 # Author:       Christian Hageloch
 
@@ -64,18 +64,17 @@ _foc() {
   if [[ -n "$1" ]]; then
     file="$(pwd)/${1%.*}.png"
   fi
+
   case "$XDG_SESSION_TYPE" in
     wayland)
-      if _have grim; then 
-        # this only works in swaywm
-        grim -g "$(swaymsg -t get_tree | \
-          jq -j '.. | select(.type?) | select(.focused).rect | "\(.x),\(.y) \(.width)x\(.height)"')" \
-          "$file" 2>/dev/null && echo "$file" && return 0
+      if command -v grim >/dev/null && command -v hyprctl >/dev/null; then
+        geometry=$(hyprctl activewindow -j | jq -r '"\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"') \
+            && grim -g "$geometry" "$file" && echo "$file" && return 0
       fi
       return 1
       ;;
     *)
-      if _have maim; then
+      if command -v maim >/dev/null; then
         maim -i "$(xdotool getactivewindow 2>/dev/null)" "$file" 2>/dev/null \
           && echo "$file" && return 0
       fi
@@ -110,13 +109,14 @@ _menu() {
   unset 'COMMANDS[0]'
   case "$XDG_SESSION_TYPE" in
     wayland)
-      prompt="fuzzel -d -i -r 0 -p"
+      # prompt="rofi -dmenu"
+      prompt="tofi"
       ;;
     *)
       prompt="dmenu -i -p"
       ;;
   esac
-  selection="$(printf "%s\n" "${COMMANDS[@]}" | ${prompt} Screenshot:)"
+  selection="$(printf "%s\n" "${COMMANDS[@]}" | ${prompt})"
   [ -n "$selection" ] && "_$selection" "$@" || exit 1
 }
 

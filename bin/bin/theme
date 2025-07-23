@@ -17,7 +17,8 @@ set -e
 #------------------------------------------------------------------------------
 # complete context
 #------------------------------------------------------------------------------
-declare -a COMMANDS=(alacritty gtk neovim system)
+# declare -a COMMANDS=(alacritty gtk neovim waybar rofi system)
+declare -a COMMANDS=(alacritty gtk neovim rofi tofi system)
 
 if [[ -n "$COMP_LINE" ]]; then
   line=${COMP_LINE#* }
@@ -72,7 +73,7 @@ _wayland_gtk() {
 _alacritty() {
   if [[ -n "$1" ]]; then
     _have alacritty || exit 1
-    local conf="$HOME/.config/alacritty/active-theme.yml"
+    local conf="$HOME/.config/alacritty/alacritty.toml"
     case "$1" in
       dark) _sed 's/light/dark/' "$conf";;
       light) _sed 's/dark/light/' "$conf";;
@@ -85,10 +86,10 @@ _alacritty() {
 _neovim() {
   if [[ -n "$1" ]]; then
     _have nvim || exit 1
-    local conf="$HOME/.config/nvim/lua/plugins/colorscheme.lua"
+    local conf="$HOME/.config/active-theme"
     case "$1" in
-      dark) _sed 's/= "light"/= "dark"/' "$conf";;
-      light) _sed 's/= "dark"/= "light"/' "$conf";;
+      dark) _sed 's/light/dark/' "$conf";;
+      light) _sed 's/dark/light/' "$conf";;
     esac
     return 0
   fi
@@ -124,6 +125,66 @@ _gtk() {
     return 0
   fi
   _error "gtk"
+}
+
+_waybar() {
+    if [[ -n "$1" ]]; then
+        _have waybar || exit 1
+        local conf="$HOME/.config/active-theme"
+        local confpath="$HOME/.config/waybar"
+        case "$1" in
+            dark) _sed 's/light/dark/' "$conf" && cp "$confpath/dark.css" "$confpath/style.css" && killall waybar && waybar & disown;;
+            light) _sed 's/dark/light/' "$conf" && cp "$confpath/light.css" "$confpath/style.css" && killall waybar && waybar & disown;;
+        esac
+        return 0
+    fi
+    _error "waybar"
+
+}
+
+_rofi() {
+    if [[ -n "$1" ]]; then
+        _have rofi || exit 1
+        local conf="$HOME/.config/active-theme"
+        local confpath="$HOME/.config/rofi"
+        case "$1" in
+            dark) _sed 's/light/dark/' "$conf" && _sed 's/light/dark/' "$confpath/config.rasi" ;;
+            light) _sed 's/dark/light/' "$conf" && _sed 's/dark/light/' "$confpath/config.rasi" ;;
+        esac
+        return 0
+    fi
+    _error "rofi"
+
+}
+
+_tofi() {
+    if [[ -n "$1" ]]; then
+        _have tofi || exit 1
+        local conf="$HOME/.config/active-theme"
+        local confpath="$HOME/.config/tofi"
+        case "$1" in
+            dark) _sed 's/light/dark/' "$conf" && cp "$confpath/dark" "$confpath/config";;
+            light) _sed 's/dark/light/' "$conf" && cp "$confpath/light" "$confpath/config";;
+        esac
+        return 0
+    fi
+    _error "wofi"
+
+}
+
+_hypr() {
+    if [[ -n "$1" ]]; then
+        _have hyprctl || exit 1
+        local conf="$HOME/.config/active-theme"
+        local confpath="$HOME/.config/hypr"
+        case "$1" in
+            dark) _sed 's/light/dark/' "$conf" && _sed 's/light/dark/' "$confpath/hyprland.conf" ;;
+            light) _sed 's/dark/light/' "$conf" && _sed 's/dark/light/' "$confpath/hyprland.conf" ;;
+        esac
+        return 0
+    fi
+    _error "rofi"
+
 }
 
 _system() {

@@ -1,19 +1,69 @@
-#!/bin/sh
+#!/bin/bash
 
 # Description:  Toggle connection to my Soundcore bluetooth headphones
 # Dependencies: bluetoothctl, pactl
 # Author:       Christian Hageloch
 
+set -e
 
-# variables
-hmac="E8:EE:CC:00:AD:24"
-hsink="bluez_output.E8_EE_CC_00_AD_24.1"
-cdev="$(pactl get-default-sink)"
+#------------------------------------------------------------------------------
+# complete context
+#------------------------------------------------------------------------------
+declare -a COMMANDS=(menu toggle)
 
-# toggle
-if [ "$cdev" = "$hsink" ]; then
-    bluetoothctl disconnect "$hmac" && bluetoothctl power off
-else
-    bluetoothctl power on && bluetoothctl connect "$hmac"
+if [[ -n "$COMP_LINE" ]]; then
+  line=${COMP_LINE#* }
+  for c in "${COMMANDS[@]}"; do
+    [[ ${c:0:${#line}} == "${line,,}" ]] && echo "$c"
+  done
+  exit
 fi
 
+#------------------------------------------------------------------------------
+# utility functions
+#------------------------------------------------------------------------------
+_have() { type "$1" &>/dev/null; }
+_regex() {
+    # Usage: regex "string" "regex"
+    [[ $1 =~ $2 ]] && printf '%s\n' "${BASH_REMATCH[1]}"
+}
+
+#------------------------------------------------------------------------------
+# functions
+#------------------------------------------------------------------------------
+_toggle() {
+  if _have bluetoothctl; then
+    device="$1"
+    if bluetoothctl info "$device" | grep 'Connected: yes' -q; then
+      bluetoothctl disconnect "$device"
+    else
+      bluetoothctl connect "$device"
+    fi
+  fi
+  return 1
+}
+
+_menu() {
+  if _have bluetoothctl; then
+    bluetoothctl power on && bluetoothctl scan on && device="$(bluetoothctl devices | tofi | awk '{print $2}')"
+    if [ -z "$device" ]; then
+        return 0
+    fi
+    if bluetoothctl info "$device" | grep 'Connected: yes' -q; then
+      bluetoothctl disconnect "$device"
+    else
+      bluetoothctl connect "$device"
+    fi
+  fi
+  return 1
+}
+
+#------------------------------------------------------------------------------
+# delegation
+#------------------------------------------------------------------------------
+if [[ -n "$1" ]]; then
+  declare cmd="$1"; shift
+  for c in "${COMMANDS[@]}"; do
+    [[ $c == "$cmd" ]] && "_$cmd" "$@" && exit $?
+  done
+fi

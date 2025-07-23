@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+    <object class="GtkMenu" id="menu">
+        <child>
+            <object class="GtkMenuItem" id="shutdown">
+                <property name="label">Shutdown</property>
+            </object>
+        </child>
+        <child>
+            <object class="GtkMenuItem" id="reboot">
+                <property name="label">Reboot</property>
+            </object>
+        </child>
+        <child>
+            <object class="GtkMenuItem" id="lock">
+                <property name="label">Lock</property>
+            </object>
+        </child>
+        <child>
+            <object class="GtkSeparatorMenuItem" id="delimiter1"/>
+        </child>
+        <child>
+            <object class="GtkMenuItem" id="darkmode">
+                <property name="label">Darkmode</property>
+            </object>
+        </child>
+        <child>
+            <object class="GtkMenuItem" id="lightmode">
+                <property name="label">Lightmode</property>
+            </object>
+        </child>
+        <child>
+            <object class="GtkMenuItem" id="screenshot">
+                <property name="label">Take a screenshot</property>
+            </object>
+        </child>
+        <child>
+            <object class="GtkMenuItem" id="bluetooth">
+                <property name="label">Toggle Bluetooth Headset</property>
+            </object>
+        </child>
+    </object>
+</interface>

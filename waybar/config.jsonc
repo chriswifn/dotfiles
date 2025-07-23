@@ -1,0 +1,127 @@
+{
+    "layer": "top",
+    "position": "top",
+    "mode": "dock",
+
+    "modules-left": [
+        "hyprland/workspaces",
+        "hyprland/submap"
+        // "niri/workspaces"
+    ],
+
+    "modules-center": [
+        "clock"
+    ],
+
+    "modules-right": [
+        "tray",
+        "privacy",
+        "battery",
+        "custom/quick-menu"
+    ],
+
+    "hyprland/submap": {
+        "format": "{}",
+        "tooltip": false
+    },
+
+    "clock": {
+        "format": "{:%H:%M}",
+        "format-alt": "{:%y-%m-%d}"
+    },
+
+    "tray": {
+        "icon-size": 20,
+        "spacing": 10
+    },
+
+    "group/tray": {
+        "orientation": "horizontal",
+        "drawer": {
+            "transition-duration": 100,
+            "children-class": "not-bat",
+            "click-to-reveal": true,
+            "transition-left-to-right": false
+        },
+        "modules": [
+            "custom/tray",
+            "tray",
+            "privacy"
+        ]
+    },
+
+    "custom/tray": {
+        "format": "tray"
+    },
+
+    "privacy": {
+        "icon-spacing": 4,
+        "icon-size": 18,
+        "transition-duration": 250,
+        "modules": [
+            {
+                "type": "screenshare",
+                "tooltip": true,
+                "tooltip-icon-size": 24
+            },
+            {
+                "type": "audio-out",
+                "tooltip": true,
+                "tooltip-icon-size": 24
+            },
+            {
+                "type": "audio-in",
+                "tooltip": true,
+                "tooltip-icon-size": 24
+            }
+        ]
+    },
+
+    "battery": {
+        "interval": 60,
+        "states": {
+            "warning": 30,
+            "critical": 20
+        },
+        // "format": "{capacity}%",
+        // "format": "{icon}",
+        // "format-icons": ["", "", "", "", ""],
+        "format": "{icon}",
+        "format-charging": "󰂄",
+        "format-plugged": "󱘖",
+        "format-icons": [
+            "󰁺",
+            "󰁻",
+            "󰁼",
+            "󰁽",
+            "󰁾",
+            "󰁿",
+            "󰂀",
+            "󰂁",
+            "󰂂",
+            "󰁹"
+            ],
+        "max-length": 25,
+        "format-plugged": "",
+        "tooltip": true,
+        "on-scroll-up": "brightnessctl s +5%",
+        "on-scroll-down": "brightnessctl s 5%-"
+    },
+
+    "custom/quick-menu": {
+        "format" : "",
+        "tooltip": false,
+        "menu": "on-click",
+        "menu-file": "~/.config/waybar/quick_menu.xml",
+        "on-click-right": "swaync-client -t -sw",
+        "menu-actions": {
+            "shutdown": "shutdown now",
+            "reboot": "reboot",
+            "lock": "hyprlock",
+            "darkmode": "theme system dark",
+            "lightmode": "theme system light",
+            "screenshot": "screenshot sel",
+            "bluetooth": "bcon toggle E8:EE:CC:F1:10:E4"
+        }
+    }
+}

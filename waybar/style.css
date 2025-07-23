@@ -1,0 +1,51 @@
+/* General styling */
+window#waybar
+{
+    background: @theme_base_color;
+    color: @theme_text_color;
+    font-family: monospace;
+    font-size: 16px;
+    border-radius: 8px;
+}
+
+#workspaces button {
+    color: @theme_unfocused_fg_color;
+}
+
+#workspaces button.focused {
+    color: @theme_text_color;
+}
+
+#workspaces button.active {
+    color: @theme_text_color;
+}
+
+/* General Configuration for every module */
+#clock,
+#privacy,
+#battery,
+#power-profiles-daemon,
+#tray,
+#custom-tray,
+#custom-quick-menu
+{
+    margin: 4px;
+    padding: 4px 16px;
+}
+
+#tray {
+    background-color: @theme_bg_color;
+}
+
+#privacy-item.audio-in {
+    color: @error_color;
+}
+
+/* Battery Module */
+#battery.critical {
+    color: @error_color;
+}
+
+#battery.warning {
+    color: @warning_color;
+}

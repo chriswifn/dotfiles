@@ -1,0 +1,22 @@
+anchor = top
+height = 38
+horizontal = true
+font-size = 12
+font = monospace
+
+prompt-text = "Enter Input > "
+outline-width = 0
+border-width = 0
+background-color = #ffffff
+text-color = #000000
+selection-color = #ffffff
+selection-background = #1e78e4
+selection-padding = 5
+min-input-width = 240
+result-spacing = 20
+padding-top = 8
+padding-bottom = 8
+padding-left = 5
+padding-right = 0
+hint-font = false
+placeholder-text = "input"
